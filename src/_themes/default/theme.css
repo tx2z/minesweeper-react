@@ -1,0 +1,85 @@
+/**************************************************
+THEME NAME: Default
+THEME AUTOR:@tx2z
+**************************************************/
+
+/* THEME OPTIONS*/
+.App {
+    background-image: url(img/background.png);
+    background-repeat: repeat;
+}
+/*.tile {
+    box-shadow: inset 0 0 1px #FFF;
+    background-position:center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}*/
+
+
+.tile {
+    background-image: url(img/sprite.png);
+    background-repeat: no-repeat;
+    background-size: 1em 91em; /* 1em + ( number of images in sprite x2) - 1 +em */
+    background-position: 1em 1em; /* position outside of the sprite image to show nothing */
+}
+
+.tile.xxxx01{background-position: 0 -2em;} 
+.tile.xxxx02{background-position: 0 -4em;} 
+.tile.xxxx03{background-position: 0 -6em;} 
+.tile.xxxx04{background-position: 0 -8em;} 
+.tile.xxxx05{background-position: 0 -10em;} 
+.tile.xxxx06{background-position: 0 -12em;} 
+.tile.xxxx07{background-position: 0 -14em;} 
+.tile.xxxx08{background-position: 0 -16em;} 
+.tile.xxxx09{background-position: 0 -18em;} 
+.tile.xxxx10{background-position: 0 -20em;} 
+.tile.xxxx11{background-position: 0 -22em;} 
+.tile.xxxx12{background-position: 0 -24em;} 
+.tile.xxxx13{background-position: 0 -26em;} 
+.tile.xxxx14{background-position: 0 -28em;} 
+.tile.xxxx15{background-position: 0 -30em;} 
+.tile.xxxx16{background-position: 0 -32em;} 
+.tile.xxxx17{background-position: 0 -34em;} 
+.tile.xxxx18{background-position: 0 -36em;} 
+.tile.xxxx19{background-position: 0 -38em;} 
+.tile.xxxx20{background-position: 0 -40em;} 
+.tile.xxxx21{background-position: 0 -42em;} 
+.tile.xxxx22{background-position: 0 -44em;} 
+.tile.xxxx23{background-position: 0 -46em;} 
+.tile.xxxx24{background-position: 0 -48em;} 
+.tile.xxxx25{background-position: 0 -50em;} 
+.tile.xxxx26{background-position: 0 -52em;} 
+.tile.xxxx27{background-position: 0 -54em;} 
+.tile.xxxx28{background-position: 0 -56em;} 
+.tile.xxxx29{background-position: 0 -58em;} 
+.tile.xxxx30{background-position: 0 -60em;} 
+.tile.xxxx31{background-position: 0 -62em;} 
+.tile.xxxx32{background-position: 0 -64em;} 
+.tile.xxxx33{background-position: 0 -66em;} 
+.tile.xxxx34{background-position: 0 -68em;} 
+.tile.xxxx35{background-position: 0 -70em;} 
+.tile.xxxx36{background-position: 0 -72em;} 
+.tile.xxxx37{background-position: 0 -74em;} 
+.tile.xxxx38{background-position: 0 -76em;} 
+.tile.xxxx39{background-position: 0 -78em;} 
+.tile.xxxx40{background-position: 0 -80em;} 
+.tile.xxxx41{background-position: 0 -82em;} 
+.tile.xxxx42{background-position: 0 -84em;} 
+.tile.xxxx43{background-position: 0 -86em;} 
+.tile.xxxx44{background-position: 0 -88em;} 
+.tile.xxxx45{background-position: 0 -90em;} 
+
+
+/* tile free */
+.tile.free{background-position: 0 0;} 
+
+/* flag */
+.tile.flag .spanFlag{ 
+    background-image:url(img/flag.png);
+    background-position:center; 
+    background-repeat: no-repeat;
+}
+/* tile trea */
+.tile.treaOpen{background-color:yellow;}
+/* tile mine */
+.tile.mineOpen{background-color:red;}
