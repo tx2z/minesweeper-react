@@ -1,7 +1,8 @@
 const tilesAction = (payload) => {
     return {
         type: "tiles",
-        payload
+        method: payload.method,
+        tile: payload.tile,
     }
 }
 export default tilesAction;

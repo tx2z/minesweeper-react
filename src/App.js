@@ -3,26 +3,24 @@ import Tile from './components/Tile/Tile'
 import './App.css';
 
 import { connect } from 'react-redux';
-import tilesAction from './actions/tilesAction';
-
-import * as game from './_games/test'
+// import tilesAction from './actions/tilesAction';
 
 class App extends React.Component {
 
-  styles = {
-    height: game.gameRows + 'em',
-    width: game.gameCols + 'em',
+  constructor(props) {
+    super(props);
+    this.styles = {
+      height: this.props.rows + 'em',
+      width: this.props.cols + 'em',
+    }
   }
-
+  
   render() {
-    const tiles = game.arrayGameClasses.map((value, index) => {
+    const tiles = this.props.tiles.map((value, index) => {
       return (
         <Tile 
           index={index}
-          key={index} 
-          class={value}
-          state={this.props.tiles[index]}
-          onClick={() => this.props.tilesAction({tile: index, state: -1})}
+          key={value.id}
         />
       );
     });
@@ -41,8 +39,9 @@ class App extends React.Component {
 const mapStateToProps = state => ({
   ...state
 });
+/*
 const mapDispatchToProps = dispatch => ({
   tilesAction: (payload) => dispatch(tilesAction(payload))
 });
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+*/
+export default connect(mapStateToProps/*, mapDispatchToProps*/)(App);

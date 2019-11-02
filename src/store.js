@@ -1,11 +1,10 @@
 import { createStore } from "redux";
 import tilesReducer from "./reducers/tilesReducer";
 
-import * as game from './_games/test'
+import testGame from './_games/test'
 
-const initialState = {
-    tiles: Array(game.arrayGameClasses.length).fill(0),
-}
+const initialState = testGame;
+
 function configureStore(state = initialState) {
     return createStore(tilesReducer, state);
 }
