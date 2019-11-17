@@ -8,6 +8,12 @@ class Tile extends React.Component {
     const tileContent = this.props.tiles.find(obj => {
       return obj.id === this.props.index;
     });
+
+    if (tileContent.open && tileContent.mine) {
+      // TODO: Stop the game
+      alert('YOU LOSE');
+    }
+
     const tileClick = () => {
       const payload = {
         method: 'click',
@@ -29,10 +35,22 @@ class Tile extends React.Component {
         data-index={this.props.index}
         onClick={tileClick}
       >
+        <TileNumber
+          open={tileContent.open}
+          number={tileContent.number}
+        />
       </div>
     );
   }
 }
+
+function TileNumber(props) {
+  if (props.open) {
+    return <span className="number">{props.number}</span>;
+  }
+  return null;
+}
+
 const mapStateToProps = state => ({
   ...state
 });

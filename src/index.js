@@ -8,12 +8,12 @@ import configureStore from "./store";
 
 import './_themes/default/theme.css';
 
-import App from './App';
+import Board from './components/Board/Board';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
     <Provider store={configureStore()}>
-        <App />
+        <Board />
     </Provider>,
     document.getElementById('root')
 );

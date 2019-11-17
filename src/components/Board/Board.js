@@ -1,11 +1,11 @@
 import React from 'react';
-import Tile from './components/Tile/Tile'
-import './App.css';
+import Tile from '../Tile/Tile'
+import './Board.css';
 
 import { connect } from 'react-redux';
 // import tilesAction from './actions/tilesAction';
 
-class App extends React.Component {
+class Board extends React.Component {
 
   constructor(props) {
     super(props);
@@ -27,7 +27,7 @@ class App extends React.Component {
 
     return (
       <div 
-        className="App"
+        className="Board"
         style={this.styles}
       >
         {tiles}
@@ -44,4 +44,4 @@ const mapDispatchToProps = dispatch => ({
   tilesAction: (payload) => dispatch(tilesAction(payload))
 });
 */
-export default connect(mapStateToProps/*, mapDispatchToProps*/)(App);
+export default connect(mapStateToProps/*, mapDispatchToProps*/)(Board);

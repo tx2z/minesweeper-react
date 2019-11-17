@@ -1,9 +1,12 @@
 import { createStore } from "redux";
 import tilesReducer from "./reducers/tilesReducer";
 
-import testGame from './_games/test'
+import game from './_games/test'
+import * as functions from './functions/functions'
 
-const initialState = testGame;
+const newGame = functions.prepareGame(game);
+
+const initialState = newGame;
 
 function configureStore(state = initialState) {
     return createStore(tilesReducer, state);

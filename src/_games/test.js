@@ -1,4 +1,4 @@
-const testGame = {
+const game = {
 // GAME SETTINGS
 	name: 'Test Game',
 	author: 'Jesús Pérez',
@@ -220,4 +220,4 @@ const testGame = {
 		},
 	]
 }
-export default testGame;
+export default game;

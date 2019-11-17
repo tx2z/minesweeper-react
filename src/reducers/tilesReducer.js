@@ -2,13 +2,16 @@ export default (state, action) => {
     switch (action.type) {
         case 'tiles': {
             let newTiles = JSON.parse(JSON.stringify(state.tiles));
-            switch (action.method) {
-                case 'click': {
-                    newTiles[action.tile].open = true;
-                    break;
+            const currentTile = newTiles[action.tile];
+            if (currentTile.block !== true) {
+                switch (action.method) {
+                    case 'click': {
+                        currentTile.open = true;
+                        break;
+                    }
+                    default: 
+                        break;
                 }
-                default: 
-                    break;
             }
             return {
                 tiles: newTiles
@@ -18,4 +21,3 @@ export default (state, action) => {
             return state;
     }
 };
-  
