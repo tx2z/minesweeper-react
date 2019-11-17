@@ -9,7 +9,7 @@ const newGame = functions.prepareGame(game);
 const initialState = newGame;
 
 function configureStore(state = initialState) {
-    return createStore(tilesReducer, state);
+  return createStore(tilesReducer, state);
 }
 
 export default configureStore;

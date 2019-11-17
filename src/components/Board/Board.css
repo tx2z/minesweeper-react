@@ -1,9 +1,9 @@
 .Board {
-    box-shadow: 0px 4px 8px 5px #444, 0px 23px 50px 0px #AAA;
-    font-size: 50px; /* font-size -> define size of the tiles*/
-    margin: 0 auto;
-    transform: rotateX(23deg);
+  box-shadow: 0px 4px 8px 5px #444, 0px 23px 50px 0px #AAA;
+  font-size: 50px; /* font-size -> define size of the tiles*/
+  margin: 0 auto;
+  transform: rotateX(23deg);
 }
 .Board * {
-    user-select: none;
+  user-select: none;
 }
