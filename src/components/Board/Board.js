@@ -1,47 +1,56 @@
 import React from 'react';
-import Tile from '../Tile/Tile'
+import Tile from '../Tile/Tile';
 import './Board.css';
 
 import { connect } from 'react-redux';
-// import tilesAction from './actions/tilesAction';
 
 class Board extends React.Component {
-
   constructor(props) {
     super(props);
     this.styles = {
-      height: this.props.rows + 'em',
-      width: this.props.cols + 'em',
-    }
+      height: `${this.props.game.rows}em`,
+      width: `${this.props.game.cols}em`,
+    };
   }
-  
+
   render() {
-    const tiles = this.props.tiles.map((value, index) => {
-      return (
-        <Tile 
-          index={index}
-          key={value.id}
-        />
-      );
+    const canCheckWin = () => {
+      if (this.props.game.addedFlags === this.props.game.totalMines) {
+        return true;
+      }
+      return false;
+    };
+    let correctFlags = 0;
+    const checkWin = () => {
+      correctFlags++;
+      console.log(correctFlags);
+      if (correctFlags === this.props.game.totalMines) {
+        // TODO: Stop the game
+        alert('YOU WIN');
+      }
+    };
+    const tiles = this.props.game.tiles.map((tile, index) => {
+      // Check if you hit a mine
+      if (tile.open && tile.mine) {
+        // TODO: Stop the game
+        alert('YOU LOSE');
+      }
+      // Check if all mines have flags
+      if (canCheckWin() && tile.flag && tile.mine) {
+        checkWin();
+      }
+      return <Tile index={index} key={tile.id} />;
     });
 
     return (
-      <div 
-        className="Board"
-        style={this.styles}
-      >
+      <div className="Board" style={this.styles}>
         {tiles}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  ...state
+const mapStateToProps = (state) => ({
+  ...state,
 });
-/*
-const mapDispatchToProps = dispatch => ({
-  tilesAction: (payload) => dispatch(tilesAction(payload))
-});
-*/
-export default connect(mapStateToProps/*, mapDispatchToProps*/)(Board);
+export default connect(mapStateToProps)(Board);

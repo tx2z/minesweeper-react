@@ -7,33 +7,35 @@ const tilesPosition = (tiles, cols) => {
   let currentCol = 0;
   let currentRow = 0;
   const tilesWithPosition = tiles.map((tile, index) => {
-    tile.row = Math.floor(index/cols);
+    tile.row = Math.floor(index / cols);
     if (tile.row !== currentRow) {
       currentRow++;
       currentCol = 0;
     }
     tile.col = currentCol;
-    currentCol++
+    currentCol++;
     return tile;
   });
   return tilesWithPosition;
-}
+};
 
 /**
  * Add the number of mines around to every tile
  * @param {array} tiles An array of tiles
  */
 const tilesNumber = (tiles) => {
-  const tilesWithNumber = tiles.map(tile => {
+  const tilesWithNumber = tiles.map((tile) => {
     tile.number = 0;
     if (tile.mine !== true && tile.block !== true) {
       // Find mines around
       tiles.filter((item) => {
-        if (item.col >= tile.col-1 &&
-          item.col <= tile.col+1 &&
-          item.row >= tile.row-1 &&
-          item.row <= tile.row+1 &&
-          item.mine === true) {
+        if (
+          item.col >= tile.col - 1
+          && item.col <= tile.col + 1
+          && item.row >= tile.row - 1
+          && item.row <= tile.row + 1
+          && item.mine === true
+        ) {
           tile.number++;
         }
         return item;
@@ -42,7 +44,7 @@ const tilesNumber = (tiles) => {
     return tile;
   });
   return tilesWithNumber;
-}
+};
 
 /**
  * Prepare the game data to be played
@@ -58,8 +60,16 @@ export const prepareGame = (initialGame) => {
   const tilesWithNumber = tilesNumber(tilesWithPosition);
 
   game.tiles = tilesWithNumber;
-  console.log(game);
 
-  return game;
-}
+  game.addedFlags = 0;
+
+  const tools = {
+    tool: 'clean',
+  };
+
+  return {
+    game,
+    tools,
+  };
+};
 export default prepareGame;

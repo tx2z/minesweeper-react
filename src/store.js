@@ -1,15 +1,22 @@
-import { createStore } from "redux";
-import tilesReducer from "./reducers/tilesReducer";
+import { createStore, combineReducers } from 'redux';
 
-import game from './_games/test'
-import * as functions from './functions/functions'
+import tilesReducer from './reducers/tilesReducer';
+import toolsReducer from './reducers/toolsReducer';
+
+import game from './_games/test';
+import * as functions from './functions/functions';
 
 const newGame = functions.prepareGame(game);
 
 const initialState = newGame;
 
+const rootReducer = combineReducers({
+  game: tilesReducer,
+  tools: toolsReducer,
+});
+
 function configureStore(state = initialState) {
-  return createStore(tilesReducer, state);
+  return createStore(rootReducer, state);
 }
 
 export default configureStore;

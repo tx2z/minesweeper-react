@@ -1,21 +1,34 @@
-export default (state, action) => {
+export default (state = {}, action) => {
   switch (action.type) {
     case 'tiles': {
-      let newTiles = JSON.parse(JSON.stringify(state.tiles));
-      const currentTile = newTiles[action.tile];
+      const newState = JSON.parse(JSON.stringify(state));
+      const currentTile = newState.tiles[action.tile];
       if (currentTile.block !== true) {
         switch (action.method) {
-          case 'click': {
+          case 'clean': {
             currentTile.open = true;
             break;
           }
-          default: 
+          case 'flag': {
+            if (currentTile.flag) {
+              newState.addedFlags -= 1;
+              currentTile.flag = false;
+            } else {
+              newState.addedFlags += 1;
+              currentTile.flag = true;
+            }
+            break;
+          }
+          case 'treasure': {
+            // TODO: explode around
+            currentTile.open = true;
+            break;
+          }
+          default:
             break;
         }
       }
-      return {
-        tiles: newTiles
-      };
+      return newState;
     }
     default:
       return state;
