@@ -7,7 +7,7 @@
   width: 1em;
   top: 0;
 }
-/* Initial effect */
+/* INITIAL EFFECT */
 .tile:nth-child(odd) {
   animation-duration: 1.3s;
 }
@@ -20,12 +20,12 @@
   animation-duration: 1.1s;
 }
 
-/*TILES CLASES*/
+/* TILES CLASES */
 .tile.free {
   animation: tileChange 0.5s ease-in;
 }
 
-/* FLAGS ON TILES*/
+/* FLAGS ON TILES */
 .tile .flag {
   animation: flagAppears 0.5s ease-out;
   display: block;
@@ -35,7 +35,7 @@
   width: 1em;
 }
 
-/* NUMBERS ON TILES*/
+/* NUMBERS ON TILES */
 .tile .number {
   animation: numberAppears 1s ease-out;
   color: #333;
@@ -48,4 +48,52 @@
     0 5px 0 #aaa, 0 5px 30px yellow, 0 5px 70px yellow;
   top: 0;
   width: 100%;
+}
+
+/* TILE ANIMATIONS */
+@keyframes tileAppears {
+  0% {
+    box-shadow: none;
+    top: -30em;
+  }
+  99% {
+    box-shadow: none;
+  }
+  100% {
+    top: 0;
+  }
+}
+
+@keyframes tileChange {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes flagAppears {
+  0% {
+    top: -30em;
+  }
+  100% {
+    top: 0;
+  }
+}
+@keyframes numberAppears {
+  0% {
+    font-size: 1.5em;
+    top: -0.5em;
+    opacity: 0;
+  }
+  50% {
+    font-size: 1.5em;
+    top: -0.5em;
+    opacity: 0.7;
+  }
+  100% {
+    font-size: 0.7em;
+    top: 0;
+    opacity: 1;
+  }
 }
