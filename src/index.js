@@ -2,20 +2,31 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-import { Provider } from 'react-redux';
-import configureStore from './store';
-
 import './_themes/default/theme.css';
 
-import Board from './components/Board/Board';
-import Tools from './components/Tools/Tools';
+import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
+import Game from './components/Game/Game';
 import * as serviceWorker from './serviceWorker';
 
+const Home = () => (
+  <div>
+    <h2>Minesweeper & Treasures</h2>
+    <Link to="/game">Game</Link>
+  </div>
+);
+
 ReactDOM.render(
-  <Provider store={configureStore()}>
-    <Tools />
-    <Board />
-  </Provider>,
+  <Router>
+    <div>
+      <aside>
+        <Link to="/">Home</Link>
+      </aside>
+      <main>
+        <Route exact path="/" component={Home} />
+        <Route path="/game" component={Game} />
+      </main>
+    </div>
+  </Router>,
   document.getElementById('root'),
 );
 

@@ -5,15 +5,11 @@ import './Board.css';
 import { connect } from 'react-redux';
 
 class Board extends React.Component {
-  constructor(props) {
-    super(props);
-    this.styles = {
+  render() {
+    const styles = {
       height: `${this.props.game.rows}em`,
       width: `${this.props.game.cols}em`,
     };
-  }
-
-  render() {
     const canCheckWin = () => {
       if (this.props.game.addedFlags === this.props.game.totalMines) {
         return true;
@@ -43,7 +39,7 @@ class Board extends React.Component {
     });
 
     return (
-      <div className="Board" style={this.styles}>
+      <div className="Board" style={styles}>
         {tiles}
       </div>
     );
