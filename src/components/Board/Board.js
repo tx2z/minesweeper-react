@@ -1,11 +1,27 @@
 import React from 'react';
 import Tile from '../Tile/Tile';
+import gameAction from '../../actions/gameAction';
+import * as functions from '../../functions/functions';
 import './Board.css';
-
 import { connect } from 'react-redux';
 
 class Board extends React.Component {
+  componentDidMount() {
+    fetch('https://raw.githubusercontent.com/tx2z/minesweeper-react/master/src/_games/test.json')
+      .then((response) => response.json())
+      .then((game) => {
+        const newGame = functions.prepareGame(game);
+        const payload = {
+          game: newGame,
+        };
+        this.props.gameAction(payload);
+      });
+  }
+
   render() {
+    if (!this.props.game.loaded) {
+      return <div className="Loading">Loading...</div>;
+    }
     const styles = {
       height: `${this.props.game.rows}em`,
       width: `${this.props.game.cols}em`,
@@ -49,4 +65,9 @@ class Board extends React.Component {
 const mapStateToProps = (state) => ({
   ...state,
 });
-export default connect(mapStateToProps)(Board);
+
+const mapDispatchToProps = (dispatch) => ({
+  gameAction: (payload) => dispatch(gameAction(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Board);

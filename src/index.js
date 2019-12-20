@@ -1,9 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-
 import './_themes/default/theme.css';
-
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import Game from './components/Game/Game';
 import * as serviceWorker from './serviceWorker';
