@@ -1,5 +1,8 @@
 export default (state = {}, action) => {
   switch (action.type) {
+    case 'game': {
+      return action.game;
+    }
     case 'tiles': {
       const newState = JSON.parse(JSON.stringify(state));
       const currentTile = newState.tiles[action.tile];

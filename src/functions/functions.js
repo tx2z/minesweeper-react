@@ -48,28 +48,21 @@ const tilesNumber = (tiles) => {
 
 /**
  * Prepare the game data to be played
- * @param {json} initialGame
+ * @param {json} gameData
  */
-export const prepareGame = (initialGame) => {
-  const game = JSON.parse(JSON.stringify(initialGame));
+export const prepareGame = (gameData) => {
+  const game = JSON.parse(JSON.stringify(gameData));
 
   // Add position to tiles
-  const tilesWithPosition = tilesPosition(initialGame.tiles, initialGame.cols);
+  const tilesWithPosition = tilesPosition(gameData.tiles, gameData.cols);
 
   // Add mine around number to tiles
   const tilesWithNumber = tilesNumber(tilesWithPosition);
 
   game.tiles = tilesWithNumber;
-
   game.addedFlags = 0;
+  game.loaded = true;
 
-  const tools = {
-    tool: 'clean',
-  };
-
-  return {
-    game,
-    tools,
-  };
+  return game;
 };
 export default prepareGame;

@@ -1,17 +1,18 @@
 import { createStore, combineReducers } from 'redux';
-
-import tilesReducer from './reducers/tilesReducer';
+import gameReducer from './reducers/gameReducer';
 import toolsReducer from './reducers/toolsReducer';
 
-import game from './_games/test';
-import * as functions from './functions/functions';
-
-const newGame = functions.prepareGame(game);
-
-const initialState = newGame;
+const initialState = {
+  game: {
+    loaded: false,
+  },
+  tools: {
+    tool: 'clean',
+  },
+};
 
 const rootReducer = combineReducers({
-  game: tilesReducer,
+  game: gameReducer,
   tools: toolsReducer,
 });
 
