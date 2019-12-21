@@ -1,6 +1,7 @@
 import { createStore, combineReducers } from 'redux';
 import gameReducer from './reducers/gameReducer';
 import toolsReducer from './reducers/toolsReducer';
+import stylesReducer from './reducers/stylesReducer';
 import { CLEAN } from './types/toolTypes';
 
 const initialState = {
@@ -10,11 +11,13 @@ const initialState = {
   tools: {
     tool: CLEAN,
   },
+  styles: '',
 };
 
 const rootReducer = combineReducers({
   game: gameReducer,
   tools: toolsReducer,
+  styles: stylesReducer,
 });
 
 function configureStore(state = initialState) {

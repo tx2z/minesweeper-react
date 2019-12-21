@@ -3,31 +3,67 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Tile from '../Tile/Tile';
 import gameAction from '../../actions/gameAction';
+import stylesAction from '../../actions/stylesAction';
 import * as functions from '../../functions/functions';
 import { GAME } from '../../types/propTypes';
 import './Board.css';
 
 class Board extends React.Component {
   componentDidMount() {
-    const { gameAction: preprareGameState } = this.props;
-    fetch('https://raw.githubusercontent.com/tx2z/minesweeper-react/master/src/_games/test.json')
-      .then((response) => response.json())
-      .then((game) => {
-        const newGame = functions.prepareGame(game);
-        const payload = {
-          game: newGame,
-        };
-        preprareGameState(payload);
-      });
+    const {
+      gameAction: preprareGameState,
+      stylesAction: prepareGameStyles,
+      gameId,
+      theme,
+    } = this.props;
+
+    const assets = [
+      { type: 'css', url: `/_themes/${theme}/theme.css` },
+      { type: 'json', url: `/_games/${gameId}.json` },
+    ];
+    const list = [];
+    const results = {};
+
+    assets.forEach((asset) => {
+      list.push(
+        fetch(asset.url)
+          .then((response) => {
+            let result = '';
+            if (asset.type === 'css') {
+              result = response.text();
+            } else if (asset.type === 'json') {
+              result = response.json();
+            }
+            return result;
+          })
+          .then((result) => {
+            results[asset.type] = result;
+          }),
+      );
+    });
+
+    Promise.all(list).then(() => {
+      const stylesPayload = {
+        value: results.css,
+      };
+      prepareGameStyles(stylesPayload);
+
+      const newGame = functions.prepareGame(results.json);
+      const gamePayload = {
+        game: newGame,
+      };
+      preprareGameState(gamePayload);
+    });
   }
 
   render() {
-    const { game } = this.props;
+    const { game, styles } = this.props;
 
     if (!game.loaded) {
       return <div className="Loading">Loading...</div>;
     }
-    const styles = {
+
+    const boardSize = {
       height: `${game.rows}em`,
       width: `${game.cols}em`,
     };
@@ -60,15 +96,22 @@ class Board extends React.Component {
     });
 
     return (
-      <div className="Board" style={styles}>
-        {tiles}
+      <div className="game">
+        <style>{styles}</style>
+        <div className="Board" style={boardSize}>
+          {tiles}
+        </div>
       </div>
     );
   }
 }
 Board.propTypes = {
   gameAction: PropTypes.func.isRequired,
+  stylesAction: PropTypes.func.isRequired,
   game: GAME.isRequired,
+  styles: PropTypes.string.isRequired,
+  theme: PropTypes.string.isRequired,
+  gameId: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -77,6 +120,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   gameAction: (payload) => dispatch(gameAction(payload)),
+  stylesAction: (payload) => dispatch(stylesAction(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);

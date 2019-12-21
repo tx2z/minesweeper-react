@@ -13,8 +13,8 @@ ReactDOM.render(
         <Link to="/">Home</Link>
       </aside>
       <main>
+        <Route path="/game/:gameId" component={Game} />
         <Route exact path="/" component={Home} />
-        <Route path="/game" component={Game} />
       </main>
     </div>
   </Router>,

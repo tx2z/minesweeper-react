@@ -118,7 +118,7 @@ THEME AUTOR:@tx2z
 .tile.xxxx32 {
   background-position: 0 -64em;
 }
-.tile.xxxx33 {
+.tile.xxxx01 {
   background-position: 0 -66em;
 }
 .tile.xxxx34 {
@@ -160,7 +160,7 @@ THEME AUTOR:@tx2z
 
 /* tile free */
 .tile.free {
-  background-position: 0 0;
+  background-position: 0 -54em;
 }
 
 /* flag */
