@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import './_themes/default/theme.css';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import Game from './components/Game/Game';
 import Home from './components/Home/Home';
 import * as serviceWorker from './serviceWorker';
+import './index.css';
 
 ReactDOM.render(
   <Router>
