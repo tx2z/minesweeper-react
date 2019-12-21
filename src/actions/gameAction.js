@@ -1,5 +1,7 @@
+import { GAME } from '../types/actionTypes';
+
 const gameAction = (payload) => ({
-  type: 'game',
+  type: GAME,
   game: payload.game,
 });
 export default gameAction;

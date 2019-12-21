@@ -1,5 +1,7 @@
+import { TILE } from '../types/actionTypes';
+
 const tilesAction = (payload) => ({
-  type: 'tiles',
+  type: TILE,
   method: payload.method,
   tile: payload.tile,
 });

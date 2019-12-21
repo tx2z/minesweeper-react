@@ -1,18 +1,21 @@
+import { GAME, TILE } from '../types/actionTypes';
+import { CLEAN, FLAG, TREASURE } from '../types/toolTypes';
+
 export default (state = {}, action) => {
   switch (action.type) {
-    case 'game': {
+    case GAME: {
       return action.game;
     }
-    case 'tiles': {
+    case TILE: {
       const newState = JSON.parse(JSON.stringify(state));
       const currentTile = newState.tiles[action.tile];
       if (currentTile.block !== true) {
         switch (action.method) {
-          case 'clean': {
+          case CLEAN: {
             currentTile.open = true;
             break;
           }
-          case 'flag': {
+          case FLAG: {
             if (currentTile.flag) {
               newState.addedFlags -= 1;
               currentTile.flag = false;
@@ -22,7 +25,7 @@ export default (state = {}, action) => {
             }
             break;
           }
-          case 'treasure': {
+          case TREASURE: {
             // TODO: explode around
             currentTile.open = true;
             break;

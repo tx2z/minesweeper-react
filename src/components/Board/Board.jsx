@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Tile from '../Tile/Tile';
 import gameAction from '../../actions/gameAction';
 import * as functions from '../../functions/functions';
+import { GAME } from '../../types/propTypes';
 import './Board.css';
 
 class Board extends React.Component {
@@ -67,21 +68,7 @@ class Board extends React.Component {
 }
 Board.propTypes = {
   gameAction: PropTypes.func.isRequired,
-  game: PropTypes.shape({
-    loaded: PropTypes.bool.isRequired,
-    rows: PropTypes.number,
-    cols: PropTypes.number,
-    addedFlags: PropTypes.number,
-    totalMines: PropTypes.number,
-    tiles: PropTypes.arrayOf(
-      PropTypes.shape({
-        open: PropTypes.bool,
-        flag: PropTypes.bool,
-        mine: PropTypes.bool,
-        id: PropTypes.number,
-      }),
-    ),
-  }).isRequired,
+  game: GAME.isRequired,
 };
 
 const mapStateToProps = (state) => ({

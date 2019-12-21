@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import tilesAction from '../../actions/tilesAction';
 import './Tile.css';
+import { GAME, TOOLS, TILE } from '../../types/propTypes';
 
 const Tile = (props) => {
   const {
@@ -41,47 +42,38 @@ const Tile = (props) => {
       onClick={tileClick}
       onKeyPress={handleKeyPress}
     >
-      <TileNumber open={tileContent.open} number={tileContent.number} />
-      <TileFlag open={tileContent.flag} />
+      <TileNumber tile={tileContent} />
+      <TileFlag tile={tileContent} />
     </div>
   );
 };
 Tile.propTypes = {
   tilesAction: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
-  tools: PropTypes.shape({
-    tool: PropTypes.string.isRequired,
-  }).isRequired,
-  game: PropTypes.shape({
-    tiles: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-      }),
-    ).isRequired,
-  }).isRequired,
+  tools: TOOLS.isRequired,
+  game: GAME.isRequired,
 };
 
 const TileNumber = (props) => {
-  const { open, number } = props;
-  if (open) {
-    return <span className="number">{number}</span>;
+  const { tile } = props;
+  if (tile.open) {
+    return <span className="number">{tile.number}</span>;
   }
   return null;
 };
 TileNumber.propTypes = {
-  open: PropTypes.bool.isRequired,
-  number: PropTypes.number.isRequired,
+  tile: TILE.isRequired,
 };
 
 const TileFlag = (props) => {
-  const { open } = props;
-  if (open) {
+  const { tile } = props;
+  if (tile.flag) {
     return <span className="flag" />;
   }
   return null;
 };
 TileFlag.propTypes = {
-  open: PropTypes.bool.isRequired,
+  tile: TILE.isRequired,
 };
 
 const mapStateToProps = (state) => ({

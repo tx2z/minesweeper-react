@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import toolsAction from '../../actions/toolsAction';
+import { CLEAN, FLAG, TREASURE } from '../../types/toolTypes';
 import './Tools.css';
 
 const Tools = (props) => {
@@ -16,17 +17,17 @@ const Tools = (props) => {
     <nav id="tools">
       <ul>
         <li>
-          <button type="button" onClick={() => toolClick('clean')}>
+          <button type="button" onClick={() => toolClick(CLEAN)}>
             clean
           </button>
         </li>
         <li>
-          <button type="button" onClick={() => toolClick('flag')}>
+          <button type="button" onClick={() => toolClick(FLAG)}>
             flag
           </button>
         </li>
         <li>
-          <button type="button" onClick={() => toolClick('treasure')}>
+          <button type="button" onClick={() => toolClick(TREASURE)}>
             treasure
           </button>
         </li>
