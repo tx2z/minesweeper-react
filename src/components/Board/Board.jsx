@@ -1,12 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Tile from '../Tile/Tile';
 import gameAction from '../../actions/gameAction';
 import * as functions from '../../functions/functions';
 import './Board.css';
-import { connect } from 'react-redux';
 
 class Board extends React.Component {
   componentDidMount() {
+    const { gameAction: preprareGameState } = this.props;
     fetch('https://raw.githubusercontent.com/tx2z/minesweeper-react/master/src/_games/test.json')
       .then((response) => response.json())
       .then((game) => {
@@ -14,34 +16,36 @@ class Board extends React.Component {
         const payload = {
           game: newGame,
         };
-        this.props.gameAction(payload);
+        preprareGameState(payload);
       });
   }
 
   render() {
-    if (!this.props.game.loaded) {
+    const { game } = this.props;
+
+    if (!game.loaded) {
       return <div className="Loading">Loading...</div>;
     }
     const styles = {
-      height: `${this.props.game.rows}em`,
-      width: `${this.props.game.cols}em`,
+      height: `${game.rows}em`,
+      width: `${game.cols}em`,
     };
     const canCheckWin = () => {
-      if (this.props.game.addedFlags === this.props.game.totalMines) {
+      if (game.addedFlags === game.totalMines) {
         return true;
       }
       return false;
     };
     let correctFlags = 0;
     const checkWin = () => {
-      correctFlags++;
-      console.log(correctFlags);
-      if (correctFlags === this.props.game.totalMines) {
+      correctFlags += 1;
+
+      if (correctFlags === game.totalMines) {
         // TODO: Stop the game
         alert('YOU WIN');
       }
     };
-    const tiles = this.props.game.tiles.map((tile, index) => {
+    const tiles = game.tiles.map((tile, index) => {
       // Check if you hit a mine
       if (tile.open && tile.mine) {
         // TODO: Stop the game
@@ -61,6 +65,24 @@ class Board extends React.Component {
     );
   }
 }
+Board.propTypes = {
+  gameAction: PropTypes.func.isRequired,
+  game: PropTypes.shape({
+    loaded: PropTypes.bool.isRequired,
+    rows: PropTypes.number,
+    cols: PropTypes.number,
+    addedFlags: PropTypes.number,
+    totalMines: PropTypes.number,
+    tiles: PropTypes.arrayOf(
+      PropTypes.shape({
+        open: PropTypes.bool,
+        flag: PropTypes.bool,
+        mine: PropTypes.bool,
+        id: PropTypes.number,
+      }),
+    ),
+  }).isRequired,
+};
 
 const mapStateToProps = (state) => ({
   ...state,

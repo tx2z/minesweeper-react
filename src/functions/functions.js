@@ -7,13 +7,14 @@ const tilesPosition = (tiles, cols) => {
   let currentCol = 0;
   let currentRow = 0;
   const tilesWithPosition = tiles.map((tile, index) => {
-    tile.row = Math.floor(index / cols);
+    const newTile = tile;
+    newTile.row = Math.floor(index / cols);
     if (tile.row !== currentRow) {
-      currentRow++;
+      currentRow += 1;
       currentCol = 0;
     }
-    tile.col = currentCol;
-    currentCol++;
+    newTile.col = currentCol;
+    currentCol += 1;
     return tile;
   });
   return tilesWithPosition;
@@ -25,23 +26,24 @@ const tilesPosition = (tiles, cols) => {
  */
 const tilesNumber = (tiles) => {
   const tilesWithNumber = tiles.map((tile) => {
-    tile.number = 0;
-    if (tile.mine !== true && tile.block !== true) {
+    const newTile = tile;
+    newTile.number = 0;
+    if (newTile.mine !== true && newTile.block !== true) {
       // Find mines around
       tiles.filter((item) => {
         if (
-          item.col >= tile.col - 1
-          && item.col <= tile.col + 1
-          && item.row >= tile.row - 1
-          && item.row <= tile.row + 1
+          item.col >= newTile.col - 1
+          && item.col <= newTile.col + 1
+          && item.row >= newTile.row - 1
+          && item.row <= newTile.row + 1
           && item.mine === true
         ) {
-          tile.number++;
+          newTile.number += 1;
         }
         return item;
       });
     }
-    return tile;
+    return newTile;
   });
   return tilesWithNumber;
 };

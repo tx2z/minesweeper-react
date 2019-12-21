@@ -1,7 +1,5 @@
-const toolsAction = (payload) =>
-  // console.log(payload);
-  ({
-    type: 'tool',
-    value: payload.value,
-  });
+const toolsAction = (payload) => ({
+  type: 'tool',
+  value: payload.value,
+});
 export default toolsAction;

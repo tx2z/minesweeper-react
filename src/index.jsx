@@ -4,14 +4,8 @@ import './index.css';
 import './_themes/default/theme.css';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import Game from './components/Game/Game';
+import Home from './components/Home/Home';
 import * as serviceWorker from './serviceWorker';
-
-const Home = () => (
-  <div>
-    <h2>Minesweeper & Treasures</h2>
-    <Link to="/game">Game</Link>
-  </div>
-);
 
 ReactDOM.render(
   <Router>
