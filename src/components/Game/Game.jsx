@@ -4,6 +4,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import configureStore from '../../store';
 import Board from '../Board/Board';
 import Tools from '../Tools/Tools';
+import Controller from '../Controller/Controller';
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
@@ -15,6 +16,7 @@ const Game = () => {
     <Provider store={configureStore()}>
       <Tools />
       <Board gameId={gameId} theme={theme} />
+      <Controller />
     </Provider>
   );
 };

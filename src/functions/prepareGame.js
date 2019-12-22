@@ -47,6 +47,20 @@ const tilesNumber = (tiles) => {
   });
   return tilesWithNumber;
 };
+/**
+ * Add the player at his initial position
+ * @param {array} tiles An array of tiles
+ */
+const tilesPlayer = (tiles) => {
+  const tilesWithPlayer = tiles.map((tile) => {
+    const newTile = tile;
+    if (tile.initPlayer) {
+      newTile.player = true;
+    }
+    return newTile;
+  });
+  return tilesWithPlayer;
+};
 
 /**
  * Prepare the game data to be played
@@ -61,7 +75,10 @@ export const prepareGame = (gameData) => {
   // Add mine around number to tiles
   const tilesWithNumber = tilesNumber(tilesWithPosition);
 
-  game.tiles = tilesWithNumber;
+  // Add player to his initial position tile
+  const tilesWithPlayer = tilesPlayer(tilesWithNumber);
+
+  game.tiles = tilesWithPlayer;
   game.addedFlags = 0;
   game.loaded = true;
 

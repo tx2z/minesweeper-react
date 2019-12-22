@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Tile from '../Tile/Tile';
 import gameAction from '../../actions/gameAction';
 import stylesAction from '../../actions/stylesAction';
-import { prepareGame } from '../../functions/functions';
+import { prepareGame } from '../../functions/prepareGame';
 import { GAME } from '../../types/propTypes';
 import './Board.css';
 
@@ -79,7 +79,7 @@ class Board extends React.Component {
 
       if (correctFlags === game.totalMines) {
         // TODO: Stop the game
-        alert('YOU WIN');
+        // alert('YOU WIN');
       }
     };
     const tiles = game.tiles.map((tile, index) => {

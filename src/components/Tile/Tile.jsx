@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import tilesAction from '../../actions/tilesAction';
+import Player from '../Player/Player';
 import './Tile.css';
 import { GAME, TOOLS, TILE } from '../../types/propTypes';
+import { CLEAN } from '../../types/toolTypes';
 
 const Tile = (props) => {
   const {
@@ -11,6 +13,19 @@ const Tile = (props) => {
   } = props;
   const tileContent = game.tiles.find((obj) => obj.id === index);
 
+  if (tileContent.player === true && !tileContent.open) {
+    const payload = {
+      method: CLEAN,
+      tile: tileContent.id,
+    };
+    execTileClick(payload);
+  }
+  let player = '';
+  if (tileContent.player === true) {
+    player = <Player />;
+  }
+
+  /*
   const tileClick = () => {
     const payload = {
       method: tools.tool,
@@ -18,14 +33,15 @@ const Tile = (props) => {
     };
     execTileClick(payload);
   };
-
+  */
+  /*
   const handleKeyPress = (event) => {
     // TODO: Add keyboard events
     if (event.key === 'q') {
       console.log(event.target);
     }
   };
-
+*/
   let tileClasses = 'tile ';
   if (!tileContent.open || tileContent.block) {
     tileClasses += tileContent.class;
@@ -35,16 +51,15 @@ const Tile = (props) => {
 
   return (
     <div
-      role="button"
-      tabIndex={index}
       className={tileClasses}
       data-index={index}
-      onClick={tileClick}
-      onKeyPress={handleKeyPress}
+      /* onClick={tileClick} */
+      /* onKeyPress={handleKeyPress} */
     >
       <TileNumber tile={tileContent} />
       <TileFlag tile={tileContent} />
       <TileTreasure tile={tileContent} />
+      {player}
     </div>
   );
 };
