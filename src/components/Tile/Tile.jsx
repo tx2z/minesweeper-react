@@ -44,6 +44,7 @@ const Tile = (props) => {
     >
       <TileNumber tile={tileContent} />
       <TileFlag tile={tileContent} />
+      <TileTreasure tile={tileContent} />
     </div>
   );
 };
@@ -73,6 +74,17 @@ const TileFlag = (props) => {
   return null;
 };
 TileFlag.propTypes = {
+  tile: TILE.isRequired,
+};
+
+const TileTreasure = (props) => {
+  const { tile } = props;
+  if (tile.foundTreasure) {
+    return <span className="treasure" />;
+  }
+  return null;
+};
+TileTreasure.propTypes = {
   tile: TILE.isRequired,
 };
 

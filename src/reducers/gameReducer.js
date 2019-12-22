@@ -9,7 +9,7 @@ export default (state = {}, action) => {
     case TILE: {
       const newState = JSON.parse(JSON.stringify(state));
       const currentTile = newState.tiles[action.tile];
-      if (currentTile.block !== true) {
+      if (currentTile.block !== true && currentTile.open !== true) {
         switch (action.method) {
           case CLEAN: {
             currentTile.open = true;
@@ -26,8 +26,26 @@ export default (state = {}, action) => {
             break;
           }
           case TREASURE: {
-            // TODO: explode around
-            currentTile.open = true;
+            if (currentTile.treasure === true) {
+              currentTile.block = true;
+              currentTile.foundTreasure = true;
+            } else {
+              newState.tiles = state.tiles.map((item) => {
+                const tile = item;
+                if (
+                  tile.col >= currentTile.col - 1
+                  && tile.col <= currentTile.col + 1
+                  && tile.row >= currentTile.row - 1
+                  && tile.row <= currentTile.row + 1
+                  && tile.block !== true
+                  && tile.open !== true
+                  && tile.flag !== true
+                ) {
+                  tile.open = true;
+                }
+                return tile;
+              });
+            }
             break;
           }
           default:

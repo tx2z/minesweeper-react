@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Tile from '../Tile/Tile';
 import gameAction from '../../actions/gameAction';
 import stylesAction from '../../actions/stylesAction';
-import * as functions from '../../functions/functions';
+import { prepareGame } from '../../functions/functions';
 import { GAME } from '../../types/propTypes';
 import './Board.css';
 
@@ -48,7 +48,7 @@ class Board extends React.Component {
       };
       prepareGameStyles(stylesPayload);
 
-      const newGame = functions.prepareGame(results.json);
+      const newGame = prepareGame(results.json);
       const gamePayload = {
         game: newGame,
       };

@@ -35,6 +35,16 @@
   width: 1em;
 }
 
+/* TREASURES ON TILES */
+.tile .treasure {
+  animation: flagAppears 0.5s ease-out;
+  display: block;
+  height: 1em;
+  position: absolute;
+  top: 0;
+  width: 1em;
+}
+
 /* NUMBERS ON TILES */
 .tile .number {
   animation: numberAppears 1s ease-out;
