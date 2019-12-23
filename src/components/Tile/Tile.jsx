@@ -4,44 +4,47 @@ import { connect } from 'react-redux';
 import tilesAction from '../../actions/tilesAction';
 import Player from '../Player/Player';
 import './Tile.css';
-import { GAME, TOOLS, TILE } from '../../types/propTypes';
+import { GAME, TILE } from '../../types/propTypes';
 import { CLEAN } from '../../types/toolTypes';
+import { CLASSIC, PLAYER } from '../../types/actionTypes';
 
 const Tile = (props) => {
   const {
-    game, index, tools, tilesAction: execTileClick,
+    game, gameType, index, tool, tilesAction: execTileClick,
   } = props;
   const tileContent = game.tiles.find((obj) => obj.id === index);
 
-  if (tileContent.player === true && !tileContent.open) {
-    const payload = {
-      method: CLEAN,
-      tile: tileContent.id,
-    };
-    execTileClick(payload);
-  }
   let player = '';
-  if (tileContent.player === true) {
-    player = <Player />;
+  let tileClick = () => null;
+  let handleKeyPress = () => null;
+
+  if (gameType === PLAYER) {
+    if (tileContent.player === true && !tileContent.open) {
+      const payload = {
+        method: CLEAN,
+        tile: tileContent.id,
+      };
+      execTileClick(payload);
+    }
+    if (tileContent.player === true) {
+      player = <Player />;
+    }
+  } else if (gameType === CLASSIC) {
+    tileClick = () => {
+      const payload = {
+        method: tool,
+        tile: tileContent.id,
+      };
+      execTileClick(payload);
+    };
+    handleKeyPress = (event) => {
+      // TODO: Add keyboard events
+      if (event.key === 'q') {
+        console.log(event.target);
+      }
+    };
   }
 
-  /*
-  const tileClick = () => {
-    const payload = {
-      method: tools.tool,
-      tile: tileContent.id,
-    };
-    execTileClick(payload);
-  };
-  */
-  /*
-  const handleKeyPress = (event) => {
-    // TODO: Add keyboard events
-    if (event.key === 'q') {
-      console.log(event.target);
-    }
-  };
-*/
   let tileClasses = 'tile ';
   if (!tileContent.open || tileContent.block) {
     tileClasses += tileContent.class;
@@ -51,10 +54,12 @@ const Tile = (props) => {
 
   return (
     <div
+      role="button"
+      tabIndex={0}
       className={tileClasses}
       data-index={index}
-      /* onClick={tileClick} */
-      /* onKeyPress={handleKeyPress} */
+      onClick={tileClick}
+      onKeyPress={handleKeyPress}
     >
       <TileNumber tile={tileContent} />
       <TileFlag tile={tileContent} />
@@ -66,7 +71,8 @@ const Tile = (props) => {
 Tile.propTypes = {
   tilesAction: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
-  tools: TOOLS.isRequired,
+  gameType: PropTypes.string.isRequired,
+  tool: PropTypes.string.isRequired,
   game: GAME.isRequired,
 };
 

@@ -7,3 +7,6 @@ export const MOVELEFT = 'MOVELEFT';
 export const MOVETOP = 'MOVETOP';
 export const MOVERIGHT = 'MOVERIGHT';
 export const MOVEBOTTOM = 'MOVEBOTTOM';
+export const GAMETYPE = 'GAMETYPE';
+export const CLASSIC = 'CLASSIC';
+export const PLAYER = 'PLAYER';

@@ -1,9 +1,9 @@
-import { TOOL } from '../types/actionTypes';
+import { GAMETYPE } from '../types/actionTypes';
 
 export default (state = {}, action) => {
   switch (action.type) {
-    case TOOL: {
-      return action.value;
+    case GAMETYPE: {
+      return action.gameType;
     }
     default:
       return state;
