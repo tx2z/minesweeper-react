@@ -19,6 +19,7 @@ const Tile = (props) => {
   let handleKeyPress = () => null;
 
   if (gameType === PLAYER) {
+    // Playing in PLAYER mode
     if (tileContent.player === true && !tileContent.open) {
       const payload = {
         method: CLEAN,
@@ -30,6 +31,7 @@ const Tile = (props) => {
       player = <Player />;
     }
   } else if (gameType === CLASSIC) {
+    // Playing in CLASSIC / mouse mode
     tileClick = () => {
       const payload = {
         method: tool,

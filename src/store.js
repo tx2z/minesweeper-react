@@ -3,17 +3,7 @@ import gameReducer from './reducers/gameReducer';
 import toolsReducer from './reducers/toolsReducer';
 import stylesReducer from './reducers/stylesReducer';
 import gameTypeReducer from './reducers/gameTypeReducer';
-import { CLEAN } from './types/toolTypes';
-import { PLAYER } from './types/actionTypes';
-
-const initialState = {
-  game: {
-    loaded: false,
-  },
-  tool: CLEAN,
-  styles: '',
-  gameType: PLAYER,
-};
+import { initialState } from './configs';
 
 const rootReducer = combineReducers({
   game: gameReducer,
