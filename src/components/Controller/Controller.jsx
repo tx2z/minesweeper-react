@@ -1,20 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { gameMoves } from '../../configs';
+import { HotKeys } from 'react-hotkeys';
+import { ControllerKeyMap } from './ControllerKeyMap';
+import { gameMoves, tools } from '../../configs';
 import moveAction from '../../actions/moveAction';
 import tilesAction from '../../actions/tilesAction';
+import toolsAction from '../../actions/toolsAction';
 import { CLEAN, FLAG, TREASURE } from '../../types/toolTypes';
 import {
-  MOVELEFT, MOVETOP, MOVERIGHT, MOVEBOTTOM,
+  MOVELEFT, MOVETOP, MOVERIGHT, MOVEBOTTOM, PLAYER,
 } from '../../types/actionTypes';
 import { GAME } from '../../types/propTypes';
 import './Controller.css';
 
 const Controller = (props) => {
   const {
-    game, tool, moveAction: execMoveAction, tilesAction: execTileAction,
+    game,
+    gameType,
+    tool: selectedTool,
+    toolsAction: chooseTool,
+    moveAction: execMoveAction,
+    tilesAction: execTileAction,
   } = props;
+
+  const toolClick = (value) => {
+    const payload = {
+      value,
+    };
+    chooseTool(payload);
+  };
+
   const movePlayer = (direction) => {
     const playerIndex = game.tiles.findIndex((tile) => tile.player === true);
     let newPlayerIndex = playerIndex;
@@ -54,7 +70,7 @@ const Controller = (props) => {
       return null;
     }
 
-    switch (tool) {
+    switch (selectedTool) {
       case CLEAN: {
         const payload = {
           direction,
@@ -66,7 +82,7 @@ const Controller = (props) => {
       case FLAG:
       case TREASURE: {
         const payload = {
-          method: tool,
+          method: selectedTool,
           tile: newPlayerIndex,
         };
         execTileAction(payload);
@@ -79,6 +95,23 @@ const Controller = (props) => {
     return null;
   };
 
+  const toolButtons = tools.map((tool) => {
+    let buttonClases = 'tool';
+    if (selectedTool === tool) {
+      buttonClases += ' selected';
+    }
+    return (
+      <button
+        key={tool}
+        type="button"
+        className={buttonClases}
+        onClick={() => toolClick(tool)}
+      >
+        {tool}
+      </button>
+    );
+  });
+
   const gameMoveButtons = gameMoves.map((movement) => (
     <button
       key={movement}
@@ -89,16 +122,33 @@ const Controller = (props) => {
     </button>
   ));
 
+  const ControllerHandlers = {
+    MOVELEFT: () => movePlayer(MOVELEFT),
+    MOVETOP: () => movePlayer(MOVETOP),
+    MOVERIGHT: () => movePlayer(MOVERIGHT),
+    MOVEBOTTOM: () => movePlayer(MOVEBOTTOM),
+    CLEAN: () => toolClick(CLEAN),
+    FLAG: () => toolClick(FLAG),
+    TREASURE: () => toolClick(TREASURE),
+  };
+
   return (
     <div id="controller">
-      {gameMoveButtons}
+      <HotKeys keyMap={ControllerKeyMap} handlers={ControllerHandlers} allowChanges>
+        <div id="tools">
+          {toolButtons}
+        </div>
+        {gameType === PLAYER ? gameMoveButtons : ''}
+      </HotKeys>
     </div>
   );
 };
 Controller.propTypes = {
   tool: PropTypes.string.isRequired,
+  gameType: PropTypes.string.isRequired,
   moveAction: PropTypes.func.isRequired,
   tilesAction: PropTypes.func.isRequired,
+  toolsAction: PropTypes.func.isRequired,
   game: GAME.isRequired,
 };
 
@@ -109,6 +159,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   moveAction: (payload) => dispatch(moveAction(payload)),
   tilesAction: (payload) => dispatch(tilesAction(payload)),
+  toolsAction: (payload) => dispatch(toolsAction(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Controller);
