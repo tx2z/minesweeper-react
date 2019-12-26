@@ -1,5 +1,5 @@
 import {
-  CLASSIC, PLAYER, MOVELEFT, MOVETOP, MOVERIGHT, MOVEBOTTOM,
+  CLASSIC, PLAYER, LEFT, TOP, RIGHT, BOTTOM,
 } from './types/actionTypes';
 import { CLEAN, FLAG, TREASURE } from './types/toolTypes';
 
@@ -14,6 +14,6 @@ export const initialState = {
 
 export const gameTypes = [CLASSIC, PLAYER];
 
-export const gameMoves = [MOVELEFT, MOVETOP, MOVERIGHT, MOVEBOTTOM];
+export const gameMoves = [LEFT, TOP, RIGHT, BOTTOM];
 
 export const tools = [CLEAN, FLAG, TREASURE];

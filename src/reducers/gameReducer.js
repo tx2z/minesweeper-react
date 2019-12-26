@@ -17,26 +17,28 @@ export default (state = {}, action) => {
     }
     case TILE: {
       const actionTile = newState.tiles[action.tile];
-      if (actionTile.block !== true && actionTile.open !== true) {
+      if (actionTile.block !== true) {
         switch (action.method) {
           case CLEAN: {
-            actionTile.open = true;
+            if (actionTile.open !== true) {
+              actionTile.open = true;
+            }
             break;
           }
           case FLAG: {
             if (actionTile.flag) {
               newState.addedFlags -= 1;
               actionTile.flag = false;
-            } else {
+            } else if (actionTile.open !== true) {
               newState.addedFlags += 1;
               actionTile.flag = true;
             }
             break;
           }
           case TREASURE: {
-            if (actionTile.treasure === true) {
+            if (actionTile.treasure === true && actionTile.open !== true) {
               actionTile.foundTreasure = true;
-            } else {
+            } else if (actionTile.open !== true) {
               newState.tiles = state.tiles.map((item) => {
                 const tile = item;
                 if (

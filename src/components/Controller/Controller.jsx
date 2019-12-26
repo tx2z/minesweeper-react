@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { HotKeys } from 'react-hotkeys';
+import { GlobalHotKeys } from 'react-hotkeys';
 import { ControllerKeyMap } from './ControllerKeyMap';
 import { gameMoves, tools } from '../../configs';
 import moveAction from '../../actions/moveAction';
@@ -9,7 +9,7 @@ import tilesAction from '../../actions/tilesAction';
 import toolsAction from '../../actions/toolsAction';
 import { CLEAN, FLAG, TREASURE } from '../../types/toolTypes';
 import {
-  MOVELEFT, MOVETOP, MOVERIGHT, MOVEBOTTOM, PLAYER,
+  LEFT, TOP, RIGHT, BOTTOM, PLAYER,
 } from '../../types/actionTypes';
 import { GAME } from '../../types/propTypes';
 import './Controller.css';
@@ -31,7 +31,7 @@ const Controller = (props) => {
     chooseTool(payload);
   };
 
-  const movePlayer = (direction) => {
+  const whereToMove = (direction) => {
     const playerIndex = game.tiles.findIndex((tile) => tile.player === true);
     let newPlayerIndex = playerIndex;
     const playerTile = game.tiles[playerIndex];
@@ -39,25 +39,25 @@ const Controller = (props) => {
     const currentRow = playerTile.row;
 
     switch (direction) {
-      case MOVELEFT: {
+      case LEFT: {
         newPlayerIndex = game.tiles.findIndex(
           (tile) => tile.col === currentCol - 1 && tile.row === currentRow,
         );
         break;
       }
-      case MOVETOP: {
+      case TOP: {
         newPlayerIndex = game.tiles.findIndex(
           (tile) => tile.col === currentCol && tile.row === currentRow - 1,
         );
         break;
       }
-      case MOVERIGHT: {
+      case RIGHT: {
         newPlayerIndex = game.tiles.findIndex(
           (tile) => tile.col === currentCol + 1 && tile.row === currentRow,
         );
         break;
       }
-      case MOVEBOTTOM: {
+      case BOTTOM: {
         newPlayerIndex = game.tiles.findIndex(
           (tile) => tile.col === currentCol && tile.row === currentRow + 1,
         );
@@ -66,11 +66,20 @@ const Controller = (props) => {
       default:
         break;
     }
+    return newPlayerIndex;
+  };
+
+  const playerAction = (direction, tool = selectedTool) => {
+    if (gameType !== PLAYER) {
+      return null;
+    }
+
+    const newPlayerIndex = whereToMove(direction);
     if (newPlayerIndex === -1) {
       return null;
     }
 
-    switch (selectedTool) {
+    switch (tool) {
       case CLEAN: {
         const payload = {
           direction,
@@ -82,7 +91,7 @@ const Controller = (props) => {
       case FLAG:
       case TREASURE: {
         const payload = {
-          method: selectedTool,
+          method: tool,
           tile: newPlayerIndex,
         };
         execTileAction(payload);
@@ -116,30 +125,43 @@ const Controller = (props) => {
     <button
       key={movement}
       type="button"
-      onClick={() => movePlayer(movement)}
+      onClick={() => playerAction(movement)}
     >
       {movement}
     </button>
   ));
 
-  const ControllerHandlers = {
-    MOVELEFT: () => movePlayer(MOVELEFT),
-    MOVETOP: () => movePlayer(MOVETOP),
-    MOVERIGHT: () => movePlayer(MOVERIGHT),
-    MOVEBOTTOM: () => movePlayer(MOVEBOTTOM),
-    CLEAN: () => toolClick(CLEAN),
-    FLAG: () => toolClick(FLAG),
-    TREASURE: () => toolClick(TREASURE),
+  let ControllerHandlers = {
+    KEY_CLEAN: () => toolClick(CLEAN),
+    KEY_FLAG: () => toolClick(FLAG),
+    KEY_TREASURE: () => toolClick(TREASURE),
   };
+
+  if (gameType === PLAYER) {
+    ControllerHandlers = {
+      KEY_LEFT: () => playerAction(LEFT, CLEAN),
+      KEY_TOP: () => playerAction(TOP, CLEAN),
+      KEY_RIGHT: () => playerAction(RIGHT, CLEAN),
+      KEY_BOTTOM: () => playerAction(BOTTOM, CLEAN),
+      KEY_FLAG_LEFT: () => playerAction(LEFT, FLAG),
+      KEY_FLAG_TOP: () => playerAction(TOP, FLAG),
+      KEY_FLAG_RIGHT: () => playerAction(RIGHT, FLAG),
+      KEY_FLAG_BOTTOM: () => playerAction(BOTTOM, FLAG),
+      KEY_TREASURE_LEFT: () => playerAction(LEFT, TREASURE),
+      KEY_TREASURE_TOP: () => playerAction(TOP, TREASURE),
+      KEY_TREASURE_RIGHT: () => playerAction(RIGHT, TREASURE),
+      KEY_TREASURE_BOTTOM: () => playerAction(BOTTOM, TREASURE),
+    };
+  }
 
   return (
     <div id="controller">
-      <HotKeys keyMap={ControllerKeyMap} handlers={ControllerHandlers} allowChanges>
+      <GlobalHotKeys keyMap={ControllerKeyMap} handlers={ControllerHandlers} allowChanges>
         <div id="tools">
           {toolButtons}
         </div>
         {gameType === PLAYER ? gameMoveButtons : ''}
-      </HotKeys>
+      </GlobalHotKeys>
     </div>
   );
 };
