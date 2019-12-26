@@ -1,23 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
+import configureStore from './store';
 import Game from './components/Game/Game';
 import Home from './components/Home/Home';
 import * as serviceWorker from './serviceWorker';
 import './index.css';
 
 ReactDOM.render(
-  <Router>
-    <div>
-      <aside>
-        <Link to="/">Home</Link>
-      </aside>
-      <main>
-        <Route path="/game/:gameId" component={Game} />
-        <Route exact path="/" component={Home} />
-      </main>
-    </div>
-  </Router>,
+  <Provider store={configureStore()}>
+    <Router>
+      <div>
+        <aside>
+          <Link to="/">Home</Link>
+        </aside>
+        <main>
+          <Route path="/game/:gameId" component={Game} />
+          <Route exact path="/" component={Home} />
+        </main>
+      </div>
+    </Router>
+  </Provider>,
   document.getElementById('root'),
 );
 

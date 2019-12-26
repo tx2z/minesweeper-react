@@ -1,9 +1,8 @@
 import React from 'react';
-import { Provider } from 'react-redux';
+import { connect } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
-import configureStore from '../../store';
 import Board from '../Board/Board';
-import Tools from '../Tools/Tools';
+import Controller from '../Controller/Controller';
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
@@ -12,10 +11,15 @@ const Game = () => {
   const theme = useQuery().get('theme') || 'default';
 
   return (
-    <Provider store={configureStore()}>
-      <Tools />
+    <div>
       <Board gameId={gameId} theme={theme} />
-    </Provider>
+      <Controller />
+    </div>
   );
 };
-export default Game;
+
+const mapStateToProps = (state) => ({
+  ...state,
+});
+
+export default connect(mapStateToProps)(Game);

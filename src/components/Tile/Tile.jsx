@@ -2,29 +2,50 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import tilesAction from '../../actions/tilesAction';
+import Player from '../Player/Player';
 import './Tile.css';
-import { GAME, TOOLS, TILE } from '../../types/propTypes';
+import { GAME, TILE } from '../../types/propTypes';
+import { CLEAN } from '../../types/toolTypes';
+import { CLASSIC, PLAYER } from '../../types/actionTypes';
 
 const Tile = (props) => {
   const {
-    game, index, tools, tilesAction: execTileClick,
+    game, gameType, index, tool, tilesAction: execTileClick,
   } = props;
   const tileContent = game.tiles.find((obj) => obj.id === index);
 
-  const tileClick = () => {
-    const payload = {
-      method: tools.tool,
-      tile: tileContent.id,
-    };
-    execTileClick(payload);
-  };
+  let player = '';
+  let tileClick = () => null;
+  let handleKeyPress = () => null;
 
-  const handleKeyPress = (event) => {
-    // TODO: Add keyboard events
-    if (event.key === 'q') {
-      console.log(event.target);
+  if (gameType === PLAYER) {
+    // Playing in PLAYER mode
+    if (tileContent.player === true && !tileContent.open) {
+      const payload = {
+        method: CLEAN,
+        tile: tileContent.id,
+      };
+      execTileClick(payload);
     }
-  };
+    if (tileContent.player === true) {
+      player = <Player />;
+    }
+  } else if (gameType === CLASSIC) {
+    // Playing in CLASSIC / mouse mode
+    tileClick = () => {
+      const payload = {
+        method: tool,
+        tile: tileContent.id,
+      };
+      execTileClick(payload);
+    };
+    handleKeyPress = (event) => {
+      // TODO: Add keyboard events
+      if (event.key === 'q') {
+        console.log(event.target);
+      }
+    };
+  }
 
   let tileClasses = 'tile ';
   if (!tileContent.open || tileContent.block) {
@@ -36,7 +57,7 @@ const Tile = (props) => {
   return (
     <div
       role="button"
-      tabIndex={index}
+      tabIndex={0}
       className={tileClasses}
       data-index={index}
       onClick={tileClick}
@@ -45,13 +66,15 @@ const Tile = (props) => {
       <TileNumber tile={tileContent} />
       <TileFlag tile={tileContent} />
       <TileTreasure tile={tileContent} />
+      {player}
     </div>
   );
 };
 Tile.propTypes = {
   tilesAction: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
-  tools: TOOLS.isRequired,
+  gameType: PropTypes.string.isRequired,
+  tool: PropTypes.string.isRequired,
   game: GAME.isRequired,
 };
 

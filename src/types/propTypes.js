@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 const {
-  string, shape, bool, number, arrayOf,
+  shape, bool, number, arrayOf,
 } = PropTypes;
 
 export const TILE = shape({
@@ -18,10 +18,6 @@ export const GAME = shape({
   addedFlags: number,
   totalMines: number,
   tiles: arrayOf(TILE),
-});
-
-export const TOOLS = shape({
-  tool: string.isRequired,
 });
 
 export default GAME;

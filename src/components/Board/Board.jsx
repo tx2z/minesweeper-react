@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import Tile from '../Tile/Tile';
 import gameAction from '../../actions/gameAction';
 import stylesAction from '../../actions/stylesAction';
-import { prepareGame } from '../../functions/functions';
+import { prepareGame } from '../../functions/prepareGame';
 import { GAME } from '../../types/propTypes';
+import { CLASSIC } from '../../types/actionTypes';
 import './Board.css';
 
 class Board extends React.Component {
@@ -57,7 +58,7 @@ class Board extends React.Component {
   }
 
   render() {
-    const { game, styles } = this.props;
+    const { game, gameType, styles } = this.props;
 
     if (!game.loaded) {
       return <div className="Loading">Loading...</div>;
@@ -67,6 +68,7 @@ class Board extends React.Component {
       height: `${game.rows}em`,
       width: `${game.cols}em`,
     };
+
     const canCheckWin = () => {
       if (game.addedFlags === game.totalMines) {
         return true;
@@ -82,15 +84,18 @@ class Board extends React.Component {
         alert('YOU WIN');
       }
     };
+
     const tiles = game.tiles.map((tile, index) => {
       // Check if you hit a mine
       if (tile.open && tile.mine) {
         // TODO: Stop the game
         alert('YOU LOSE');
       }
-      // Check if all mines have flags
-      if (canCheckWin() && tile.flag && tile.mine) {
-        checkWin();
+      if (gameType === CLASSIC) {
+        // Check if all mines have flags
+        if (canCheckWin() && tile.flag && tile.mine) {
+          checkWin();
+        }
       }
       return <Tile index={index} key={tile.id} />;
     });
@@ -109,6 +114,7 @@ Board.propTypes = {
   gameAction: PropTypes.func.isRequired,
   stylesAction: PropTypes.func.isRequired,
   game: GAME.isRequired,
+  gameType: PropTypes.string.isRequired,
   styles: PropTypes.string.isRequired,
   theme: PropTypes.string.isRequired,
   gameId: PropTypes.string.isRequired,

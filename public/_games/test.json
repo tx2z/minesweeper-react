@@ -9,7 +9,8 @@
   "tiles": [
     {
       "id": 0,
-      "class": "xxxx01"
+      "class": "xxxx01",
+      "initPlayer": true
     },
     {
       "id": 1,
@@ -207,7 +208,8 @@
     },
     {
       "id": 47,
-      "class": "xxxx01"
+      "class": "xxxx01",
+      "endPlayer": true
     }
   ]
 }

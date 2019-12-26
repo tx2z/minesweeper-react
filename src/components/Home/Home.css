@@ -1,0 +1,6 @@
+#game-types {
+  clear: both;
+}
+#game-types .game-type.selected {
+  border: 1px #000 solid;
+}
