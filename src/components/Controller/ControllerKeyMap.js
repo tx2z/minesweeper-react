@@ -3,6 +3,7 @@ export const ControllerKeyMap = {
   KEY_TOP: 'up',
   KEY_RIGHT: 'right',
   KEY_BOTTOM: 'down',
+  KEY_EXEC: 'w',
   KEY_CLEAN: 'a',
   KEY_FLAG: 's',
   KEY_TREASURE: 'd',

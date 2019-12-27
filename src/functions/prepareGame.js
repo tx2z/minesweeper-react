@@ -48,14 +48,17 @@ const tilesNumber = (tiles) => {
   return tilesWithNumber;
 };
 /**
- * Add the player at his initial position
+ * Add the player & focus at his initial position
  * @param {array} tiles An array of tiles
  */
-const tilesPlayer = (tiles) => {
-  const tilesWithPlayer = tiles.map((tile) => {
+const tilesPlayerFocus = (tiles) => {
+  const tilesWithPlayer = tiles.map((tile, index) => {
     const newTile = tile;
     if (tile.initPlayer) {
       newTile.player = true;
+    }
+    if (index === 0) {
+      newTile.focus = true;
     }
     return newTile;
   });
@@ -76,7 +79,7 @@ export const prepareGame = (gameData) => {
   const tilesWithNumber = tilesNumber(tilesWithPosition);
 
   // Add player to his initial position tile
-  const tilesWithPlayer = tilesPlayer(tilesWithNumber);
+  const tilesWithPlayer = tilesPlayerFocus(tilesWithNumber);
 
   game.tiles = tilesWithPlayer;
   game.addedFlags = 0;

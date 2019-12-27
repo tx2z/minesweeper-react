@@ -6,6 +6,7 @@
   position: relative;
   width: 1em;
   top: 0;
+  box-sizing: border-box;
 }
 /* INITIAL EFFECT */
 .tile:nth-child(odd) {
@@ -23,6 +24,10 @@
 /* TILES CLASES */
 .tile.free {
   animation: tileChange 0.5s ease-in;
+}
+
+.tile.focus {
+  border: 1px solid red;
 }
 
 /* FLAGS ON TILES */

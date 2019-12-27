@@ -2,76 +2,89 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import tilesAction from '../../actions/tilesAction';
+import focusAction from '../../actions/focusAction';
 import Player from '../Player/Player';
 import './Tile.css';
 import { GAME, TILE } from '../../types/propTypes';
 import { CLEAN } from '../../types/toolTypes';
 import { CLASSIC, PLAYER } from '../../types/actionTypes';
 
-const Tile = (props) => {
-  const {
-    game, gameType, index, tool, tilesAction: execTileClick,
-  } = props;
-  const tileContent = game.tiles.find((obj) => obj.id === index);
+class Tile extends React.Component {
+  constructor(props) {
+    super(props);
+    this.player = '';
+    this.tileClick = () => null;
+    this.tileClasses = [];
+    this.payload = {};
+  }
 
-  let player = '';
-  let tileClick = () => null;
-  let handleKeyPress = () => null;
+  render() {
+    const {
+      game, gameType, index, tool, tilesAction: execTileClick, focusAction: execFocusAction,
+    } = this.props;
+    const tileContent = game.tiles.find((obj) => obj.id === index);
 
-  if (gameType === PLAYER) {
+    if (gameType === PLAYER) {
     // Playing in PLAYER mode
-    if (tileContent.player === true && !tileContent.open) {
-      const payload = {
-        method: CLEAN,
-        tile: tileContent.id,
-      };
-      execTileClick(payload);
-    }
-    if (tileContent.player === true) {
-      player = <Player />;
-    }
-  } else if (gameType === CLASSIC) {
-    // Playing in CLASSIC / mouse mode
-    tileClick = () => {
-      const payload = {
-        method: tool,
-        tile: tileContent.id,
-      };
-      execTileClick(payload);
-    };
-    handleKeyPress = (event) => {
-      // TODO: Add keyboard events
-      if (event.key === 'q') {
-        console.log(event.target);
+      if (tileContent.player === true && !tileContent.open) {
+        this.payload = {
+          method: CLEAN,
+          tile: tileContent.id,
+        };
+        execTileClick(this.payload);
       }
-    };
-  }
+      if (tileContent.player === true) {
+        this.player = <Player />;
+      } else {
+        this.player = '';
+      }
+    } else if (gameType === CLASSIC) {
+    // Playing in CLASSIC mode
+      this.tileClick = () => {
+        this.payload = {
+          tile: tileContent.id,
+        };
+        execFocusAction(this.payload);
 
-  let tileClasses = 'tile ';
-  if (!tileContent.open || tileContent.block) {
-    tileClasses += tileContent.class;
-  } else {
-    tileClasses += 'free';
-  }
+        this.payload = {
+          method: tool,
+          tile: tileContent.id,
+        };
+        execTileClick(this.payload);
+      };
+    }
 
-  return (
-    <div
-      role="button"
-      tabIndex={0}
-      className={tileClasses}
-      data-index={index}
-      onClick={tileClick}
-      onKeyPress={handleKeyPress}
-    >
-      <TileNumber tile={tileContent} />
-      <TileFlag tile={tileContent} />
-      <TileTreasure tile={tileContent} />
-      {player}
-    </div>
-  );
-};
+    this.tileClasses = ['tile'];
+    if (!tileContent.open || tileContent.block) {
+      this.tileClasses.push(tileContent.class);
+    } else {
+      this.tileClasses.push('free');
+    }
+
+    if (gameType === CLASSIC && tileContent.focus === true) {
+      this.tileClasses.push('focus');
+    }
+
+    return (
+      // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+      <div
+        role="button"
+        tabIndex={0}
+        className={this.tileClasses.join(' ')}
+        data-index={index}
+        onClick={this.tileClick}
+      >
+        <TileNumber tile={tileContent} />
+        <TileFlag tile={tileContent} />
+        <TileTreasure tile={tileContent} />
+        {this.player}
+      </div>
+    );
+  }
+}
 Tile.propTypes = {
   tilesAction: PropTypes.func.isRequired,
+  focusAction: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   gameType: PropTypes.string.isRequired,
   tool: PropTypes.string.isRequired,
@@ -117,6 +130,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   tilesAction: (payload) => dispatch(tilesAction(payload)),
+  focusAction: (payload) => dispatch(focusAction(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tile);

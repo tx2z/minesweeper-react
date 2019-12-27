@@ -1,7 +1,4 @@
-#tools {
-  clear: both;
-}
-#tools .tool.selected {
+#Tools .tool.selected {
   border: 1px #000 solid;
 }
 #MoveTouch {

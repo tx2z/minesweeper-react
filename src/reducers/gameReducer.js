@@ -1,4 +1,6 @@
-import { GAME, TILE, MOVE } from '../types/actionTypes';
+import {
+  GAME, TILE, MOVE, FOCUS,
+} from '../types/actionTypes';
 import { CLEAN, FLAG, TREASURE } from '../types/toolTypes';
 
 export default (state = {}, action) => {
@@ -13,6 +15,14 @@ export default (state = {}, action) => {
         newState.tiles[action.tile].player = true;
         newState.tiles[playerIndex].player = false;
       }
+      return newState;
+    }
+    case FOCUS: {
+      const focusIndex = state.tiles.findIndex((tile) => tile.focus === true);
+
+      newState.tiles[action.tile].focus = true;
+      newState.tiles[focusIndex].focus = false;
+
       return newState;
     }
     case TILE: {
