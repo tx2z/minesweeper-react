@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { MobileView } from 'react-device-detect';
 import { GlobalHotKeys } from 'react-hotkeys';
 import { ControllerKeyMap } from './ControllerKeyMap';
 import { gameMoves, tools } from '../../configs';
@@ -104,33 +105,6 @@ const Controller = (props) => {
     return null;
   };
 
-  const toolButtons = tools.map((tool) => {
-    let buttonClases = 'tool';
-    if (selectedTool === tool) {
-      buttonClases += ' selected';
-    }
-    return (
-      <button
-        key={tool}
-        type="button"
-        className={buttonClases}
-        onClick={() => toolClick(tool)}
-      >
-        {tool}
-      </button>
-    );
-  });
-
-  const gameMoveButtons = gameMoves.map((movement) => (
-    <button
-      key={movement}
-      type="button"
-      onClick={() => playerAction(movement)}
-    >
-      {movement}
-    </button>
-  ));
-
   let ControllerHandlers = {
     KEY_CLEAN: () => toolClick(CLEAN),
     KEY_FLAG: () => toolClick(FLAG),
@@ -139,28 +113,36 @@ const Controller = (props) => {
 
   if (gameType === PLAYER) {
     ControllerHandlers = {
+      KEY_FLAG: () => toolClick(FLAG),
+      KEY_TREASURE: () => toolClick(TREASURE),
+
       KEY_LEFT: () => playerAction(LEFT, CLEAN),
       KEY_TOP: () => playerAction(TOP, CLEAN),
       KEY_RIGHT: () => playerAction(RIGHT, CLEAN),
       KEY_BOTTOM: () => playerAction(BOTTOM, CLEAN),
+
       KEY_FLAG_LEFT: () => playerAction(LEFT, FLAG),
       KEY_FLAG_TOP: () => playerAction(TOP, FLAG),
       KEY_FLAG_RIGHT: () => playerAction(RIGHT, FLAG),
       KEY_FLAG_BOTTOM: () => playerAction(BOTTOM, FLAG),
+
       KEY_TREASURE_LEFT: () => playerAction(LEFT, TREASURE),
       KEY_TREASURE_TOP: () => playerAction(TOP, TREASURE),
       KEY_TREASURE_RIGHT: () => playerAction(RIGHT, TREASURE),
       KEY_TREASURE_BOTTOM: () => playerAction(BOTTOM, TREASURE),
+
+      KEY_COMMAND_UP: () => toolClick(CLEAN),
     };
   }
 
   return (
     <div id="controller">
       <GlobalHotKeys keyMap={ControllerKeyMap} handlers={ControllerHandlers} allowChanges>
-        <div id="tools">
-          {toolButtons}
-        </div>
-        {gameType === PLAYER ? gameMoveButtons : ''}
+        <Tools selectedTool={selectedTool} toolClick={toolClick} />
+        <MobileView>
+          <MoveTouch gameType={gameType} playerAction={playerAction} />
+          <ToolTouch gameType={gameType} toolClick={toolClick} />
+        </MobileView>
       </GlobalHotKeys>
     </div>
   );
@@ -172,6 +154,78 @@ Controller.propTypes = {
   tilesAction: PropTypes.func.isRequired,
   toolsAction: PropTypes.func.isRequired,
   game: GAME.isRequired,
+};
+
+const Tools = (props) => {
+  const { selectedTool, toolClick } = props;
+  const toolButtons = tools.map((tool) => {
+    let buttonClases = 'tool';
+    if (selectedTool === tool) {
+      buttonClases += ' selected';
+    }
+    return (
+      <button key={tool} type="button" className={buttonClases} onClick={() => toolClick(tool)}>
+        {tool}
+      </button>
+    );
+  });
+  return <div id="Tools">{toolButtons}</div>;
+};
+Tools.propTypes = {
+  selectedTool: PropTypes.string.isRequired,
+  toolClick: PropTypes.func.isRequired,
+};
+
+const MoveTouch = (props) => {
+  const { gameType, playerAction } = props;
+  if (gameType === PLAYER) {
+    const moveTouchButtons = gameMoves.map((movement) => (
+      <button
+        key={movement}
+        type="button"
+        style={{ userSelect: 'none' }}
+        onTouchStart={() => playerAction(movement)}
+        /* FIXME: only for tests
+        onMouseDown={() => playerAction(movement)}
+        */
+      >
+        {movement}
+      </button>
+    ));
+    return <div id="MoveTouch">{moveTouchButtons}</div>;
+  }
+  return null;
+};
+MoveTouch.propTypes = {
+  gameType: PropTypes.string.isRequired,
+  playerAction: PropTypes.func.isRequired,
+};
+
+const ToolTouch = (props) => {
+  const { gameType, toolClick } = props;
+  if (gameType === PLAYER) {
+    const toolTouchButtons = tools.map((tool) => (
+      <button
+        key={tool}
+        type="button"
+        style={{ userSelect: 'none' }}
+        onTouchStart={() => toolClick(tool)}
+        onTouchEnd={() => toolClick(CLEAN)}
+        /* FIXME: only for tests
+        onMouseDown={() => toolClick(tool)}
+        onMouseUp={() => toolClick(CLEAN)}
+        */
+      >
+        {tool}
+      </button>
+    ));
+    return <div id="ToolTouch">{toolTouchButtons}</div>;
+  }
+  return null;
+};
+ToolTouch.propTypes = {
+  gameType: PropTypes.string.isRequired,
+  toolClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

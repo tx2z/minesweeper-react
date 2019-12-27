@@ -14,5 +14,17 @@ export const ControllerKeyMap = {
   KEY_TREASURE_TOP: 'd+up',
   KEY_TREASURE_RIGHT: 'd+right',
   KEY_TREASURE_BOTTOM: 'd+down',
+  KEY_COMMAND_UP: [
+    { sequence: 's', action: 'keyup' },
+    { sequence: 's+left', action: 'keyup' },
+    { sequence: 's+up', action: 'keyup' },
+    { sequence: 's+right', action: 'keyup' },
+    { sequence: 's+down', action: 'keyup' },
+    { sequence: 'd', action: 'keyup' },
+    { sequence: 'd+left', action: 'keyup' },
+    { sequence: 'd+up', action: 'keyup' },
+    { sequence: 'd+right', action: 'keyup' },
+    { sequence: 'd+down', action: 'keyup' },
+  ],
 };
 export default ControllerKeyMap;
