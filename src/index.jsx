@@ -6,6 +6,8 @@ import configureStore from './store';
 import Game from './components/Game/Game';
 import Home from './components/Home/Home';
 import * as serviceWorker from './serviceWorker';
+import 'typeface-press-start-2p';
+import 'nes.css/css/nes.css';
 import './index.css';
 
 ReactDOM.render(

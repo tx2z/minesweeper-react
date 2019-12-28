@@ -23,7 +23,7 @@
 
 /* TILES CLASES */
 .tile.free {
-  animation: tileChange 0.5s ease-in;
+  /*animation: tileChange 0.5s ease-in;*/
 }
 
 .tile.focus {
@@ -55,10 +55,10 @@
   animation: numberAppears 1s ease-out;
   color: #333;
   display: block;
-  font-size: 0.7em;
+  font-size: 0.4em;
   font-weight: bold;
   position: absolute;
-  text-align: center;
+  text-align: right;
   text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9,
     0 5px 0 #aaa, 0 5px 30px yellow, 0 5px 70px yellow;
   top: 0;
