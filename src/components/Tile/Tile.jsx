@@ -93,7 +93,7 @@ Tile.propTypes = {
 
 const TileNumber = (props) => {
   const { tile } = props;
-  if (tile.open) {
+  if (tile.open && tile.number !== 0) {
     return <span className="number">{tile.number}</span>;
   }
   return null;

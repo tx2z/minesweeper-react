@@ -16,6 +16,30 @@ import {
 import { GAME } from '../../types/propTypes';
 import './Controller.css';
 
+import 'css.gg/icons/chevron-left.css';
+import 'css.gg/icons/chevron-up.css';
+import 'css.gg/icons/chevron-right.css';
+import 'css.gg/icons/chevron-down.css';
+
+const moveIcons = {
+  LEFT: 'gg-chevron-left',
+  TOP: 'gg-chevron-up',
+  RIGHT: 'gg-chevron-right',
+  BOTTOM: 'gg-chevron-down',
+};
+
+const buttonTool = {
+  CLEAN: '',
+  FLAG: 'nes-btn is-error',
+  TREASURE: 'nes-btn is-success',
+};
+
+const buttonToolIcons = {
+  CLEAN: '',
+  FLAG: 'nes-icon close is-medium',
+  TREASURE: 'nes-icon coin is-medium',
+};
+
 const Controller = (props) => {
   const {
     game,
@@ -165,10 +189,8 @@ const Controller = (props) => {
     <div id="controller">
       <GlobalHotKeys keyMap={ControllerKeyMap} handlers={ControllerHandlers} allowChanges>
         <Tools selectedTool={selectedTool} toolClick={toolClick} />
-        <MobileView>
-          <MoveTouch gameType={gameType} playerAction={playerAction} />
-          <ToolTouch gameType={gameType} toolClick={toolClick} />
-        </MobileView>
+        <MoveTouch gameType={gameType} playerAction={playerAction} />
+        <ToolTouch gameType={gameType} toolClick={toolClick} />
       </GlobalHotKeys>
     </div>
   );
@@ -186,7 +208,7 @@ Controller.propTypes = {
 const Tools = (props) => {
   const { selectedTool, toolClick } = props;
   const toolButtons = tools.map((tool) => {
-    let buttonClases = 'tool';
+    let buttonClases = 'tool nes-btn is-primary';
     if (selectedTool === tool) {
       buttonClases += ' selected';
     }
@@ -207,17 +229,17 @@ const MoveTouch = (props) => {
   const { gameType, playerAction } = props;
   if (gameType === PLAYER) {
     const moveTouchButtons = gameMoves.map((movement) => (
-      <button
-        key={movement}
-        type="button"
-        style={{ userSelect: 'none' }}
-        onTouchStart={() => playerAction(movement)}
-        /* FIXME: only for tests
-        onMouseDown={() => playerAction(movement)}
-        */
-      >
-        {movement}
-      </button>
+      <div className={movement}>
+        <button
+          key={movement}
+          type="button"
+          className="nes-btn is-primary"
+          style={{ userSelect: 'none' }}
+          onTouchStart={() => playerAction(movement)}
+        >
+          <i className={moveIcons[movement]} />
+        </button>
+      </div>
     ));
     return <div id="MoveTouch">{moveTouchButtons}</div>;
   }
@@ -232,19 +254,18 @@ const ToolTouch = (props) => {
   const { gameType, toolClick } = props;
   if (gameType === PLAYER) {
     const toolTouchButtons = tools.map((tool) => (
-      <button
-        key={tool}
-        type="button"
-        style={{ userSelect: 'none' }}
-        onTouchStart={() => toolClick(tool)}
-        onTouchEnd={() => toolClick(CLEAN)}
-        /* FIXME: only for tests
-        onMouseDown={() => toolClick(tool)}
-        onMouseUp={() => toolClick(CLEAN)}
-        */
-      >
-        {tool}
-      </button>
+      <div className={tool}>
+        <button
+          key={tool}
+          type="button"
+          className={buttonTool[tool]}
+          style={{ userSelect: 'none' }}
+          onTouchStart={() => toolClick(tool)}
+          onTouchEnd={() => toolClick(CLEAN)}
+        >
+          <i className={buttonToolIcons[tool]} />
+        </button>
+      </div>
     ));
     return <div id="ToolTouch">{toolTouchButtons}</div>;
   }
