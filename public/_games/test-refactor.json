@@ -1,0 +1,20 @@
+{
+  "author": "Jesús Pérez",
+  "cols": 8,
+  "image": "mine-test.png",
+  "imageHeight": 288,
+  "imageWidth": 384,
+  "name": "Test Game",
+  "rows": 6,
+  "theme": "default",
+  "tiles": {
+    "block": [13, 33, 34, 35, 36, 41, 42, 43, 44],
+    "height": 48,
+    "mines": [29, 30],
+    "number": 48,
+    "playerEnd": 48,
+    "playerStart": 1,
+    "treasures": [45],
+    "width": 48
+  }
+}

@@ -1,70 +1,51 @@
-/**
- * Add col and row to every tile in the tiles array
- * @param {array} tiles An array of tiles
- * @param {number} cols Number of colums in the game
- */
-const tilesPosition = (tiles, cols) => {
-  let currentCol = 0;
-  let currentRow = 0;
-  const tilesWithPosition = tiles.map((tile, index) => {
-    const newTile = tile;
-    newTile.row = Math.floor(index / cols);
-    if (tile.row !== currentRow) {
-      currentRow += 1;
-      currentCol = 0;
-    }
-    newTile.col = currentCol;
-    currentCol += 1;
-    return tile;
-  });
-  return tilesWithPosition;
-};
+import { findTilePosition } from './generics';
 
 /**
- * Add the number of mines around to every tile
- * @param {array} tiles An array of tiles
+ * Create a 2D array with the position of the tiles in the board
+ * @param {object} game
  */
-const tilesNumber = (tiles) => {
-  const tilesWithNumber = tiles.map((tile) => {
-    const newTile = tile;
-    newTile.number = 0;
-    if (newTile.mine !== true && newTile.block !== true) {
-      // Find mines around
-      tiles.filter((item) => {
-        if (
-          item.col >= newTile.col - 1
-          && item.col <= newTile.col + 1
-          && item.row >= newTile.row - 1
-          && item.row <= newTile.row + 1
-          && item.mine === true
-        ) {
-          newTile.number += 1;
-        }
-        return item;
-      });
-    }
-    return newTile;
+const tilesPosition = (game) => {
+  const position = [...new Array(game.rows)].map((rowValue, rowIndex) => {
+    const row = [...new Array(game.cols)].map((colValue, colIndex) => {
+      const index = colIndex + 1;
+      const lastRowTile = rowIndex * game.cols;
+      return index + lastRowTile;
+    });
+    return row;
   });
-  return tilesWithNumber;
+  return position;
 };
 /**
- * Add the player & focus at his initial position
- * @param {array} tiles An array of tiles
+ * Create a 2D array with thenumber of mines around every position
+ * @param {object} game
  */
-const tilesPlayerFocus = (tiles) => {
-  const tilesWithPlayer = tiles.map((tile, index) => {
-    const newTile = tile;
-    if (tile.initPlayer) {
-      newTile.player = true;
-    }
-    if (index === 0) {
-      newTile.focus = true;
-    }
-    return newTile;
+const tilesMines = (game) => {
+  const minesAround = [...new Array(game.rows)].map(() => {
+    const row = [...new Array(game.cols)].map(() => 0);
+    return row;
   });
-  return tilesWithPlayer;
-};
 
+  game.tiles.mines.forEach((mineTile) => {
+    const minePosition = findTilePosition(game.tiles.position, mineTile);
+    const tilesUp = minesAround[minePosition.row - 1];
+    const tilesSame = minesAround[minePosition.row];
+    const tilesDown = minesAround[minePosition.row + 1];
+    if (tilesUp) {
+      tilesUp[minePosition.col - 1] += 1;
+      tilesUp[minePosition.col] += 1;
+      tilesUp[minePosition.col + 1] += 1;
+    }
+    tilesSame[minePosition.col - 1] += 1;
+    tilesSame[minePosition.col + 1] += 1;
+    if (tilesDown) {
+      tilesDown[minePosition.col - 1] += 1;
+      tilesDown[minePosition.col] += 1;
+      tilesDown[minePosition.col + 1] += 1;
+    }
+  });
+
+  return minesAround;
+};
 /**
  * Prepare the game data to be played
  * @param {json} gameData
@@ -72,17 +53,19 @@ const tilesPlayerFocus = (tiles) => {
 export const prepareGame = (gameData) => {
   const game = JSON.parse(JSON.stringify(gameData));
 
-  // Add position to tiles
-  const tilesWithPosition = tilesPosition(gameData.tiles, gameData.cols);
-
-  // Add mine around number to tiles
-  const tilesWithNumber = tilesNumber(tilesWithPosition);
-
-  // Add player to his initial position tile
-  const tilesWithPlayer = tilesPlayerFocus(tilesWithNumber);
-
-  game.tiles = tilesWithPlayer;
-  game.addedFlags = 0;
+  game.actions = {
+    treasure: [],
+    flag: [],
+    open: [],
+    focus: 1,
+    player: game.tiles.playerStart,
+  };
+  game.found = {
+    mines: [],
+    treasures: [],
+  };
+  game.tiles.position = tilesPosition(game);
+  game.tiles.minesAround = tilesMines(game);
   game.loaded = true;
 
   return game;

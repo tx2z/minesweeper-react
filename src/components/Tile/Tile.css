@@ -2,9 +2,7 @@
 .tile {
   animation: tileAppears 1s ease-out;
   float: left;
-  height: 1em;
   position: relative;
-  width: 1em;
   top: 0;
   box-sizing: border-box;
 }
