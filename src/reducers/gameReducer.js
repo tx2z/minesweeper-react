@@ -1,3 +1,4 @@
+import { findTilePosition } from '../functions/generics';
 import {
   GAME, TILE, MOVE, FOCUS,
 } from '../types/actionTypes';
@@ -10,60 +11,72 @@ export default (state = {}, action) => {
       return action.game;
     }
     case MOVE: {
-      const playerIndex = state.tiles.findIndex((tile) => tile.player === true);
-      if (newState.tiles[action.tile].block !== true) {
-        newState.tiles[action.tile].player = true;
-        newState.tiles[playerIndex].player = false;
+      if (!state.tiles.block.includes(action.tile)) {
+        newState.actions.player = action.tile;
       }
       return newState;
     }
     case FOCUS: {
-      const focusIndex = state.tiles.findIndex((tile) => tile.focus === true);
-
-      newState.tiles[action.tile].focus = true;
-      newState.tiles[focusIndex].focus = false;
-
+      newState.actions.focus = action.tile;
       return newState;
     }
     case TILE: {
-      const actionTile = newState.tiles[action.tile];
-      if (actionTile.block !== true) {
+      if (!state.tiles.block.includes(action.tile)) {
         switch (action.method) {
           case CLEAN: {
-            if (actionTile.open !== true) {
-              actionTile.open = true;
+            if (!state.actions.open.includes(action.tile)) {
+              newState.actions.open.push(action.tile);
             }
             break;
           }
           case FLAG: {
-            if (actionTile.flag) {
-              newState.addedFlags -= 1;
-              actionTile.flag = false;
-            } else if (actionTile.open !== true) {
-              newState.addedFlags += 1;
-              actionTile.flag = true;
+            if (state.actions.flag.includes(action.tile)) {
+              const indexFlag = state.actions.flag.indexOf(action.tile);
+              newState.actions.flag.splice(indexFlag, 1);
+              if (state.tiles.mines.includes(action.tile)) {
+                const indexMine = state.found.mines.indexOf(action.tile);
+                newState.found.mines.splice(indexMine, 1);
+              }
+            } else if (!state.actions.open.includes(action.tile)) {
+              newState.actions.flag.push(action.tile);
+              if (state.tiles.mines.includes(action.tile)) {
+                newState.found.mines.push(action.tile);
+              }
             }
             break;
           }
           case TREASURE: {
-            if (actionTile.treasure === true && actionTile.open !== true) {
-              actionTile.foundTreasure = true;
-            } else if (actionTile.open !== true) {
-              newState.tiles = state.tiles.map((item) => {
-                const tile = item;
-                if (
-                  tile.col >= actionTile.col - 1
-                  && tile.col <= actionTile.col + 1
-                  && tile.row >= actionTile.row - 1
-                  && tile.row <= actionTile.row + 1
-                  && tile.block !== true
-                  && tile.open !== true
-                  && tile.flag !== true
-                ) {
-                  tile.open = true;
+            newState.actions.treasure.push(action.tile);
+            if (state.tiles.treasures.includes(action.tile)) {
+              newState.found.treasures.push(action.tile);
+              newState.found.treasures = [...new Set(newState.found.treasures)];
+            } else {
+              const tilePosition = findTilePosition(state.tiles.position, action.tile);
+              const tilesUp = state.tiles.position[tilePosition.row - 1];
+              const tilesSame = state.tiles.position[tilePosition.row];
+              const tilesDown = state.tiles.position[tilePosition.row + 1];
+              const tilesToOpen = new Set();
+              tilesToOpen.add(action.tile);
+              if (tilesUp) {
+                tilesToOpen.add(tilesUp[tilePosition.col - 1]);
+                tilesToOpen.add(tilesUp[tilePosition.col]);
+                tilesToOpen.add(tilesUp[tilePosition.col + 1]);
+              }
+              tilesToOpen.add(tilesSame[tilePosition.col - 1]);
+              tilesToOpen.add(tilesSame[tilePosition.col + 1]);
+              if (tilesDown) {
+                tilesToOpen.add(tilesDown[tilePosition.col - 1]);
+                tilesToOpen.add(tilesDown[tilePosition.col]);
+                tilesToOpen.add(tilesDown[tilePosition.col + 1]);
+              }
+              tilesToOpen.delete(undefined);
+              tilesToOpen.forEach((value) => {
+                if (state.actions.open.includes(value) && state.tiles.block.includes(value)) {
+                  tilesToOpen.delete(value);
                 }
-                return tile;
               });
+
+              newState.actions.open = [...new Set([...state.actions.open, ...tilesToOpen])];
             }
             break;
           }

@@ -5,6 +5,7 @@ import { MobileView } from 'react-device-detect';
 import { GlobalHotKeys } from 'react-hotkeys';
 import { ControllerKeyMap } from './ControllerKeyMap';
 import { gameMoves, tools } from '../../configs';
+import { findTilePosition } from '../../functions/generics';
 import moveAction from '../../actions/moveAction';
 import tilesAction from '../../actions/tilesAction';
 import toolsAction from '../../actions/toolsAction';
@@ -60,48 +61,43 @@ const Controller = (props) => {
 
   const whereToMove = (direction) => {
     const type = gameType === PLAYER ? 'player' : 'focus';
-    const playerIndex = game.tiles.findIndex((tile) => tile[type] === true);
+    const playerIndex = game.actions[type];
     if (direction === NONE) {
       return playerIndex;
     }
-    let newPlayerIndex = playerIndex;
-    const playerTile = game.tiles[playerIndex];
-    const currentCol = playerTile.col;
-    const currentRow = playerTile.row;
+    const playerPosition = findTilePosition(game.tiles.position, playerIndex);
+    let { col, row } = playerPosition;
 
     switch (direction) {
       case LEFT: {
-        newPlayerIndex = game.tiles.findIndex(
-          (tile) => tile.col === currentCol - 1 && tile.row === currentRow,
-        );
+        col -= 1;
         break;
       }
       case TOP: {
-        newPlayerIndex = game.tiles.findIndex(
-          (tile) => tile.col === currentCol && tile.row === currentRow - 1,
-        );
+        row -= 1;
         break;
       }
       case RIGHT: {
-        newPlayerIndex = game.tiles.findIndex(
-          (tile) => tile.col === currentCol + 1 && tile.row === currentRow,
-        );
+        col += 1;
         break;
       }
       case BOTTOM: {
-        newPlayerIndex = game.tiles.findIndex(
-          (tile) => tile.col === currentCol && tile.row === currentRow + 1,
-        );
+        row += 1;
         break;
       }
       default:
         break;
     }
-    return newPlayerIndex;
+    if (game.tiles.position[row] && game.tiles.position[row][col]) {
+      return game.tiles.position[row][col];
+    }
+    return -1;
   };
 
   const playerAction = (direction, tool = selectedTool) => {
     const tileIndex = whereToMove(direction);
+
+    console.log(tileIndex);
 
     if (tileIndex === -1) {
       return null;
@@ -115,18 +111,28 @@ const Controller = (props) => {
         if (gameType === PLAYER) {
           execMoveAction(payload);
         } else if (gameType === CLASSIC) {
-          payload.method = tool;
+          payload.method = CLEAN;
           execTileAction(payload);
         }
         break;
       }
-      case FLAG:
-      case TREASURE: {
+      case FLAG: {
         const payload = {
-          method: tool,
+          method: FLAG,
           tile: tileIndex,
         };
         execTileAction(payload);
+        break;
+      }
+      case TREASURE: {
+        const payload = {
+          method: TREASURE,
+          tile: tileIndex,
+        };
+        execTileAction(payload);
+        if (gameType === PLAYER) {
+          execMoveAction(payload);
+        }
         break;
       }
       default:
@@ -163,7 +169,10 @@ const Controller = (props) => {
 
   const HandlersPlayer = {
     KEY_FLAG: () => toolClick(FLAG),
-    KEY_TREASURE: () => toolClick(TREASURE),
+    KEY_TREASURE: () => {
+      toolClick(TREASURE);
+      playerAction(NONE, TREASURE);
+    },
 
     KEY_LEFT: () => playerAction(LEFT, CLEAN),
     KEY_TOP: () => playerAction(TOP, CLEAN),
@@ -175,11 +184,6 @@ const Controller = (props) => {
     KEY_FLAG_RIGHT: () => playerAction(RIGHT, FLAG),
     KEY_FLAG_BOTTOM: () => playerAction(BOTTOM, FLAG),
 
-    KEY_TREASURE_LEFT: () => playerAction(LEFT, TREASURE),
-    KEY_TREASURE_TOP: () => playerAction(TOP, TREASURE),
-    KEY_TREASURE_RIGHT: () => playerAction(RIGHT, TREASURE),
-    KEY_TREASURE_BOTTOM: () => playerAction(BOTTOM, TREASURE),
-
     KEY_COMMAND_UP: () => toolClick(CLEAN),
   };
 
@@ -189,8 +193,10 @@ const Controller = (props) => {
     <div id="controller">
       <GlobalHotKeys keyMap={ControllerKeyMap} handlers={ControllerHandlers} allowChanges>
         <Tools selectedTool={selectedTool} toolClick={toolClick} />
-        <MoveTouch gameType={gameType} playerAction={playerAction} />
-        <ToolTouch gameType={gameType} toolClick={toolClick} />
+        <MobileView>
+          <MoveTouch gameType={gameType} playerAction={playerAction} />
+          <ToolTouch gameType={gameType} toolClick={toolClick} playerAction={playerAction} />
+        </MobileView>
       </GlobalHotKeys>
     </div>
   );
@@ -229,9 +235,8 @@ const MoveTouch = (props) => {
   const { gameType, playerAction } = props;
   if (gameType === PLAYER) {
     const moveTouchButtons = gameMoves.map((movement) => (
-      <div className={movement}>
+      <div key={movement} className={movement}>
         <button
-          key={movement}
           type="button"
           className="nes-btn is-primary"
           style={{ userSelect: 'none' }}
@@ -241,7 +246,7 @@ const MoveTouch = (props) => {
         </button>
       </div>
     ));
-    return <div id="MoveTouch">{moveTouchButtons}</div>;
+    return (<div id="MoveTouch">{moveTouchButtons}</div>);
   }
   return null;
 };
@@ -251,29 +256,44 @@ MoveTouch.propTypes = {
 };
 
 const ToolTouch = (props) => {
-  const { gameType, toolClick } = props;
+  const { gameType, toolClick, playerAction } = props;
   if (gameType === PLAYER) {
-    const toolTouchButtons = tools.map((tool) => (
-      <div className={tool}>
-        <button
-          key={tool}
-          type="button"
-          className={buttonTool[tool]}
-          style={{ userSelect: 'none' }}
-          onTouchStart={() => toolClick(tool)}
-          onTouchEnd={() => toolClick(CLEAN)}
-        >
-          <i className={buttonToolIcons[tool]} />
-        </button>
+    return (
+      <div id="ToolTouch">
+        <div key={FLAG} className={FLAG}>
+          <button
+            type="button"
+            className={buttonTool[FLAG]}
+            style={{ userSelect: 'none' }}
+            onTouchStart={() => toolClick(FLAG)}
+            onTouchEnd={() => toolClick(CLEAN)}
+          >
+            <i className={buttonToolIcons[FLAG]} />
+          </button>
+        </div>
+        <div key={TREASURE} className={TREASURE}>
+          <button
+            type="button"
+            className={buttonTool[TREASURE]}
+            style={{ userSelect: 'none' }}
+            onTouchStart={() => {
+              toolClick(TREASURE);
+              playerAction(NONE, TREASURE);
+            }}
+            onTouchEnd={() => toolClick(CLEAN)}
+          >
+            <i className={buttonToolIcons[TREASURE]} />
+          </button>
+        </div>
       </div>
-    ));
-    return <div id="ToolTouch">{toolTouchButtons}</div>;
+    );
   }
   return null;
 };
 ToolTouch.propTypes = {
   gameType: PropTypes.string.isRequired,
   toolClick: PropTypes.func.isRequired,
+  playerAction: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

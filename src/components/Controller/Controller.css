@@ -45,9 +45,6 @@
   grid-template-areas: "FLAG TREASURE";
 }
 
-#ToolTouch .CLEAN {
-  display: none;
-}
 #ToolTouch .FLAG {
   grid-area: FLAG;
   text-align: left;

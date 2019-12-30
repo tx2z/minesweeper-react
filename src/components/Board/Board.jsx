@@ -64,13 +64,14 @@ class Board extends React.Component {
       return <div className="Loading">Loading...</div>;
     }
 
-    const boardSize = {
-      height: `${game.rows}em`,
-      width: `${game.cols}em`,
+    const boardStyles = {
+      backgroundImage: `url(/_games/${game.image})`,
+      height: `${game.imageHeight}px`,
+      width: `${game.imageWidth}px`,
     };
 
     const canCheckWin = () => {
-      if (game.addedFlags === game.totalMines) {
+      if (game.actions.flag.length === game.tiles.mines.length) {
         return true;
       }
       return false;
@@ -79,31 +80,33 @@ class Board extends React.Component {
     const checkWin = () => {
       correctFlags += 1;
 
-      if (correctFlags === game.totalMines) {
+      if (correctFlags === game.tiles.mines.length) {
         // TODO: Stop the game
         alert('YOU WIN');
       }
     };
 
-    const tiles = game.tiles.map((tile, index) => {
-      // Check if you hit a mine
-      if (tile.open && tile.mine) {
-        // TODO: Stop the game
-        alert('YOU LOSE');
-      }
-      if (gameType === CLASSIC) {
-        // Check if all mines have flags
-        if (canCheckWin() && tile.flag && tile.mine) {
-          checkWin();
+    const newTiles = () => {
+      const gameTiles = [];
+      for (let i = 1; i <= game.tiles.number; i += 1) {
+        if (gameType === CLASSIC) {
+          // Check if all mines have flags
+          if (canCheckWin() && game.actions.flag.includes(i) && game.tiles.mines.includes(i)) {
+            checkWin();
+          }
         }
+
+        gameTiles.push(<Tile index={i} key={i} />);
       }
-      return <Tile index={index} key={tile.id} />;
-    });
+      return gameTiles;
+    };
+
+    const tiles = newTiles();
 
     return (
       <div className="game">
         <style>{styles}</style>
-        <div className="Board" style={boardSize}>
+        <div className="Board" style={boardStyles}>
           {tiles}
         </div>
       </div>

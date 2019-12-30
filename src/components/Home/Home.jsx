@@ -58,7 +58,7 @@ class Home extends React.Component {
     return (
       <div>
         <h2>Minesweeper & Treasures</h2>
-        <Link to="game/test">Game</Link>
+        <Link to="game/test-refactor?theme=default2">Game</Link>
         <div id="game-types">
           {gameTypeButtons}
         </div>

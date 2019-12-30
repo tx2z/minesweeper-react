@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { findTilePosition } from '../../functions/generics';
 import tilesAction from '../../actions/tilesAction';
 import focusAction from '../../actions/focusAction';
 import Player from '../Player/Player';
 import './Tile.css';
-import { GAME, TILE } from '../../types/propTypes';
+import { GAME } from '../../types/propTypes';
 import { CLEAN } from '../../types/toolTypes';
 import { CLASSIC, PLAYER } from '../../types/actionTypes';
 
@@ -22,18 +23,23 @@ class Tile extends React.Component {
     const {
       game, gameType, index, tool, tilesAction: execTileClick, focusAction: execFocusAction,
     } = this.props;
-    const tileContent = game.tiles.find((obj) => obj.id === index);
+
+    // Check if you hit a mine
+    if (game.actions.open.includes(index) && game.tiles.mines.includes(index)) {
+      // TODO: Stop the game
+      alert('YOU LOSE');
+    }
 
     if (gameType === PLAYER) {
     // Playing in PLAYER mode
-      if (tileContent.player === true && !tileContent.open) {
+      if (game.actions.player === index && !game.actions.open.includes(index)) {
         this.payload = {
           method: CLEAN,
-          tile: tileContent.id,
+          tile: index,
         };
         execTileClick(this.payload);
       }
-      if (tileContent.player === true) {
+      if (game.actions.player === index) {
         this.player = <Player />;
       } else {
         this.player = '';
@@ -42,28 +48,31 @@ class Tile extends React.Component {
     // Playing in CLASSIC mode
       this.tileClick = () => {
         this.payload = {
-          tile: tileContent.id,
+          tile: index,
         };
         execFocusAction(this.payload);
 
         this.payload = {
           method: tool,
-          tile: tileContent.id,
+          tile: index,
         };
         execTileClick(this.payload);
       };
     }
 
     this.tileClasses = ['tile'];
-    if (!tileContent.open || tileContent.block) {
-      this.tileClasses.push(tileContent.class);
-    } else {
-      this.tileClasses.push('free');
+    if (game.actions.open.includes(index)) {
+      this.tileClasses.push('open');
     }
 
-    if (gameType === CLASSIC && tileContent.focus === true) {
+    if (gameType === CLASSIC && game.actions.player === index) {
       this.tileClasses.push('focus');
     }
+
+    const tileStyles = {
+      height: `${game.tiles.height}px`,
+      width: `${game.tiles.width}px`,
+    };
 
     return (
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events
@@ -73,10 +82,11 @@ class Tile extends React.Component {
         className={this.tileClasses.join(' ')}
         data-index={index}
         onClick={this.tileClick}
+        style={tileStyles}
       >
-        <TileNumber tile={tileContent} />
-        <TileFlag tile={tileContent} />
-        <TileTreasure tile={tileContent} />
+        <TileNumber game={game} tile={index} />
+        <TileFlag game={game} tile={index} />
+        <TileTreasure game={game} tile={index} />
         {this.player}
       </div>
     );
@@ -92,36 +102,43 @@ Tile.propTypes = {
 };
 
 const TileNumber = (props) => {
-  const { tile } = props;
-  if (tile.open && tile.number !== 0) {
-    return <span className="number">{tile.number}</span>;
+  const { game, tile } = props;
+  if (game.actions.open.includes(tile)) {
+    const tilePosition = findTilePosition(game.tiles.position, tile);
+    const minesAround = game.tiles.minesAround[tilePosition.row][tilePosition.col];
+    if (tilePosition && minesAround !== 0) {
+      return <span className="number">{minesAround}</span>;
+    }
   }
   return null;
 };
 TileNumber.propTypes = {
-  tile: TILE.isRequired,
+  game: GAME.isRequired,
+  tile: PropTypes.number.isRequired,
 };
 
 const TileFlag = (props) => {
-  const { tile } = props;
-  if (tile.flag) {
+  const { game, tile } = props;
+  if (game.actions.flag.includes(tile)) {
     return <span className="flag" />;
   }
   return null;
 };
 TileFlag.propTypes = {
-  tile: TILE.isRequired,
+  game: GAME.isRequired,
+  tile: PropTypes.number.isRequired,
 };
 
 const TileTreasure = (props) => {
-  const { tile } = props;
-  if (tile.foundTreasure) {
+  const { game, tile } = props;
+  if (game.found.treasures.includes(tile)) {
     return <span className="treasure" />;
   }
   return null;
 };
 TileTreasure.propTypes = {
-  tile: TILE.isRequired,
+  game: GAME.isRequired,
+  tile: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
