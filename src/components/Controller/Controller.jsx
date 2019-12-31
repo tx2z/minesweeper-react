@@ -97,8 +97,6 @@ const Controller = (props) => {
   const playerAction = (direction, tool = selectedTool) => {
     const tileIndex = whereToMove(direction);
 
-    console.log(tileIndex);
-
     if (tileIndex === -1) {
       return null;
     }
@@ -193,10 +191,8 @@ const Controller = (props) => {
     <div id="controller">
       <GlobalHotKeys keyMap={ControllerKeyMap} handlers={ControllerHandlers} allowChanges>
         <Tools selectedTool={selectedTool} toolClick={toolClick} />
-        <MobileView>
-          <MoveTouch gameType={gameType} playerAction={playerAction} />
-          <ToolTouch gameType={gameType} toolClick={toolClick} playerAction={playerAction} />
-        </MobileView>
+        <MoveTouch gameType={gameType} playerAction={playerAction} />
+        <ToolTouch gameType={gameType} toolClick={toolClick} playerAction={playerAction} />
       </GlobalHotKeys>
     </div>
   );
@@ -239,7 +235,6 @@ const MoveTouch = (props) => {
         <button
           type="button"
           className="nes-btn is-primary"
-          style={{ userSelect: 'none' }}
           onTouchStart={() => playerAction(movement)}
         >
           <i className={moveIcons[movement]} />
@@ -264,7 +259,6 @@ const ToolTouch = (props) => {
           <button
             type="button"
             className={buttonTool[FLAG]}
-            style={{ userSelect: 'none' }}
             onTouchStart={() => toolClick(FLAG)}
             onTouchEnd={() => toolClick(CLEAN)}
           >
@@ -275,7 +269,6 @@ const ToolTouch = (props) => {
           <button
             type="button"
             className={buttonTool[TREASURE]}
-            style={{ userSelect: 'none' }}
             onTouchStart={() => {
               toolClick(TREASURE);
               playerAction(NONE, TREASURE);

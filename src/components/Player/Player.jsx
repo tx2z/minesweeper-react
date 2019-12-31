@@ -1,9 +1,11 @@
 import React from 'react';
 import './Player.css';
 
+const playerClasses = 'nes-octocat animate';
+
 const Player = () => (
   <div className="Player">
-    <i className="nes-octocat animate" />
+    <i className={playerClasses} />
   </div>
 );
 Player.propTypes = {};

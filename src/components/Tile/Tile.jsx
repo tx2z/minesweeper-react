@@ -17,6 +17,16 @@ class Tile extends React.Component {
     this.tileClick = () => null;
     this.tileClasses = [];
     this.payload = {};
+
+    this.flagClass = '';
+    import(/* webpackMode: "eager" */'css.gg/icons/flag.css').then(() => {
+      this.flagClass = 'gg-flag';
+    });
+
+    this.treasureClass = '';
+    import(/* webpackMode: "eager" */'css.gg/icons/gift.css').then(() => {
+      this.treasureClass = 'gg-gift';
+    });
   }
 
   render() {
@@ -85,8 +95,8 @@ class Tile extends React.Component {
         style={tileStyles}
       >
         <TileNumber game={game} tile={index} />
-        <TileFlag game={game} tile={index} />
-        <TileTreasure game={game} tile={index} />
+        <TileFlag game={game} tile={index} flagClass={this.flagClass} />
+        <TileTreasure game={game} tile={index} treasureClass={this.treasureClass} />
         {this.player}
       </div>
     );
@@ -118,27 +128,31 @@ TileNumber.propTypes = {
 };
 
 const TileFlag = (props) => {
-  const { game, tile } = props;
+  const { game, tile, flagClass } = props;
+  const flagClasses = `flag ${flagClass}`;
   if (game.actions.flag.includes(tile)) {
-    return <span className="flag" />;
+    return <span className={flagClasses} />;
   }
   return null;
 };
 TileFlag.propTypes = {
   game: GAME.isRequired,
   tile: PropTypes.number.isRequired,
+  flagClass: PropTypes.string.isRequired,
 };
 
 const TileTreasure = (props) => {
-  const { game, tile } = props;
+  const { game, tile, treasureClass } = props;
+  const treaClasses = `treasure ${treasureClass}`;
   if (game.found.treasures.includes(tile)) {
-    return <span className="treasure" />;
+    return <span className={treaClasses} />;
   }
   return null;
 };
 TileTreasure.propTypes = {
   game: GAME.isRequired,
   tile: PropTypes.number.isRequired,
+  treasureClass: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
