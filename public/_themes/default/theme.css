@@ -5,7 +5,6 @@ THEME AUTOR:@tx2z
 
 /* THEME OPTIONS*/
 .Board {
-  background-repeat: no-repeat;
 }
 
 .tile.open {
@@ -14,15 +13,69 @@ THEME AUTOR:@tx2z
 }
 
 /* flag */
+.tile .flag,
+.tile .treasure {
+  display: block;
+  height: 100%;
+  width: 100%;
+  animation: flagAppears 0.5s ease-out;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 0;
+}
 .tile .flag {
   background-image: url(/_themes/default/img/flag.png);
   background-position: center;
-  background-repeat: no-repeat;
 }
 /* tile trea */
 .tile .treasure {
   background-image: url(/_themes/default/img/sprite.png);
   background-position: 0 -84em;
-  background-repeat: no-repeat;
   background-size: 1em 91em; /* 1em + ( number of images in sprite x2) - 1 +em */
+}
+
+/* NUMBERS ON TILES */
+.tile .number {
+  animation: numberAppears 1s ease-out;
+  color: #000;
+  display: block;
+  font-weight: bold;
+  position: absolute;
+  text-align: right;
+  text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9,
+    0 5px 0 #aaa;
+  top: 0;
+  width: 100%;
+}
+
+.Player {
+  transform: scale(0.3);
+  transform-origin: top left;
+  margin-top: 0.2em;
+}
+
+@keyframes flagAppears {
+  0% {
+    top: -30em;
+  }
+  100% {
+    top: 0;
+  }
+}
+@keyframes numberAppears {
+  0% {
+    font-size: 1.5em;
+    top: -0.5em;
+    opacity: 0;
+  }
+  50% {
+    font-size: 1.5em;
+    top: -0.5em;
+    opacity: 0.7;
+  }
+  100% {
+    font-size: 1em;
+    top: 0;
+    opacity: 1;
+  }
 }

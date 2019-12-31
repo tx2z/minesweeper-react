@@ -1,1 +1,15 @@
-
+.nes-btn.selected::after {
+  box-shadow: inset 4px 4px #adafbc;
+}
+.nes-btn.is-primary.selected::after {
+  box-shadow: inset 4px 4px #006bb3;
+}
+.nes-btn.is-success.selected::after {
+  box-shadow: inset 4px 4px #4aa52e;
+}
+.nes-btn.is-warning.selected::after {
+  box-shadow: inset 4px 4px #e59400;
+}
+.nes-btn.is-error.selected::after {
+  box-shadow: inset 4px 4px #8c2022;
+}
