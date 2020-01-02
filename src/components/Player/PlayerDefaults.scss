@@ -1,0 +1,12 @@
+@import "~css.gg/icons/arrow-left-o.css";
+@import "~css.gg/icons/arrow-up-o.css";
+@import "~css.gg/icons/arrow-right-o.css";
+@import "~css.gg/icons/arrow-down-o.css";
+
+.Player {
+  position: absolute !important;
+  left: 50%;
+  top: 50%;
+  margin-left: -12px;
+  margin-top: -12px;
+}

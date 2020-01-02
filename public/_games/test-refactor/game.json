@@ -1,12 +1,12 @@
 {
   "author": "Jesús Pérez",
   "cols": 8,
+  "id": "test-refactor",
   "image": "mine-test.png",
   "imageHeight": 288,
   "imageWidth": 384,
   "name": "Test Game",
   "rows": 6,
-  "theme": "default",
   "tiles": {
     "block": [13, 33, 34, 35, 36, 41, 42, 43, 44],
     "height": 48,

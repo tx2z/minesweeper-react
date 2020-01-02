@@ -1,4 +1,5 @@
 import { findTilePosition } from './generics';
+import { RIGHT } from '../types/types';
 
 /**
  * Create a 2D array with the position of the tiles in the board
@@ -59,6 +60,7 @@ export const prepareGame = (gameData) => {
     open: [],
     focus: 1,
     player: game.tiles.playerStart,
+    playerDirection: RIGHT,
   };
   game.found = {
     mines: [],
