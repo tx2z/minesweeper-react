@@ -1,7 +1,8 @@
 import { MOVE } from '../types/types';
 
-const tilesAction = (payload) => ({
+const moveAction = (payload) => ({
   type: MOVE,
   tile: payload.tile,
+  direction: payload.direction,
 });
-export default tilesAction;
+export default moveAction;

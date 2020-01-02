@@ -11,7 +11,7 @@ import tilesAction from '../../actions/tilesAction';
 import toolsAction from '../../actions/toolsAction';
 import focusAction from '../../actions/focusAction';
 import {
-  LEFT, TOP, RIGHT, BOTTOM, PLAYER, NONE, CLASSIC, CLEAN, FLAG, TREASURE
+  LEFT, TOP, RIGHT, BOTTOM, PLAYER, NONE, CLASSIC, CLEAN, FLAG, TREASURE,
 } from '../../types/types';
 import { GAME } from '../../types/propTypes';
 import './Controller.scss';
@@ -82,6 +82,7 @@ const Controller = (props) => {
           tile: tileIndex,
         };
         if (gameType === PLAYER) {
+          payload.direction = direction;
           execMoveAction(payload);
         } else if (gameType === CLASSIC) {
           payload.method = CLEAN;
@@ -104,6 +105,7 @@ const Controller = (props) => {
         };
         execTileAction(payload);
         if (gameType === PLAYER) {
+          payload.direction = direction;
           execMoveAction(payload);
         }
         break;

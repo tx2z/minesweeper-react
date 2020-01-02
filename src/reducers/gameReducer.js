@@ -1,6 +1,6 @@
 import { findTilePosition } from '../functions/generics';
 import {
-  GAME, TILE, MOVE, FOCUS, CLEAN, FLAG, TREASURE,
+  GAME, TILE, MOVE, FOCUS, CLEAN, FLAG, TREASURE, NONE, TOP,
 } from '../types/types';
 
 export default (state = {}, action) => {
@@ -10,6 +10,8 @@ export default (state = {}, action) => {
       return action.game;
     }
     case MOVE: {
+      const direction = action.direction === NONE ? TOP : action.direction;
+      newState.actions.playerDirection = direction;
       if (!state.tiles.block.includes(action.tile)) {
         newState.actions.player = action.tile;
       }

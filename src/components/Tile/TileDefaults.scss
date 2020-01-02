@@ -1,0 +1,26 @@
+@import "~css.gg/icons/flag.css";
+@import "~css.gg/icons/gift.css";
+
+.tile {
+  &.open {
+    &::before {
+      content: ".";
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+  }
+
+  .flag {
+    position: absolute;
+    left: 50%;
+    top: 5px;
+  }
+
+  .treasure {
+    position: absolute;
+    left: 50%;
+    top: 5px;
+    margin-left: -11px;
+  }
+}

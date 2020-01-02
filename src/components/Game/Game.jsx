@@ -8,7 +8,7 @@ const useQuery = () => new URLSearchParams(useLocation().search);
 
 const Game = () => {
   const { gameId } = useParams();
-  const theme = useQuery().get('theme') || 'default';
+  const theme = useQuery().get('theme') || false;
 
   return (
     <div>

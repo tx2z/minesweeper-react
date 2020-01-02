@@ -1,7 +1,8 @@
 import PropTypes, { string } from 'prop-types';
+import { gameMoves } from '../configs';
 
 const {
-  shape, bool, number, array,
+  shape, bool, number, array, oneOf,
 } = PropTypes;
 
 export const TILE = shape({
@@ -39,6 +40,7 @@ export const GAME = shape({
     open: array,
     focus: number,
     player: number,
+    playerDirection: oneOf(gameMoves),
   }),
   found: shape({
     mines: array,

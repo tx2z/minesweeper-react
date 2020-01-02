@@ -12,20 +12,22 @@ import { CLASSIC, PLAYER, CLEAN } from '../../types/types';
 class Tile extends React.Component {
   constructor(props) {
     super(props);
+
+    const { styles } = this.props;
+
     this.player = '';
     this.tileClick = () => null;
     this.tileClasses = [];
     this.payload = {};
 
     this.flagClass = '';
-    import(/* webpackMode: "lazy-once" */ 'css.gg/icons/flag.css').then(() => {
-      this.flagClass = 'gg-flag';
-    });
-
     this.treasureClass = '';
-    import(/* webpackMode: "lazy-once" */ 'css.gg/icons/gift.css').then(() => {
+
+    if (!styles) {
+      import('./TileDefaults.scss');
+      this.flagClass = 'gg-flag';
       this.treasureClass = 'gg-gift';
-    });
+    }
   }
 
   render() {
@@ -54,7 +56,7 @@ class Tile extends React.Component {
         execTileClick(this.payload);
       }
       if (game.actions.player === index) {
-        this.player = <Player />;
+        this.player = <Player direction={game.actions.playerDirection} />;
       } else {
         this.player = '';
       }
@@ -112,6 +114,7 @@ Tile.propTypes = {
   index: PropTypes.number.isRequired,
   gameType: PropTypes.string.isRequired,
   tool: PropTypes.string.isRequired,
+  styles: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
   game: GAME.isRequired,
 };
 

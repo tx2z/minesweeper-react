@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
@@ -11,6 +12,10 @@ import './index.scss';
 ReactDOM.render(
   <Provider store={configureStore()}>
     <Router>
+      <Helmet>
+        <title>Minesweeper & Treasures</title>
+      </Helmet>
+
       <div>
         <aside>
           <Link to="/">Home</Link>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Tile from '../Tile/Tile';
@@ -15,46 +16,38 @@ class Board extends React.Component {
       gameAction: preprareGameState,
       stylesAction: prepareGameStyles,
       gameId,
-      theme,
+      theme: choosenTheme,
     } = this.props;
 
-    const assets = [
-      { type: 'css', url: `/_themes/${theme}/theme.css` },
-      { type: 'json', url: `/_games/${gameId}.json` },
-    ];
-    const list = [];
-    const results = {};
-
-    assets.forEach((asset) => {
-      list.push(
-        fetch(asset.url)
-          .then((response) => {
-            let result = '';
-            if (asset.type === 'css') {
-              result = response.text();
-            } else if (asset.type === 'json') {
-              result = response.json();
-            }
-            return result;
-          })
-          .then((result) => {
-            results[asset.type] = result;
-          }),
-      );
-    });
-
-    Promise.all(list).then(() => {
+    const loadGame = (game, theme = false) => {
       const stylesPayload = {
-        value: results.css,
+        value: theme,
       };
       prepareGameStyles(stylesPayload);
 
-      const newGame = prepareGame(results.json);
+      const newGame = prepareGame(game);
       const gamePayload = {
         game: newGame,
       };
       preprareGameState(gamePayload);
-    });
+    };
+
+    const gameUrl = `${process.env.REACT_APP_GAMES_ROOT}/${gameId}/game.json`;
+    fetch(gameUrl)
+      .then((gameResponse) => gameResponse.json())
+      .then((gameResult) => {
+        const theme = gameResult.theme || choosenTheme;
+        if (!theme) {
+          loadGame(gameResult);
+        } else {
+          const themeUrl = `${process.env.REACT_APP_THEMES_ROOT}/${theme}/theme.css`;
+          fetch(themeUrl)
+            .then((themeResponse) => themeResponse.text())
+            .then((themeResult) => {
+              loadGame(gameResult, themeResult);
+            });
+        }
+      });
   }
 
   render() {
@@ -64,8 +57,11 @@ class Board extends React.Component {
       return <div className="Loading">Loading...</div>;
     }
 
+    const gameTile = `${game.name} | Minesweeper & Treasures`;
+
+    const gameImage = `${process.env.REACT_APP_GAMES_ROOT}/${game.id}/${game.image}`;
     const boardStyles = {
-      backgroundImage: `url(/_games/${game.image})`,
+      backgroundImage: `url(${gameImage})`,
       height: `${game.imageHeight}px`,
       width: `${game.imageWidth}px`,
     };
@@ -105,7 +101,11 @@ class Board extends React.Component {
 
     return (
       <div className="game">
-        <style>{styles}</style>
+        <Helmet>
+          <title>{gameTile}</title>
+          <style>{styles}</style>
+        </Helmet>
+
         <div className="Board" style={boardStyles}>
           {tiles}
         </div>
@@ -118,8 +118,8 @@ Board.propTypes = {
   stylesAction: PropTypes.func.isRequired,
   game: GAME.isRequired,
   gameType: PropTypes.string.isRequired,
-  styles: PropTypes.string.isRequired,
-  theme: PropTypes.string.isRequired,
+  styles: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
+  theme: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
   gameId: PropTypes.string.isRequired,
 };
 
