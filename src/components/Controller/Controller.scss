@@ -1,0 +1,71 @@
+@import "~css.gg/icons/chevron-left.css";
+@import "~css.gg/icons/chevron-up.css";
+@import "~css.gg/icons/chevron-right.css";
+@import "~css.gg/icons/chevron-down.css";
+
+#MoveTouch {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  border: 1px dashed red;
+  height: 170px;
+  width: 170px;
+
+  display: grid;
+  grid-template-areas:
+    "TOP TOP"
+    "LEFT RIGHT"
+    "BOTTOM BOTTOM";
+
+  button {
+    user-select: none;
+    width: 48px;
+    height: 48px;
+  }
+  .LEFT {
+    grid-area: LEFT;
+    text-align: left;
+  }
+  .TOP {
+    grid-area: TOP;
+    text-align: center;
+  }
+  .RIGHT {
+    grid-area: RIGHT;
+    text-align: right;
+  }
+  .BOTTOM {
+    grid-area: BOTTOM;
+    text-align: center;
+  }
+}
+
+#ToolTouch {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  border: 1px dashed red;
+  height: 170px;
+  width: 170px;
+
+  display: grid;
+  grid-template-areas: "FLAG TREASURE";
+
+  button {
+    user-select: none;
+  }
+  .FLAG {
+    grid-area: FLAG;
+    text-align: left;
+    margin-top: 44px;
+
+    .nes-icon {
+      color: red;
+    }
+  }
+  .TREASURE {
+    grid-area: TREASURE;
+    text-align: right;
+    margin-top: 44px;
+  }
+}

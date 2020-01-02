@@ -7,7 +7,7 @@ import stylesAction from '../../actions/stylesAction';
 import { prepareGame } from '../../functions/prepareGame';
 import { GAME } from '../../types/propTypes';
 import { CLASSIC } from '../../types/actionTypes';
-import './Board.css';
+import './Board.scss';
 
 class Board extends React.Component {
   componentDidMount() {

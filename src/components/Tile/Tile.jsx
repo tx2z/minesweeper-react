@@ -5,7 +5,7 @@ import { findTilePosition } from '../../functions/generics';
 import tilesAction from '../../actions/tilesAction';
 import focusAction from '../../actions/focusAction';
 import Player from '../Player/Player';
-import './Tile.css';
+import './Tile.scss';
 import { GAME } from '../../types/propTypes';
 import { CLEAN } from '../../types/toolTypes';
 import { CLASSIC, PLAYER } from '../../types/actionTypes';
@@ -19,19 +19,24 @@ class Tile extends React.Component {
     this.payload = {};
 
     this.flagClass = '';
-    import(/* webpackMode: "eager" */'css.gg/icons/flag.css').then(() => {
+    import(/* webpackMode: "lazy-once" */ 'css.gg/icons/flag.css').then(() => {
       this.flagClass = 'gg-flag';
     });
 
     this.treasureClass = '';
-    import(/* webpackMode: "eager" */'css.gg/icons/gift.css').then(() => {
+    import(/* webpackMode: "lazy-once" */ 'css.gg/icons/gift.css').then(() => {
       this.treasureClass = 'gg-gift';
     });
   }
 
   render() {
     const {
-      game, gameType, index, tool, tilesAction: execTileClick, focusAction: execFocusAction,
+      game,
+      gameType,
+      index,
+      tool,
+      tilesAction: execTileClick,
+      focusAction: execFocusAction,
     } = this.props;
 
     // Check if you hit a mine
@@ -41,7 +46,7 @@ class Tile extends React.Component {
     }
 
     if (gameType === PLAYER) {
-    // Playing in PLAYER mode
+      // Playing in PLAYER mode
       if (game.actions.player === index && !game.actions.open.includes(index)) {
         this.payload = {
           method: CLEAN,
@@ -55,7 +60,7 @@ class Tile extends React.Component {
         this.player = '';
       }
     } else if (gameType === CLASSIC) {
-    // Playing in CLASSIC mode
+      // Playing in CLASSIC mode
       this.tileClick = () => {
         this.payload = {
           tile: index,
