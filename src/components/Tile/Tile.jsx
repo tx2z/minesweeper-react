@@ -7,8 +7,7 @@ import focusAction from '../../actions/focusAction';
 import Player from '../Player/Player';
 import './Tile.scss';
 import { GAME } from '../../types/propTypes';
-import { CLEAN } from '../../types/toolTypes';
-import { CLASSIC, PLAYER } from '../../types/actionTypes';
+import { CLASSIC, PLAYER, CLEAN } from '../../types/types';
 
 class Tile extends React.Component {
   constructor(props) {

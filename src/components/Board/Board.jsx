@@ -6,7 +6,7 @@ import gameAction from '../../actions/gameAction';
 import stylesAction from '../../actions/stylesAction';
 import { prepareGame } from '../../functions/prepareGame';
 import { GAME } from '../../types/propTypes';
-import { CLASSIC } from '../../types/actionTypes';
+import { CLASSIC } from '../../types/types';
 import './Board.scss';
 
 class Board extends React.Component {

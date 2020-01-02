@@ -1,4 +1,4 @@
-import { TOOL } from '../types/actionTypes';
+import { TOOL } from '../types/types';
 
 export default (state = {}, action) => {
   switch (action.type) {

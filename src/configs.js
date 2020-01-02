@@ -1,7 +1,6 @@
 import {
-  CLASSIC, PLAYER, LEFT, TOP, RIGHT, BOTTOM,
-} from './types/actionTypes';
-import { CLEAN, FLAG, TREASURE } from './types/toolTypes';
+  CLASSIC, PLAYER, LEFT, TOP, RIGHT, BOTTOM, CLEAN, FLAG, TREASURE,
+} from './types/types';
 
 export const initialState = {
   game: {

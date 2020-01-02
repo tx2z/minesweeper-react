@@ -1,4 +1,4 @@
-import { FOCUS } from '../types/actionTypes';
+import { FOCUS } from '../types/types';
 
 const focusAction = (payload) => ({
   type: FOCUS,
