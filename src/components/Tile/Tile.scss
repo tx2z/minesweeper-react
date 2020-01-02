@@ -2,8 +2,8 @@
 .tile {
   position: relative;
   box-sizing: border-box;
-}
 
-.tile.focus {
-  border: 1px solid red;
+  .focus {
+    border: 1px solid red;
+  }
 }

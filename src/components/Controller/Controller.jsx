@@ -15,31 +15,7 @@ import {
   LEFT, TOP, RIGHT, BOTTOM, PLAYER, NONE, CLASSIC,
 } from '../../types/actionTypes';
 import { GAME } from '../../types/propTypes';
-import './Controller.css';
-
-import 'css.gg/icons/chevron-left.css';
-import 'css.gg/icons/chevron-up.css';
-import 'css.gg/icons/chevron-right.css';
-import 'css.gg/icons/chevron-down.css';
-
-const moveIcons = {
-  LEFT: 'gg-chevron-left',
-  TOP: 'gg-chevron-up',
-  RIGHT: 'gg-chevron-right',
-  BOTTOM: 'gg-chevron-down',
-};
-
-const buttonTool = {
-  CLEAN: '',
-  FLAG: 'nes-btn is-error',
-  TREASURE: 'nes-btn is-success',
-};
-
-const buttonToolIcons = {
-  CLEAN: '',
-  FLAG: 'nes-icon close is-medium',
-  TREASURE: 'nes-icon coin is-medium',
-};
+import './Controller.scss';
 
 const Controller = (props) => {
   const {
@@ -230,6 +206,12 @@ Tools.propTypes = {
 const MoveTouch = (props) => {
   const { gameType, playerAction } = props;
   if (gameType === PLAYER) {
+    const moveIcons = {
+      LEFT: 'gg-chevron-left',
+      TOP: 'gg-chevron-up',
+      RIGHT: 'gg-chevron-right',
+      BOTTOM: 'gg-chevron-down',
+    };
     const moveTouchButtons = gameMoves.map((movement) => (
       <div key={movement} className={movement}>
         <button
@@ -253,6 +235,15 @@ MoveTouch.propTypes = {
 const ToolTouch = (props) => {
   const { gameType, toolClick, playerAction } = props;
   if (gameType === PLAYER) {
+    const buttonTool = {
+      FLAG: 'nes-btn is-error',
+      TREASURE: 'nes-btn is-success',
+    };
+
+    const buttonToolIcons = {
+      FLAG: 'nes-icon close is-medium',
+      TREASURE: 'nes-icon coin is-medium',
+    };
     return (
       <div id="ToolTouch">
         <div key={FLAG} className={FLAG}>

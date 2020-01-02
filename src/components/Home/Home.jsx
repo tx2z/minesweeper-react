@@ -7,7 +7,7 @@ import gameTypeAction from '../../actions/gameTypeAction';
 import gameAction from '../../actions/gameAction';
 import stylesAction from '../../actions/stylesAction';
 import { GAME } from '../../types/propTypes';
-import './Home.css';
+import './Home.scss';
 
 class Home extends React.Component {
   componentDidMount() {
