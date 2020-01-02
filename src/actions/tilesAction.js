@@ -1,4 +1,4 @@
-import { TILE } from '../types/actionTypes';
+import { TILE } from '../types/types';
 
 const tilesAction = (payload) => ({
   type: TILE,

@@ -1,4 +1,4 @@
-import { TOOL } from '../types/actionTypes';
+import { TOOL } from '../types/types';
 
 const toolsAction = (payload) => ({
   type: TOOL,

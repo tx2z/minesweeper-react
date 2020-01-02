@@ -1,4 +1,4 @@
-import { STYLES } from '../types/actionTypes';
+import { STYLES } from '../types/types';
 
 const stylesAction = (payload) => ({
   type: STYLES,

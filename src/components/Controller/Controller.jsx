@@ -10,10 +10,9 @@ import moveAction from '../../actions/moveAction';
 import tilesAction from '../../actions/tilesAction';
 import toolsAction from '../../actions/toolsAction';
 import focusAction from '../../actions/focusAction';
-import { CLEAN, FLAG, TREASURE } from '../../types/toolTypes';
 import {
-  LEFT, TOP, RIGHT, BOTTOM, PLAYER, NONE, CLASSIC,
-} from '../../types/actionTypes';
+  LEFT, TOP, RIGHT, BOTTOM, PLAYER, NONE, CLASSIC, CLEAN, FLAG, TREASURE
+} from '../../types/types';
 import { GAME } from '../../types/propTypes';
 import './Controller.scss';
 

@@ -12,3 +12,6 @@ export const NONE = 'NONE';
 export const GAMETYPE = 'GAMETYPE';
 export const CLASSIC = 'CLASSIC';
 export const PLAYER = 'PLAYER';
+export const CLEAN = 'CLEAN';
+export const FLAG = 'FLAG';
+export const TREASURE = 'TREASURE';

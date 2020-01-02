@@ -1,4 +1,4 @@
-import { MOVE } from '../types/actionTypes';
+import { MOVE } from '../types/types';
 
 const tilesAction = (payload) => ({
   type: MOVE,

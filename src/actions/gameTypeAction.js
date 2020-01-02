@@ -1,4 +1,4 @@
-import { GAMETYPE } from '../types/actionTypes';
+import { GAMETYPE } from '../types/types';
 
 const stylesAction = (payload) => ({
   type: GAMETYPE,
