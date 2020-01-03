@@ -123,8 +123,9 @@ const TileNumber = (props) => {
   if (game.actions.open.includes(tile)) {
     const tilePosition = findTilePosition(game.tiles.position, tile);
     const minesAround = game.tiles.minesAround[tilePosition.row][tilePosition.col];
+    const numberClasses = `number number${minesAround}`;
     if (tilePosition && minesAround !== 0) {
-      return <span className="number">{minesAround}</span>;
+      return <span className={numberClasses}>{minesAround}</span>;
     }
   }
   return null;

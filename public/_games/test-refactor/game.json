@@ -3,18 +3,19 @@
   "cols": 8,
   "id": "test-refactor",
   "image": "mine-test.png",
-  "imageHeight": 288,
-  "imageWidth": 384,
+  "imageHeight": 384,
+  "imageWidth": 512,
   "name": "Test Game",
+  "theme": "default",
   "rows": 6,
   "tiles": {
-    "block": [13, 33, 34, 35, 36, 41, 42, 43, 44],
-    "height": 48,
+    "block": [13, 33, 34, 35, 36, 41, 42, 43, 44, 45, 46, 47],
+    "height": 64,
     "mines": [29, 30],
     "number": 48,
     "playerEnd": 48,
     "playerStart": 1,
-    "treasures": [45],
-    "width": 48
+    "treasures": [27],
+    "width": 64
   }
 }
