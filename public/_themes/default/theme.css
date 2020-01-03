@@ -5,6 +5,13 @@ THEME AUTOR:@tx2z
 
 /* THEME OPTIONS*/
 .Board {
+  border-top: 0.5px dashed rgba(0, 0, 0, 0.5);
+  border-left: 0.5px dashed rgba(0, 0, 0, 0.5);
+}
+
+.tile {
+  border-bottom: 0.5px dashed rgba(0, 0, 0, 0.5);
+  border-right: 0.5px dashed rgba(0, 0, 0, 0.5);
 }
 
 .tile.open {
@@ -16,32 +23,33 @@ THEME AUTOR:@tx2z
 .tile .flag,
 .tile .treasure {
   display: block;
-  height: 100%;
-  width: 100%;
+  height: 1em;
+  width: 1em;
   animation: flagAppears 0.5s ease-out;
+  background-position: center;
   background-repeat: no-repeat;
+  background-size: 1em;
   position: absolute;
   top: 0;
 }
 .tile .flag {
   background-image: url(/_themes/default/img/flag.png);
-  background-position: center;
 }
 /* tile trea */
 .tile .treasure {
-  background-image: url(/_themes/default/img/sprite.png);
-  background-position: 0 -84em;
-  background-size: 1em 91em; /* 1em + ( number of images in sprite x2) - 1 +em */
+  background-image: url(/_themes/default/img/treasure.png);
 }
 
 /* NUMBERS ON TILES */
 .tile .number {
-  animation: numberAppears 1s ease-out;
+  animation: numberAppears 0.5s ease-out;
   color: #000;
   display: block;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: 0.5em;
   font-weight: bold;
   position: absolute;
-  text-align: right;
+  text-align: center;
   text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9,
     0 5px 0 #aaa;
   top: 0;
@@ -49,9 +57,25 @@ THEME AUTOR:@tx2z
 }
 
 .Player {
-  transform: scale(0.3);
+  background: url(/_themes/default/img/adventurer_vector.svg) no-repeat top left;
+  background-size: calc(1em * 6);
+  height: 1em;
+  width: 1em;
+
+  transform: scale(0.7);
   transform-origin: top left;
-  margin-top: 0.2em;
+  margin: 0.2em 0.1em;
+}
+.Player.RIGHT {
+  background-position-x: -1em;
+}
+.Player.LEFT {
+  background-position-x: -2em;
+}
+.Player.TOP {
+  background-position-x: -3em;
+}
+.Player.BOTTOM {
 }
 
 @keyframes flagAppears {
@@ -67,15 +91,18 @@ THEME AUTOR:@tx2z
     font-size: 1.5em;
     top: -0.5em;
     opacity: 0;
+    z-index: 3;
   }
   50% {
-    font-size: 1.5em;
+    font-size: 1em;
     top: -0.5em;
     opacity: 0.7;
+    z-index: 3;
   }
   100% {
-    font-size: 1em;
+    font-size: 0.5em;
     top: 0;
     opacity: 1;
+    z-index: 3;
   }
 }
