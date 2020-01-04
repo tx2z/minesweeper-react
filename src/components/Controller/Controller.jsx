@@ -69,7 +69,11 @@ const Controller = (props) => {
     return -1;
   };
 
-  const playerAction = (direction, tool = selectedTool) => {
+  const playerAction = (direction, tool = selectedTool, event = null) => {
+    if (event) {
+      event.preventDefault();
+    }
+
     const tileIndex = whereToMove(direction);
 
     if (tileIndex === -1) {
@@ -149,15 +153,15 @@ const Controller = (props) => {
       playerAction(NONE, TREASURE);
     },
 
-    KEY_LEFT: () => playerAction(LEFT, CLEAN),
-    KEY_TOP: () => playerAction(TOP, CLEAN),
-    KEY_RIGHT: () => playerAction(RIGHT, CLEAN),
-    KEY_BOTTOM: () => playerAction(BOTTOM, CLEAN),
+    KEY_LEFT: (event) => playerAction(LEFT, CLEAN, event),
+    KEY_TOP: (event) => playerAction(TOP, CLEAN, event),
+    KEY_RIGHT: (event) => playerAction(RIGHT, CLEAN, event),
+    KEY_BOTTOM: (event) => playerAction(BOTTOM, CLEAN, event),
 
-    KEY_FLAG_LEFT: () => playerAction(LEFT, FLAG),
-    KEY_FLAG_TOP: () => playerAction(TOP, FLAG),
-    KEY_FLAG_RIGHT: () => playerAction(RIGHT, FLAG),
-    KEY_FLAG_BOTTOM: () => playerAction(BOTTOM, FLAG),
+    KEY_FLAG_LEFT: (event) => playerAction(LEFT, FLAG, event),
+    KEY_FLAG_TOP: (event) => playerAction(TOP, FLAG, event),
+    KEY_FLAG_RIGHT: (event) => playerAction(RIGHT, FLAG, event),
+    KEY_FLAG_BOTTOM: (event) => playerAction(BOTTOM, FLAG, event),
 
     KEY_COMMAND_UP: () => toolClick(CLEAN),
   };

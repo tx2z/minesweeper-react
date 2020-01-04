@@ -65,7 +65,7 @@ class Board extends React.Component {
       height: `${game.imageHeight}px`,
       width: `${game.imageWidth}px`,
       fontSize: `${game.tiles.width}px`,
-      gridTemplateColumns: `repeat(8, ${game.tiles.width}px)`,
+      gridTemplateColumns: `repeat(${game.cols}, ${game.tiles.width}px)`,
     };
 
     const canCheckWin = () => {
