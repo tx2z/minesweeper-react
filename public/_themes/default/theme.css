@@ -15,8 +15,10 @@ THEME AUTOR:@tx2z
 }
 
 .tile.open {
-  /* FIXME:TO TEST */
-  /*background-color: red;*/
+  background-image: url(/_themes/default/img/open.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 1em;
 }
 
 /* flag */
@@ -63,19 +65,21 @@ THEME AUTOR:@tx2z
   width: 1em;
 
   transform: scale(0.7);
-  transform-origin: top left;
+  transform-origin: top;
   margin: 0.2em 0.1em;
 }
 .Player.RIGHT {
-  background-position-x: -1em;
+  animation: playermove 0.3s steps(1);
 }
 .Player.LEFT {
-  background-position-x: -2em;
+  animation: playermove 0.3s steps(1);
+  transform: scale(0.7) scaleX(-1) translateX(0.4em);
 }
 .Player.TOP {
   background-position-x: -3em;
 }
 .Player.BOTTOM {
+  animation: playermove 0.3s steps(1);
 }
 
 @keyframes flagAppears {
@@ -104,5 +108,16 @@ THEME AUTOR:@tx2z
     top: 0;
     opacity: 1;
     z-index: 3;
+  }
+}
+
+@keyframes playermove {
+  0% {
+    background-position-x: -1em;
+  }
+  50% {
+    background-position-x: -2em;
+  }
+  100% {
   }
 }
