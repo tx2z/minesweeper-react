@@ -18,6 +18,7 @@
     "BOTTOM BOTTOM";
 
   button {
+    box-sizing: border-box;
     user-select: none;
     width: 48px;
     height: 48px;
@@ -49,23 +50,24 @@
   width: 170px;
 
   display: grid;
-  grid-template-areas: "FLAG TREASURE";
+  grid-template-areas: "buttonA buttonB";
 
   button {
+    box-sizing: border-box;
     user-select: none;
+    height: 48px;
+    width: 48px;
   }
-  .FLAG {
-    grid-area: FLAG;
+  .buttonA,
+  .buttonB {
+    margin-top: 56px;
+  }
+  .buttonA {
+    grid-area: buttonA;
     text-align: left;
-    margin-top: 44px;
-
-    .nes-icon {
-      color: red;
-    }
   }
-  .TREASURE {
-    grid-area: TREASURE;
+  .buttonB {
+    grid-area: buttonB;
     text-align: right;
-    margin-top: 44px;
   }
 }

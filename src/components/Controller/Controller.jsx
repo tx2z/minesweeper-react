@@ -241,37 +241,33 @@ const ToolTouch = (props) => {
   const { gameType, toolClick, playerAction } = props;
   if (gameType === PLAYER) {
     const buttonTool = {
-      FLAG: 'nes-btn is-error',
-      TREASURE: 'nes-btn is-success',
+      buttonA: 'nes-btn is-error',
+      buttonB: 'nes-btn is-success',
     };
 
-    const buttonToolIcons = {
-      FLAG: 'nes-icon close is-medium',
-      TREASURE: 'nes-icon coin is-medium',
-    };
     return (
       <div id="ToolTouch">
-        <div key={FLAG} className={FLAG}>
+        <div key="buttonA" className="buttonA">
           <button
             type="button"
-            className={buttonTool[FLAG]}
+            className={buttonTool.buttonA}
             onTouchStart={() => toolClick(FLAG)}
             onTouchEnd={() => toolClick(CLEAN)}
           >
-            <i className={buttonToolIcons[FLAG]} />
+            A
           </button>
         </div>
-        <div key={TREASURE} className={TREASURE}>
+        <div key="buttonB" className="buttonB">
           <button
             type="button"
-            className={buttonTool[TREASURE]}
+            className={buttonTool.buttonB}
             onTouchStart={() => {
               toolClick(TREASURE);
               playerAction(NONE, TREASURE);
             }}
             onTouchEnd={() => toolClick(CLEAN)}
           >
-            <i className={buttonToolIcons[TREASURE]} />
+            B
           </button>
         </div>
       </div>
