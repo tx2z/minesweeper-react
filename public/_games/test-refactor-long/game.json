@@ -1,0 +1,21 @@
+{
+  "author": "Jesús Pérez",
+  "cols": 32,
+  "id": "test-refactor-long",
+  "image": "mine-test.png",
+  "imageHeight": 512,
+  "imageWidth": 4096,
+  "name": "Test Game",
+  "theme": "default",
+  "rows": 4,
+  "tiles": {
+    "block": [37],
+    "height": 128,
+    "mines": [38, 39],
+    "number": 128,
+    "playerEnd": 48,
+    "playerStart": 1,
+    "treasures": [27],
+    "width": 128
+  }
+}

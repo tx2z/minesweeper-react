@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed';
 import { connect } from 'react-redux';
 import { gameMoves } from '../../configs';
 import {
@@ -12,6 +13,8 @@ class Player extends React.Component {
     super(props);
 
     const { styles } = this.props;
+
+    this.element = '';
 
     this.moveClasses = {
       LEFT,
@@ -31,13 +34,30 @@ class Player extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.scroll();
+  }
+
+  componentDidUpdate() {
+    this.scroll();
+  }
+
+  scroll() {
+    this.element = document.querySelector('#Player');
+    scrollIntoViewIfNeeded(this.element, {
+      behavior: 'instant',
+      block: 'center',
+      inline: 'center',
+    });
+  }
+
   render() {
     const { direction } = this.props;
 
     const playerClasses = `Player ${this.moveClasses[direction]}`;
 
     return (
-      <div className={playerClasses} />
+      <div id="Player" className={playerClasses} />
     );
   }
 }
