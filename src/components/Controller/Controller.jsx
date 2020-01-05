@@ -11,7 +11,16 @@ import tilesAction from '../../actions/tilesAction';
 import toolsAction from '../../actions/toolsAction';
 import focusAction from '../../actions/focusAction';
 import {
-  LEFT, TOP, RIGHT, BOTTOM, PLAYER, NONE, CLASSIC, CLEAN, FLAG, TREASURE,
+  LEFT,
+  TOP,
+  RIGHT,
+  BOTTOM,
+  PLAYER,
+  NONE,
+  CLASSIC,
+  CLEAN,
+  FLAG,
+  TREASURE,
 } from '../../types/types';
 import { GAME } from '../../types/propTypes';
 import './Controller.scss';
@@ -191,7 +200,7 @@ Controller.propTypes = {
 const Tools = (props) => {
   const { selectedTool, toolClick } = props;
   const toolButtons = tools.map((tool) => {
-    let buttonClases = 'tool nes-btn is-primary';
+    let buttonClases = 'tool';
     if (selectedTool === tool) {
       buttonClases += ' selected';
     }
@@ -219,16 +228,12 @@ const MoveTouch = (props) => {
     };
     const moveTouchButtons = gameMoves.map((movement) => (
       <div key={movement} className={movement}>
-        <button
-          type="button"
-          className="nes-btn is-primary"
-          onTouchStart={() => playerAction(movement)}
-        >
+        <button type="button" className="" onTouchStart={() => playerAction(movement)}>
           <i className={moveIcons[movement]} />
         </button>
       </div>
     ));
-    return (<div id="MoveTouch">{moveTouchButtons}</div>);
+    return <div id="MoveTouch">{moveTouchButtons}</div>;
   }
   return null;
 };
@@ -241,8 +246,8 @@ const ToolTouch = (props) => {
   const { gameType, toolClick, playerAction } = props;
   if (gameType === PLAYER) {
     const buttonTool = {
-      buttonA: 'nes-btn is-error',
-      buttonB: 'nes-btn is-success',
+      buttonA: 'button-styles',
+      buttonB: 'button-styles',
     };
 
     return (

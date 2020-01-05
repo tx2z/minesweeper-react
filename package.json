@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "css.gg": "^1.0.4",
-    "nes.css": "^2.3.0",
     "node-sass": "^4.13.0",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
@@ -17,7 +16,6 @@
     "react-scripts": "^3.3.0",
     "redux": "^4.0.5",
     "scroll-into-view-if-needed": "^2.2.22",
-    "typeface-press-start-2p": "0.0.72",
     "typescript": "^3.7.4"
   },
   "scripts": {

@@ -39,7 +39,7 @@ class Home extends React.Component {
     };
 
     const gameTypeButtons = gameTypes.map((type) => {
-      let buttonClases = 'game-type nes-btn';
+      let buttonClases = 'game-type';
       if (gameType === type) {
         buttonClases += ' selected';
       }
