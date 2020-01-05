@@ -3,13 +3,14 @@
 @import "~css.gg/icons/chevron-right.css";
 @import "~css.gg/icons/chevron-down.css";
 
+@import "../../sass/button-styles";
+
 #MoveTouch {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  border: 1px dashed red;
-  height: 170px;
-  width: 170px;
+  bottom: 10px;
+  left: 10px;
+  height: 155px;
+  width: 155px;
 
   display: grid;
   grid-template-areas:
@@ -18,6 +19,8 @@
     "BOTTOM BOTTOM";
 
   button {
+    @include button-styles(hsl(0, 0%, 84%));
+
     box-sizing: border-box;
     user-select: none;
     width: 48px;
@@ -39,15 +42,18 @@
     grid-area: BOTTOM;
     text-align: center;
   }
+
+  i {
+    position: absolute;
+  }
 }
 
 #ToolTouch {
   position: fixed;
-  bottom: 0;
-  right: 0;
-  border: 1px dashed red;
-  height: 170px;
-  width: 170px;
+  bottom: 10px;
+  right: 10px;
+  height: 155px;
+  width: 155px;
 
   display: grid;
   grid-template-areas: "buttonA buttonB";
@@ -65,9 +71,16 @@
   .buttonA {
     grid-area: buttonA;
     text-align: left;
+    button {
+      @include button-styles(hsl(355, 100%, 52%));
+    }
   }
   .buttonB {
     grid-area: buttonB;
     text-align: right;
+
+    button {
+      @include button-styles(hsl(37, 100%, 64%));
+    }
   }
 }
