@@ -15,3 +15,6 @@ export const PLAYER = 'PLAYER';
 export const CLEAN = 'CLEAN';
 export const FLAG = 'FLAG';
 export const TREASURE = 'TREASURE';
+export const TALK = 'TALK';
+export const TALKCLEAN = 'TALKCLEAN';
+export const ACTION = 'ACTION';

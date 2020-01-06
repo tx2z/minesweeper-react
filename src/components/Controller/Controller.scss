@@ -11,6 +11,7 @@
   left: 10px;
   height: 155px;
   width: 155px;
+  z-index: 4;
 
   display: grid;
   grid-template-areas:
@@ -48,12 +49,13 @@
   }
 }
 
-#ToolTouch {
+#ButtonsTouch {
   position: fixed;
   bottom: 10px;
   right: 10px;
   height: 155px;
   width: 155px;
+  z-index: 4;
 
   display: grid;
   grid-template-areas: "buttonA buttonB";

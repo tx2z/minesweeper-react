@@ -1,8 +1,8 @@
-import PropTypes, { string } from 'prop-types';
+import PropTypes from 'prop-types';
 import { gameMoves } from '../configs';
 
 const {
-  shape, bool, number, array, oneOf,
+  shape, bool, number, array, oneOf, oneOfType, string,
 } = PropTypes;
 
 export const TILE = shape({
@@ -46,6 +46,13 @@ export const GAME = shape({
     mines: array,
     treasures: array,
   }),
+  talk: oneOfType([
+    bool,
+    shape({
+      character: string,
+      text: string,
+    }),
+  ]),
 });
 
 export default GAME;

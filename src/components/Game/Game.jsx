@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import Board from '../Board/Board';
 import Controller from '../Controller/Controller';
+import Talk from '../Talk/Talk';
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
@@ -14,6 +15,7 @@ const Game = () => {
     <div>
       <Board gameId={gameId} theme={theme} />
       <Controller />
+      <Talk />
     </div>
   );
 };

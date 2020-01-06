@@ -10,6 +10,7 @@ import moveAction from '../../actions/moveAction';
 import tilesAction from '../../actions/tilesAction';
 import toolsAction from '../../actions/toolsAction';
 import focusAction from '../../actions/focusAction';
+import talkCleanAction from '../../actions/talkCleanAction';
 import {
   LEFT,
   TOP,
@@ -34,6 +35,7 @@ const Controller = (props) => {
     moveAction: execMoveAction,
     tilesAction: execTileAction,
     focusAction: execFocusAction,
+    talkCleanAction: execTalkCleanAction,
   } = props;
 
   const toolClick = (value) => {
@@ -142,10 +144,14 @@ const Controller = (props) => {
     return null;
   };
 
+  const closeTalk = () => {
+    execTalkCleanAction();
+  };
+
   const HandlersClassic = {
     KEY_CLEAN: () => toolClick(CLEAN),
-    KEY_FLAG: () => toolClick(FLAG),
-    KEY_TREASURE: () => toolClick(TREASURE),
+    KEY_A: () => toolClick(FLAG),
+    KEY_B: () => toolClick(TREASURE),
 
     KEY_LEFT: () => focusTile(LEFT),
     KEY_TOP: () => focusTile(TOP),
@@ -156,8 +162,8 @@ const Controller = (props) => {
   };
 
   const HandlersPlayer = {
-    KEY_FLAG: () => toolClick(FLAG),
-    KEY_TREASURE: () => {
+    KEY_A: () => toolClick(FLAG),
+    KEY_B: () => {
       toolClick(TREASURE);
       playerAction(NONE, TREASURE);
     },
@@ -167,22 +173,39 @@ const Controller = (props) => {
     KEY_RIGHT: (event) => playerAction(RIGHT, CLEAN, event),
     KEY_BOTTOM: (event) => playerAction(BOTTOM, CLEAN, event),
 
-    KEY_FLAG_LEFT: (event) => playerAction(LEFT, FLAG, event),
-    KEY_FLAG_TOP: (event) => playerAction(TOP, FLAG, event),
-    KEY_FLAG_RIGHT: (event) => playerAction(RIGHT, FLAG, event),
-    KEY_FLAG_BOTTOM: (event) => playerAction(BOTTOM, FLAG, event),
+    KEY_A_LEFT: (event) => playerAction(LEFT, FLAG, event),
+    KEY_A_TOP: (event) => playerAction(TOP, FLAG, event),
+    KEY_A_RIGHT: (event) => playerAction(RIGHT, FLAG, event),
+    KEY_A_BOTTOM: (event) => playerAction(BOTTOM, FLAG, event),
 
     KEY_COMMAND_UP: () => toolClick(CLEAN),
   };
 
-  const ControllerHandlers = gameType === PLAYER ? HandlersPlayer : HandlersClassic;
+  const gameTalk = !!game.talk;
+
+  const Handlers = gameType === PLAYER ? HandlersPlayer : HandlersClassic;
+  const HandlersModal = {
+    KEY_A: () => closeTalk(),
+    KEY_B: () => closeTalk(),
+  };
+  const ControllerHandlers = gameTalk ? HandlersModal : Handlers;
 
   return (
     <div id="controller">
       <GlobalHotKeys keyMap={ControllerKeyMap} handlers={ControllerHandlers} allowChanges>
         <Tools selectedTool={selectedTool} toolClick={toolClick} />
-        <MoveTouch gameType={gameType} playerAction={playerAction} />
-        <ToolTouch gameType={gameType} toolClick={toolClick} playerAction={playerAction} />
+        <MoveTouch
+          gameTalk={gameTalk}
+          gameType={gameType}
+          playerAction={playerAction}
+        />
+        <ButtonsTouch
+          gameTalk={gameTalk}
+          gameType={gameType}
+          toolClick={toolClick}
+          playerAction={playerAction}
+          closeTalk={closeTalk}
+        />
       </GlobalHotKeys>
     </div>
   );
@@ -194,6 +217,7 @@ Controller.propTypes = {
   tilesAction: PropTypes.func.isRequired,
   toolsAction: PropTypes.func.isRequired,
   focusAction: PropTypes.func.isRequired,
+  talkCleanAction: PropTypes.func.isRequired,
   game: GAME.isRequired,
 };
 
@@ -218,7 +242,7 @@ Tools.propTypes = {
 };
 
 const MoveTouch = (props) => {
-  const { gameType, playerAction } = props;
+  const { gameType, playerAction, gameTalk } = props;
   if (gameType === PLAYER) {
     const moveIcons = {
       LEFT: 'gg-chevron-left',
@@ -226,9 +250,16 @@ const MoveTouch = (props) => {
       RIGHT: 'gg-chevron-right',
       BOTTOM: 'gg-chevron-down',
     };
+
+    const action = (movement) => {
+      if (!gameTalk) {
+        playerAction(movement);
+      }
+    };
+
     const moveTouchButtons = gameMoves.map((movement) => (
       <div key={movement} className={movement}>
-        <button type="button" className="" onTouchStart={() => playerAction(movement)}>
+        <button type="button" className="" onTouchStart={() => action(movement)}>
           <i className={moveIcons[movement]} />
         </button>
       </div>
@@ -240,23 +271,46 @@ const MoveTouch = (props) => {
 MoveTouch.propTypes = {
   gameType: PropTypes.string.isRequired,
   playerAction: PropTypes.func.isRequired,
+  gameTalk: PropTypes.bool.isRequired,
 };
 
-const ToolTouch = (props) => {
-  const { gameType, toolClick, playerAction } = props;
+const ButtonsTouch = (props) => {
+  const {
+    gameType, toolClick, playerAction, closeTalk, gameTalk,
+  } = props;
   if (gameType === PLAYER) {
     const buttonTool = {
       buttonA: 'button-styles',
       buttonB: 'button-styles',
     };
 
+    const action = (button) => {
+      if (gameTalk) {
+        closeTalk();
+      } else {
+        switch (button) {
+          case 'buttonA': {
+            toolClick(FLAG);
+            break;
+          }
+          case 'buttonB': {
+            toolClick(TREASURE);
+            playerAction(NONE, TREASURE);
+            break;
+          }
+          default:
+            break;
+        }
+      }
+    };
+
     return (
-      <div id="ToolTouch">
+      <div id="ButtonsTouch">
         <div key="buttonA" className="buttonA">
           <button
             type="button"
             className={buttonTool.buttonA}
-            onTouchStart={() => toolClick(FLAG)}
+            onTouchStart={() => action('buttonA')}
             onTouchEnd={() => toolClick(CLEAN)}
           >
             A
@@ -266,10 +320,7 @@ const ToolTouch = (props) => {
           <button
             type="button"
             className={buttonTool.buttonB}
-            onTouchStart={() => {
-              toolClick(TREASURE);
-              playerAction(NONE, TREASURE);
-            }}
+            onTouchStart={() => action('buttonB')}
             onTouchEnd={() => toolClick(CLEAN)}
           >
             B
@@ -280,10 +331,12 @@ const ToolTouch = (props) => {
   }
   return null;
 };
-ToolTouch.propTypes = {
+ButtonsTouch.propTypes = {
   gameType: PropTypes.string.isRequired,
   toolClick: PropTypes.func.isRequired,
   playerAction: PropTypes.func.isRequired,
+  closeTalk: PropTypes.func.isRequired,
+  gameTalk: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -295,6 +348,7 @@ const mapDispatchToProps = (dispatch) => ({
   tilesAction: (payload) => dispatch(tilesAction(payload)),
   toolsAction: (payload) => dispatch(toolsAction(payload)),
   focusAction: (payload) => dispatch(focusAction(payload)),
+  talkCleanAction: (payload) => dispatch(talkCleanAction(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Controller);

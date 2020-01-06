@@ -1,6 +1,6 @@
 import { findTilePosition } from '../functions/generics';
 import {
-  GAME, TILE, MOVE, FOCUS, CLEAN, FLAG, TREASURE, NONE, TOP,
+  GAME, TILE, MOVE, FOCUS, CLEAN, FLAG, TREASURE, NONE, TOP, TALK,
 } from '../types/types';
 
 export default (state = {}, action) => {
@@ -19,6 +19,17 @@ export default (state = {}, action) => {
     }
     case FOCUS: {
       newState.actions.focus = action.tile;
+      return newState;
+    }
+    case TALK: {
+      if (action.clean) {
+        newState.talk = false;
+      } else {
+        newState.talk = {
+          character: action.character,
+          text: action.text,
+        };
+      }
       return newState;
     }
     case TILE: {
@@ -78,6 +89,17 @@ export default (state = {}, action) => {
               });
 
               newState.actions.open = [...new Set([...state.actions.open, ...tilesToOpen])];
+            }
+            break;
+          }
+          default:
+            break;
+        }
+      } else if (state.tiles.block.includes(action.tile)) {
+        switch (action.method) {
+          case FLAG: {
+            if (state.tiles.actionable[action.tile] && state.tiles.actionable[action.tile].talk) {
+              newState.talk = state.tiles.actionable[action.tile].talk;
             }
             break;
           }
