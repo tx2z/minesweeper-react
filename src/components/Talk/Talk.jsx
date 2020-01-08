@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import talkCleanAction from '../../actions/talkCleanAction';
 import { GAME } from '../../types/propTypes';
-import './Talk.scss';
+import Modal from '../Modal/Modal';
 
 const Talk = (props) => {
   const { game, talkCleanAction: execTalkCleanAction } = props;
@@ -19,13 +19,10 @@ const Talk = (props) => {
   };
 
   return (
-    <div className="Talk modal">
-      <div className="modal-content">
-        <div className="character">{character}</div>
-        <div className="text">{text}</div>
-        <button type="button" onClick={closeTalk}>Close</button>
-      </div>
-    </div>
+    <Modal close={closeTalk}>
+      <div className="character">{character}</div>
+      <div className="text">{text}</div>
+    </Modal>
   );
 };
 Talk.propTypes = {
