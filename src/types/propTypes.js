@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { gameMoves } from '../configs';
 
 const {
-  shape, bool, number, array, oneOf, oneOfType, string,
+  shape, bool, number, array, arrayOf, oneOf, oneOfType, string, func, object,
 } = PropTypes;
 
 export const TILE = shape({
@@ -10,6 +10,19 @@ export const TILE = shape({
   flag: bool,
   mine: bool,
   id: number.isRequired,
+});
+
+export const MODAL = shape({
+  show: PropTypes.bool.isRequired,
+  content: oneOfType([
+    bool,
+    object,
+  ]).isRequired,
+  callback: oneOfType([
+    bool,
+    func,
+  ]).isRequired,
+  modalType: string.isRequired,
 });
 
 export const GAME = shape({
@@ -48,10 +61,12 @@ export const GAME = shape({
   }),
   talk: oneOfType([
     bool,
-    shape({
-      character: string,
-      text: string,
-    }),
+    arrayOf(
+      shape({
+        character: string,
+        text: string,
+      }),
+    ),
   ]),
 });
 

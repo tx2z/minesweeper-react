@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import configureStore from './store';
 import Game from './components/Game/Game';
 import Home from './components/Home/Home';
+import Modal from './components/Modal/Modal';
 import * as serviceWorker from './serviceWorker';
 import './index.scss';
 
@@ -16,15 +17,14 @@ ReactDOM.render(
         <title>Minesweeper & Treasures</title>
       </Helmet>
 
-      <div>
-        <aside>
-          <Link to="/">Home</Link>
-        </aside>
-        <main>
-          <Route path="/game/:gameId" component={Game} />
-          <Route exact path="/" component={Home} />
-        </main>
-      </div>
+      <aside>
+        <Link to="/">Home</Link>
+      </aside>
+      <main>
+        <Route path="/game/:gameId" component={Game} />
+        <Route exact path="/" component={Home} />
+      </main>
+      <Modal />
     </Router>
   </Provider>,
   document.getElementById('root'),

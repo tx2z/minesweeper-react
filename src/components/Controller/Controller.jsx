@@ -5,12 +5,12 @@ import { MobileView } from 'react-device-detect';
 import { GlobalHotKeys } from 'react-hotkeys';
 import { ControllerKeyMap } from './ControllerKeyMap';
 import { gameMoves, tools } from '../../configs';
-import { findTilePosition } from '../../functions/generics';
+import { findTilePosition, showModal } from '../../functions/generics';
 import moveAction from '../../actions/moveAction';
 import tilesAction from '../../actions/tilesAction';
 import toolsAction from '../../actions/toolsAction';
 import focusAction from '../../actions/focusAction';
-import talkCleanAction from '../../actions/talkCleanAction';
+import modalAction from '../../actions/modalAction';
 import {
   LEFT,
   TOP,
@@ -23,20 +23,26 @@ import {
   FLAG,
   TREASURE,
 } from '../../types/types';
-import { GAME } from '../../types/propTypes';
+import { GAME, MODAL } from '../../types/propTypes';
 import './Controller.scss';
 
 const Controller = (props) => {
   const {
     game,
+    modal,
     gameType,
     tool: selectedTool,
     toolsAction: chooseTool,
     moveAction: execMoveAction,
     tilesAction: execTileAction,
     focusAction: execFocusAction,
-    talkCleanAction: execTalkCleanAction,
+    modalAction: execModalAction,
   } = props;
+  const modalArgs = {
+    modalAction: execModalAction,
+    show: false,
+  };
+  const closeModal = () => showModal(modalArgs);
 
   const toolClick = (value) => {
     const payload = {
@@ -144,10 +150,6 @@ const Controller = (props) => {
     return null;
   };
 
-  const closeTalk = () => {
-    execTalkCleanAction();
-  };
-
   const HandlersClassic = {
     KEY_CLEAN: () => toolClick(CLEAN),
     KEY_A: () => toolClick(FLAG),
@@ -181,30 +183,30 @@ const Controller = (props) => {
     KEY_COMMAND_UP: () => toolClick(CLEAN),
   };
 
-  const gameTalk = !!game.talk;
+  const modalOpen = modal.show;
 
   const Handlers = gameType === PLAYER ? HandlersPlayer : HandlersClassic;
   const HandlersModal = {
-    KEY_A: () => closeTalk(),
-    KEY_B: () => closeTalk(),
+    KEY_A: () => closeModal(),
+    KEY_B: () => closeModal(),
   };
-  const ControllerHandlers = gameTalk ? HandlersModal : Handlers;
+  const ControllerHandlers = modalOpen ? HandlersModal : Handlers;
 
   return (
     <div id="controller">
       <GlobalHotKeys keyMap={ControllerKeyMap} handlers={ControllerHandlers} allowChanges>
         <Tools selectedTool={selectedTool} toolClick={toolClick} />
         <MoveTouch
-          gameTalk={gameTalk}
+          modalOpen={modalOpen}
           gameType={gameType}
           playerAction={playerAction}
         />
         <ButtonsTouch
-          gameTalk={gameTalk}
+          modalOpen={modalOpen}
           gameType={gameType}
           toolClick={toolClick}
           playerAction={playerAction}
-          closeTalk={closeTalk}
+          closeModal={closeModal}
         />
       </GlobalHotKeys>
     </div>
@@ -212,12 +214,13 @@ const Controller = (props) => {
 };
 Controller.propTypes = {
   tool: PropTypes.string.isRequired,
+  modal: MODAL.isRequired,
   gameType: PropTypes.string.isRequired,
   moveAction: PropTypes.func.isRequired,
   tilesAction: PropTypes.func.isRequired,
   toolsAction: PropTypes.func.isRequired,
   focusAction: PropTypes.func.isRequired,
-  talkCleanAction: PropTypes.func.isRequired,
+  modalAction: PropTypes.func.isRequired,
   game: GAME.isRequired,
 };
 
@@ -242,7 +245,7 @@ Tools.propTypes = {
 };
 
 const MoveTouch = (props) => {
-  const { gameType, playerAction, gameTalk } = props;
+  const { gameType, playerAction, modalOpen } = props;
   if (gameType === PLAYER) {
     const moveIcons = {
       LEFT: 'gg-chevron-left',
@@ -252,7 +255,7 @@ const MoveTouch = (props) => {
     };
 
     const action = (movement) => {
-      if (!gameTalk) {
+      if (!modalOpen) {
         playerAction(movement);
       }
     };
@@ -271,12 +274,12 @@ const MoveTouch = (props) => {
 MoveTouch.propTypes = {
   gameType: PropTypes.string.isRequired,
   playerAction: PropTypes.func.isRequired,
-  gameTalk: PropTypes.bool.isRequired,
+  modalOpen: PropTypes.bool.isRequired,
 };
 
 const ButtonsTouch = (props) => {
   const {
-    gameType, toolClick, playerAction, closeTalk, gameTalk,
+    gameType, toolClick, playerAction, closeModal, modalOpen,
   } = props;
   if (gameType === PLAYER) {
     const buttonTool = {
@@ -285,8 +288,8 @@ const ButtonsTouch = (props) => {
     };
 
     const action = (button) => {
-      if (gameTalk) {
-        closeTalk();
+      if (modalOpen) {
+        closeModal();
       } else {
         switch (button) {
           case 'buttonA': {
@@ -335,8 +338,8 @@ ButtonsTouch.propTypes = {
   gameType: PropTypes.string.isRequired,
   toolClick: PropTypes.func.isRequired,
   playerAction: PropTypes.func.isRequired,
-  closeTalk: PropTypes.func.isRequired,
-  gameTalk: PropTypes.bool.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  modalOpen: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -348,7 +351,7 @@ const mapDispatchToProps = (dispatch) => ({
   tilesAction: (payload) => dispatch(tilesAction(payload)),
   toolsAction: (payload) => dispatch(toolsAction(payload)),
   focusAction: (payload) => dispatch(focusAction(payload)),
-  talkCleanAction: (payload) => dispatch(talkCleanAction(payload)),
+  modalAction: (payload) => dispatch(modalAction(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Controller);
