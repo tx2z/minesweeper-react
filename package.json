@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@openfonts/aclonica_latin": "^1.44.0",
     "css.gg": "^1.0.4",
     "magic.css": "^1.4.5",
     "node-sass": "^4.13.0",
