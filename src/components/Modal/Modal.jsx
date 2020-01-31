@@ -1,24 +1,74 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import Rodal from 'rodal';
+import modalAction from '../../actions/modalAction';
+import { showModal } from '../../functions/generics';
 import './Modal.scss';
+import { DELETE, TALK } from '../../types/types';
+import { MODAL } from '../../types/propTypes';
 
 const Modal = (props) => {
-  const { children, close } = props;
+  const { modal, modalAction: execModalAction } = props;
+
+  const execCallback = () => {
+    if (!modal.show && modal.content) {
+      const modalArgs = {
+        modalAction: execModalAction,
+        show: false,
+        content: DELETE,
+      };
+      showModal(modalArgs);
+      modal.callback();
+    }
+  };
+
+  const showCloseButton = () => {
+    if (modal.modalType !== TALK) {
+      return (
+        <button
+          type="button"
+          onClick={() => showModal({ modalAction: execModalAction, show: false })}
+        >
+        X
+        </button>
+      );
+    }
+    return '';
+  };
+
+  const closeButton = showCloseButton();
+
   return (
-    <div className="modal">
+    <Rodal
+      visible={modal.show}
+      onAnimationEnd={execCallback}
+      onClose={execCallback}
+      showCloseButton={false}
+      animation="slideDown"
+      width={80}
+      height={60}
+      measure="%"
+      className={modal.modalType}
+    >
       <div className="modal-content">
-        {children}
-        <button type="button" onClick={close}>Close</button>
+        {modal.content}
+        {closeButton}
       </div>
-    </div>
+    </Rodal>
   );
 };
 Modal.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
-  close: PropTypes.func.isRequired,
+  modal: MODAL.isRequired,
+  modalAction: PropTypes.func.isRequired,
 };
 
-export default Modal;
+const mapStateToProps = (state) => ({
+  ...state,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  modalAction: (payload) => dispatch(modalAction(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Modal);

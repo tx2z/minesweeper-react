@@ -18,3 +18,5 @@ export const TREASURE = 'TREASURE';
 export const TALK = 'TALK';
 export const TALKCLEAN = 'TALKCLEAN';
 export const ACTION = 'ACTION';
+export const MODAL = 'MODAL';
+export const DELETE = 'DELETE';

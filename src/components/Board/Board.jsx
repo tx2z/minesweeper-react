@@ -3,11 +3,15 @@ import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Tile from '../Tile/Tile';
+import Talk from '../Talk/Talk';
 import gameAction from '../../actions/gameAction';
 import stylesAction from '../../actions/stylesAction';
+import modalAction from '../../actions/modalAction';
+import talkCleanAction from '../../actions/talkCleanAction';
 import { prepareGame } from '../../functions/prepareGame';
-import { GAME } from '../../types/propTypes';
-import { CLASSIC } from '../../types/types';
+import { showModal } from '../../functions/generics';
+import { GAME, MODAL } from '../../types/propTypes';
+import { CLASSIC, TALK } from '../../types/types';
 import './Board.scss';
 
 class Board extends React.Component {
@@ -51,14 +55,20 @@ class Board extends React.Component {
   }
 
   render() {
-    const { game, gameType, styles } = this.props;
+    const {
+      game,
+      modal,
+      gameType,
+      styles,
+      modalAction: execModalAction,
+      talkCleanAction: execTalkCleanAction,
+    } = this.props;
 
     if (!game.loaded) {
       return <div className="Loading">Loading...</div>;
     }
 
     const gameTile = `${game.name} | Minesweeper & Treasures`;
-
     const gameImage = `${process.env.REACT_APP_GAMES_ROOT}/${game.id}/${game.image}`;
     const boardStyles = {
       backgroundImage: `url(${gameImage})`,
@@ -83,6 +93,24 @@ class Board extends React.Component {
         alert('YOU WIN');
       }
     };
+
+    if (game.talk && !modal.show && !modal.content) {
+      const talkConversation = [];
+      game.talk.slice(0).reverse().forEach((talk, key) => {
+        const talkKey = game.talk.length - 1 - key;
+        const modalArgs = {
+          modalAction: execModalAction,
+          content: <Talk index={talkKey} />,
+          type: TALK,
+          callback: execTalkCleanAction,
+        };
+        if (key !== 0) {
+          modalArgs.callback = () => showModal(talkConversation[key - 1]);
+        }
+        talkConversation.push(modalArgs);
+      });
+      showModal(talkConversation[talkConversation.length - 1]);
+    }
 
     const newTiles = () => {
       const gameTiles = [];
@@ -118,7 +146,10 @@ class Board extends React.Component {
 Board.propTypes = {
   gameAction: PropTypes.func.isRequired,
   stylesAction: PropTypes.func.isRequired,
+  modalAction: PropTypes.func.isRequired,
+  talkCleanAction: PropTypes.func.isRequired,
   game: GAME.isRequired,
+  modal: MODAL.isRequired,
   gameType: PropTypes.string.isRequired,
   styles: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
   theme: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
@@ -132,6 +163,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   gameAction: (payload) => dispatch(gameAction(payload)),
   stylesAction: (payload) => dispatch(stylesAction(payload)),
+  modalAction: (payload) => dispatch(modalAction(payload)),
+  talkCleanAction: (payload) => dispatch(talkCleanAction(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);

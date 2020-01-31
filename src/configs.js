@@ -1,5 +1,5 @@
 import {
-  CLASSIC, PLAYER, LEFT, TOP, RIGHT, BOTTOM, CLEAN, FLAG, TREASURE,
+  CLASSIC, PLAYER, LEFT, TOP, RIGHT, BOTTOM, CLEAN, FLAG, TREASURE, MODAL,
 } from './types/types';
 
 export const initialState = {
@@ -9,6 +9,12 @@ export const initialState = {
   tool: CLEAN,
   styles: '',
   gameType: PLAYER,
+  modal: {
+    show: false,
+    content: false,
+    callback: false,
+    modalType: MODAL,
+  },
 };
 
 export const gameTypes = [CLASSIC, PLAYER];

@@ -1,40 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import talkCleanAction from '../../actions/talkCleanAction';
 import { GAME } from '../../types/propTypes';
-import Modal from '../Modal/Modal';
+import './Talk.scss';
 
 const Talk = (props) => {
-  const { game, talkCleanAction: execTalkCleanAction } = props;
+  const { game, index } = props;
 
   if (!game.talk) {
     return '';
   }
 
-  const { character, text } = game.talk;
+  const { character, text } = game.talk[index];
 
-  const closeTalk = () => {
-    execTalkCleanAction();
-  };
-
-  return (
-    <Modal close={closeTalk}>
-      <div className="character">{character}</div>
-      <div className="text">{text}</div>
-    </Modal>
-  );
+  return <div className="Talk">{`${character}: ${text}`}</div>;
 };
 Talk.propTypes = {
   game: GAME.isRequired,
-  talkCleanAction: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   ...state,
 });
-const mapDispatchToProps = (dispatch) => ({
-  talkCleanAction: (payload) => dispatch(talkCleanAction(payload)),
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Talk);
+export default connect(mapStateToProps)(Talk);
