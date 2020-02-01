@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Tile from '../Tile/Tile';
 import Talk from '../Talk/Talk';
+import GameOver from '../GameOver/GameOver';
 import gameAction from '../../actions/gameAction';
 import stylesAction from '../../actions/stylesAction';
 import modalAction from '../../actions/modalAction';
@@ -11,7 +12,9 @@ import talkCleanAction from '../../actions/talkCleanAction';
 import { prepareGame } from '../../functions/prepareGame';
 import { showModal } from '../../functions/generics';
 import { GAME, MODAL } from '../../types/propTypes';
-import { CLASSIC, TALK } from '../../types/types';
+import {
+  CLASSIC, TALK, OVER, MINE,
+} from '../../types/types';
 import './Board.scss';
 
 class Board extends React.Component {
@@ -66,6 +69,16 @@ class Board extends React.Component {
 
     if (!game.loaded) {
       return <div className="Loading">Loading...</div>;
+    }
+
+    if (game.over && !modal.show && !modal.content) {
+      console.log('GAME OVER');
+      const modalArgs = {
+        modalAction: execModalAction,
+        content: <GameOver reason={MINE} />,
+        type: OVER,
+      };
+      showModal(modalArgs);
     }
 
     const gameTile = `${game.name} | Minesweeper & Treasures`;

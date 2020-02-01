@@ -4,10 +4,13 @@
 .rodal-dialog {
   .modal-content {
     button {
-      position: absolute;
-      top: 20px;
-      right: 15px;
       @include button-styles(hsl(37, 100%, 64%));
+
+      &.close {
+        position: absolute;
+        top: 20px;
+        right: 15px;
+      }
     }
   }
 }

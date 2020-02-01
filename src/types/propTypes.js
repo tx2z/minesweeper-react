@@ -17,6 +17,7 @@ export const MODAL = shape({
   content: oneOfType([
     bool,
     object,
+    string,
   ]).isRequired,
   callback: oneOfType([
     bool,
@@ -27,6 +28,8 @@ export const MODAL = shape({
 
 export const GAME = shape({
   loaded: bool.isRequired,
+  over: bool,
+  controller: bool,
   rows: number,
   cols: number,
   name: string,

@@ -52,9 +52,10 @@ class Player extends React.Component {
   }
 
   render() {
-    const { direction } = this.props;
+    const { direction, mine } = this.props;
 
-    const playerClasses = `Player ${this.moveClasses[direction]}`;
+    const hitMine = 'magictime bombLeftOut';
+    const playerClasses = `Player ${mine ? hitMine : this.moveClasses[direction]}`;
 
     return (
       <div id="Player" className={playerClasses} />
@@ -64,6 +65,7 @@ class Player extends React.Component {
 Player.propTypes = {
   styles: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
   direction: PropTypes.oneOf(gameMoves).isRequired,
+  mine: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({

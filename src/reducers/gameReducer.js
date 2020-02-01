@@ -1,6 +1,6 @@
 import { findTilePosition } from '../functions/generics';
 import {
-  GAME, TILE, MOVE, FOCUS, CLEAN, FLAG, TREASURE, NONE, TOP, TALK,
+  GAME, TILE, MOVE, FOCUS, CLEAN, FLAG, TREASURE, NONE, TOP, TALK, OVER, CONTROLLER,
 } from '../types/types';
 
 export default (state = {}, action) => {
@@ -8,6 +8,14 @@ export default (state = {}, action) => {
   switch (action.type) {
     case GAME: {
       return action.game;
+    }
+    case OVER: {
+      newState.over = action.value;
+      return newState;
+    }
+    case CONTROLLER: {
+      newState.controller = action.value;
+      return newState;
     }
     case MOVE: {
       const direction = action.direction === NONE ? TOP : action.direction;

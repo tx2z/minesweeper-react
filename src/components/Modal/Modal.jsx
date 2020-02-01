@@ -5,7 +5,7 @@ import Rodal from 'rodal';
 import modalAction from '../../actions/modalAction';
 import { showModal } from '../../functions/generics';
 import './Modal.scss';
-import { DELETE, TALK } from '../../types/types';
+import { DELETE, TALK, OVER } from '../../types/types';
 import { MODAL } from '../../types/propTypes';
 
 const Modal = (props) => {
@@ -19,14 +19,17 @@ const Modal = (props) => {
         content: DELETE,
       };
       showModal(modalArgs);
-      modal.callback();
+      if (modal.callback) {
+        modal.callback();
+      }
     }
   };
 
   const showCloseButton = () => {
-    if (modal.modalType !== TALK) {
+    if (modal.modalType !== TALK && modal.modalType !== OVER) {
       return (
         <button
+          className="close"
           type="button"
           onClick={() => showModal({ modalAction: execModalAction, show: false })}
         >

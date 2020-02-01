@@ -69,6 +69,8 @@ export const prepareGame = (gameData) => {
   game.tiles.position = tilesPosition(game);
   game.tiles.minesAround = tilesMines(game);
   game.talk = false;
+  game.over = false;
+  game.controller = true;
   game.loaded = true;
 
   return game;

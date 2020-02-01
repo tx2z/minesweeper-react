@@ -38,6 +38,11 @@ const Controller = (props) => {
     focusAction: execFocusAction,
     modalAction: execModalAction,
   } = props;
+
+  if (!game.controller) {
+    return '';
+  }
+
   const modalArgs = {
     modalAction: execModalAction,
     show: false,

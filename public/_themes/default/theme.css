@@ -20,6 +20,9 @@ THEME AUTOR:@tx2z
   background-repeat: no-repeat;
   background-size: 1em;
 }
+.tile.open.mine {
+  background-image: url(/_themes/default/img/explosion.png);
+}
 
 /* flag */
 .tile .flag,
