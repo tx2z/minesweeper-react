@@ -18,13 +18,18 @@ const GameOver = (props) => {
     gameControllerAction: showController,
   } = props;
 
-  if (game.controller) {
+  if (game.controller && game.over) {
     showController({ value: false });
   }
 
   const returnHome = () => {
     showModal({ modalAction: execModalAction, show: false });
     history.push('/');
+  };
+
+  const reload = () => {
+    showModal({ modalAction: execModalAction, show: false });
+    history.push(`/refresh${history.location.pathname}`);
   };
   const loadMessage = () => {
     if (reason === MINE) {
@@ -41,6 +46,9 @@ const GameOver = (props) => {
       <div className="buttons">
         <button type="button" onClick={() => returnHome()}>
           Return to the home page
+        </button>
+        <button type="button" onClick={() => reload()}>
+          Play again
         </button>
       </div>
     </div>

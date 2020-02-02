@@ -7,6 +7,7 @@ import configureStore from './store';
 import Game from './components/Game/Game';
 import Home from './components/Home/Home';
 import Modal from './components/Modal/Modal';
+import Refresh from './components/Refresh/Refresh';
 import * as serviceWorker from './serviceWorker';
 import './index.scss';
 
@@ -23,6 +24,7 @@ ReactDOM.render(
       <main>
         <Route path="/game/:gameId" component={Game} />
         <Route exact path="/" component={Home} />
+        <Refresh path="/refresh" />
       </main>
       <Modal />
     </Router>
