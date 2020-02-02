@@ -1,5 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
@@ -14,19 +14,21 @@ import './index.scss';
 ReactDOM.render(
   <Provider store={configureStore()}>
     <Router>
-      <Helmet>
-        <title>Minesweeper & Treasures</title>
-      </Helmet>
+      <HelmetProvider>
+        <Helmet>
+          <title>Minesweeper & Treasures</title>
+        </Helmet>
 
-      <aside>
-        <Link to="/">Home</Link>
-      </aside>
-      <main>
-        <Route path="/game/:gameId" component={Game} />
-        <Route exact path="/" component={Home} />
-        <Refresh path="/refresh" />
-      </main>
-      <Modal />
+        <aside>
+          <Link to="/">Home</Link>
+        </aside>
+        <main>
+          <Route path="/game/:gameId" component={Game} />
+          <Route exact path="/" component={Home} />
+          <Refresh path="/refresh" />
+        </main>
+        <Modal />
+      </HelmetProvider>
     </Router>
   </Provider>,
   document.getElementById('root'),
