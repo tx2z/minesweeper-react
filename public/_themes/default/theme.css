@@ -22,6 +22,8 @@ THEME AUTOR:@tx2z
 }
 .tile.open.mine {
   background-image: url(/_themes/default/img/explosion.png);
+  animation: vanishIn 0.5s;
+  animation-fill-mode: both;
 }
 
 /* flag */
@@ -122,5 +124,26 @@ THEME AUTOR:@tx2z
     background-position-x: -2em;
   }
   100% {
+  }
+}
+
+@keyframes vanishIn {
+  0% {
+    opacity: 0;
+    -webkit-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(2, 2);
+    transform: scale(2, 2);
+    -webkit-filter: blur(90px);
+    filter: blur(90px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    -webkit-filter: blur(0px);
+    filter: blur(0px);
   }
 }
