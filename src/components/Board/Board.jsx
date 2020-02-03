@@ -12,9 +12,7 @@ import talkCleanAction from '../../actions/talkCleanAction';
 import { prepareGame } from '../../functions/prepareGame';
 import { showModal } from '../../functions/generics';
 import { GAME, MODAL } from '../../types/propTypes';
-import {
-  CLASSIC, TALK, OVER, MINE,
-} from '../../types/types';
+import { CLASSIC, TALK, OVER } from '../../types/types';
 import './Board.scss';
 
 class Board extends React.Component {
@@ -75,7 +73,7 @@ class Board extends React.Component {
       console.log('GAME OVER');
       const modalArgs = {
         modalAction: execModalAction,
-        content: <GameOver reason={MINE} />,
+        content: <GameOver reason={game.overReason} />,
         type: OVER,
       };
       showModal(modalArgs);
@@ -109,19 +107,22 @@ class Board extends React.Component {
 
     if (game.talk && !modal.show && !modal.content) {
       const talkConversation = [];
-      game.talk.slice(0).reverse().forEach((talk, key) => {
-        const talkKey = game.talk.length - 1 - key;
-        const modalArgs = {
-          modalAction: execModalAction,
-          content: <Talk index={talkKey} />,
-          type: TALK,
-          callback: execTalkCleanAction,
-        };
-        if (key !== 0) {
-          modalArgs.callback = () => showModal(talkConversation[key - 1]);
-        }
-        talkConversation.push(modalArgs);
-      });
+      game.talk
+        .slice(0)
+        .reverse()
+        .forEach((talk, key) => {
+          const talkKey = game.talk.length - 1 - key;
+          const modalArgs = {
+            modalAction: execModalAction,
+            content: <Talk index={talkKey} />,
+            type: TALK,
+            callback: execTalkCleanAction,
+          };
+          if (key !== 0) {
+            modalArgs.callback = () => showModal(talkConversation[key - 1]);
+          }
+          talkConversation.push(modalArgs);
+        });
       showModal(talkConversation[talkConversation.length - 1]);
     }
 

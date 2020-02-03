@@ -8,6 +8,7 @@
   "name": "Test Game",
   "theme": "default",
   "rows": 6,
+  "endMessage": "Well Done Adventurer",
   "tiles": {
     "actionable": {
       "13": {
@@ -27,7 +28,7 @@
     "height": 64,
     "mines": [29, 30],
     "number": 48,
-    "playerEnd": 48,
+    "playerEnd": 32,
     "playerStart": 1,
     "treasures": [27],
     "width": 64

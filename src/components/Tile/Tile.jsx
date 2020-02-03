@@ -9,7 +9,7 @@ import Player from '../Player/Player';
 import './Tile.scss';
 import { GAME } from '../../types/propTypes';
 import {
-  CLASSIC, PLAYER, CLEAN, OVER,
+  CLASSIC, PLAYER, CLEAN, OVER, MINE, LASTTILE,
 } from '../../types/types';
 
 class Tile extends React.Component {
@@ -46,15 +46,28 @@ class Tile extends React.Component {
       gameOverAction: execgameOverAction,
     } = this.props;
 
-    // Check if you hit a mine
-    if (!game.over && game.actions.open.includes(index) && game.tiles.mines.includes(index)) {
-      this.playerMine = true;
-      // Stop the game
+    const stopGame = (reason) => {
       const gameOverPayload = {
         method: OVER,
         value: true,
+        reason,
       };
       execgameOverAction(gameOverPayload);
+    };
+
+    // Check if hit a mine
+    if (
+      !game.over
+      && game.actions.open.includes(index)
+      && game.tiles.mines.includes(index)
+    ) {
+      this.playerMine = true;
+      stopGame(MINE);
+    }
+
+    // Check if it's the end tile
+    if (!game.over && !game.cancelOver && game.actions.player === game.tiles.playerEnd) {
+      stopGame(LASTTILE);
     }
 
     if (gameType === PLAYER) {

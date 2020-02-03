@@ -28,7 +28,10 @@ export const MODAL = shape({
 
 export const GAME = shape({
   loaded: bool.isRequired,
+  history: array,
   over: bool,
+  overReason: string,
+  cancelOver: bool,
   controller: bool,
   rows: number,
   cols: number,
@@ -38,6 +41,7 @@ export const GAME = shape({
   image: string,
   imageHeight: number,
   imageWidth: number,
+  endMessage: string,
   tiles: shape({
     number,
     width: number,

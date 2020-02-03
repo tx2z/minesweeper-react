@@ -70,7 +70,10 @@ export const prepareGame = (gameData) => {
   game.tiles.minesAround = tilesMines(game);
   game.talk = false;
   game.over = false;
+  game.cancelOver = false;
+  game.overReason = '';
   game.controller = true;
+  game.history = [];
   game.loaded = true;
 
   return game;

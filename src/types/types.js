@@ -22,4 +22,5 @@ export const MODAL = 'MODAL';
 export const DELETE = 'DELETE';
 export const OVER = 'OVER';
 export const MINE = 'MINE';
+export const LASTTILE = 'LASTTILE';
 export const CONTROLLER = 'CONTROLLER';

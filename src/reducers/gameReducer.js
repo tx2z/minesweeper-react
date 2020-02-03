@@ -5,12 +5,19 @@ import {
 
 export default (state = {}, action) => {
   const newState = JSON.parse(JSON.stringify(state));
+  // cancel over should be always false if not explicity defined
+  if (newState.cancelOver) {
+    newState.cancelOver = false;
+  }
+
   switch (action.type) {
     case GAME: {
       return action.game;
     }
     case OVER: {
       newState.over = action.value;
+      newState.overReason = action.reason;
+      newState.cancelOver = action.cancelOver;
       return newState;
     }
     case CONTROLLER: {
