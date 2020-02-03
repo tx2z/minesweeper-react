@@ -51,7 +51,22 @@ const GameOver = (props) => {
       return { title: 'You hit a mine', msg: '' };
     }
     if (reason === LASTTILE) {
-      return { title: 'Level finished!', msg: game.endMessage || 'You did it!' };
+      const resultMines = `Found mines: ${game.found.mines.length}/${game.tiles.mines.length}`;
+      const resultTreasures = `Found treasures: ${game.found.treasures.length}/${game.tiles.treasures.length}`;
+      const msg = (
+        <div>
+          <p>{game.endMessage || 'You reach the end of the level!'}</p>
+          <p>
+            {resultMines}
+            <br />
+            {resultTreasures}
+          </p>
+        </div>
+      );
+      return {
+        title: 'Level finished!',
+        msg,
+      };
     }
     return { title: 'GAME OVER', msg: '' };
   };
@@ -73,7 +88,7 @@ const GameOver = (props) => {
   return (
     <div className="GameOver">
       <h2>{message.title}</h2>
-      <p>{message.msg}</p>
+      {message.msg}
       <div className="buttons">
         {extrabuttons}
         <button type="button" onClick={() => returnHome()}>
