@@ -6,7 +6,7 @@
     "@openfonts/aclonica_latin": "^1.44.0",
     "css.gg": "^1.0.4",
     "magic.css": "^1.4.5",
-    "node-sass": "^4.13.0",
+    "node-sass": "^7.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-device-detect": "^1.11.14",
