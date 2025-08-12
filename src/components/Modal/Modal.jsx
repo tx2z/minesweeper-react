@@ -30,7 +30,7 @@ const Modal = (props) => {
           type="button"
           onClick={() => showModal({ modalAction: execModalAction, show: false })}
         >
-        X
+          X
         </button>
       );
     }

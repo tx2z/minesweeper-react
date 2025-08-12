@@ -2,30 +2,34 @@
   "name": "minesweeper",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.14.0",
   "dependencies": {
     "@openfonts/aclonica_latin": "^1.44.0",
     "css.gg": "^1.0.4",
     "magic.css": "^1.4.5",
-    "node-sass": "^4.13.0",
-    "prop-types": "^15.7.2",
-    "react": "^16.12.0",
+    "prop-types": "^15.8.1",
+    "react": "^18.3.1",
     "react-device-detect": "^1.11.14",
-    "react-dom": "^16.12.0",
+    "react-dom": "^18.3.1",
     "react-helmet": "^5.2.1",
     "react-hotkeys": "^2.0.0",
-    "react-redux": "^7.1.3",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.3.0",
-    "redux": "^4.0.5",
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^6.30.1",
+    "react-scripts": "^5.0.1",
+    "redux": "^5.0.1",
     "rodal": "^1.7.0",
+    "sass": "^1.90.0",
     "scroll-into-view-if-needed": "^2.2.22",
-    "typescript": "^3.7.4"
+    "typescript": "^5.9.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "react-scripts eject",
+    "lint": "eslint \"src/**/*.{js,jsx}\"",
+    "lint:fix": "eslint --fix \"src/**/*.{js,jsx}\"",
+    "format": "prettier --write ."
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -43,13 +47,22 @@
     ]
   },
   "devDependencies": {
-    "babel-eslint": "^10.0.3",
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb": "^18.0.1",
-    "eslint-plugin-import": "^2.19.1",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.17.0",
-    "eslint-plugin-react-hooks": "^1.7.0",
-    "prettier-eslint": "^9.0.1"
+    "@babel/core": "^7.28.0",
+    "@babel/eslint-parser": "^7.28.0",
+    "@babel/preset-react": "^7.27.1",
+    "@craco/craco": "^7.1.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^9.1.2",
+    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "prettier": "^3.6.2",
+    "prettier-eslint": "^9.0.1",
+    "sass-embedded": "^1.90.0",
+    "sass-loader": "^14.2.1"
   }
 }

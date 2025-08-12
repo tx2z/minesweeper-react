@@ -1,4 +1,4 @@
-@import "~@openfonts/aclonica_latin";
+@use '@openfonts/aclonica_latin' as *;
 body {
-  font-family: "Aclonica", sans-serif;
+  font-family: 'Aclonica', sans-serif;
 }

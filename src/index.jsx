@@ -1,8 +1,8 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Link, Routes, Route } from 'react-router-dom';
 import configureStore from './store';
 import Game from './components/Game/Game';
 import Home from './components/Home/Home';
@@ -10,7 +10,10 @@ import Modal from './components/Modal/Modal';
 import * as serviceWorker from './serviceWorker';
 import './index.scss';
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container);
+
+root.render(
   <Provider store={configureStore()}>
     <Router>
       <Helmet>
@@ -21,13 +24,14 @@ ReactDOM.render(
         <Link to="/">Home</Link>
       </aside>
       <main>
-        <Route path="/game/:gameId" component={Game} />
-        <Route exact path="/" component={Home} />
+        <Routes>
+          <Route path="/game/:gameId" element={<Game />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
       </main>
       <Modal />
     </Router>
   </Provider>,
-  document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change

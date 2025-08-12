@@ -28,9 +28,7 @@ export const showModal = (args) => {
     callback: null,
   };
   const argsWithDefaults = { ...argsDefault, ...args };
-  const {
-    modalAction, show, content, type, callback,
-  } = argsWithDefaults;
+  const { modalAction, show, content, type, callback } = argsWithDefaults;
 
   const payload = {
     show,

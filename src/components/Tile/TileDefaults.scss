@@ -1,10 +1,10 @@
-@import "~css.gg/icons/flag.css";
-@import "~css.gg/icons/gift.css";
+@import url('css.gg/icons/flag.css');
+@import url('css.gg/icons/gift.css');
 
 .tile {
   &.open {
     &::before {
-      content: ".";
+      content: '.';
       position: absolute;
       bottom: 0;
       right: 0;

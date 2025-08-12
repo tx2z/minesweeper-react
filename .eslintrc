@@ -1,9 +1,42 @@
 {
-  "parser": "babel-eslint",
-  "extends": "airbnb",
-  "plugins": ["react", "jsx-a11y", "import"],
-  "env": { "browser": true },
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "requireConfigFile": false,
+    "babelOptions": {
+      "presets": [
+        "@babel/preset-react"
+      ]
+    }
+  },
+  "extends": [
+    "airbnb",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": [
+    "react",
+    "jsx-a11y",
+    "import",
+    "prettier"
+  ],
+  "env": {
+    "browser": true
+  },
   "rules": {
-    "linebreak-style": 0
+    "prettier/prettier": [
+      "error"
+    ],
+    "linebreak-style": 0,
+    "react/function-component-definition": "off",
+    "no-unused-vars": "warn",
+    "jsx-a11y/control-has-associated-label": "off",
+    "react/jsx-indent": "off",
+    "object-curly-newline": "off",
+    "comma-dangle": "off",
+    "default-param-last": "off",
+    "no-use-before-define": "off",
+    "no-param-reassign": "off",
+    "react/forbid-prop-types": "off",
+    "no-alert": "warn",
+    "no-console": "warn"
   }
 }

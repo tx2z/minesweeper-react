@@ -1,0 +1,10 @@
+node_modules
+build
+coverage
+public
+*.min.js
+*.css
+
+# Keep theme CSS files unformatted
+public/_themes/**
+

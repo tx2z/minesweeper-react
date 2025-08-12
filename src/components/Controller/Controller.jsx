@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { MobileView } from 'react-device-detect';
+// import { MobileView } from 'react-device-detect';
 import { GlobalHotKeys } from 'react-hotkeys';
 import { ControllerKeyMap } from './ControllerKeyMap';
 import { gameMoves, tools } from '../../configs';
@@ -196,11 +196,7 @@ const Controller = (props) => {
     <div id="controller">
       <GlobalHotKeys keyMap={ControllerKeyMap} handlers={ControllerHandlers} allowChanges>
         <Tools selectedTool={selectedTool} toolClick={toolClick} />
-        <MoveTouch
-          modalOpen={modalOpen}
-          gameType={gameType}
-          playerAction={playerAction}
-        />
+        <MoveTouch modalOpen={modalOpen} gameType={gameType} playerAction={playerAction} />
         <ButtonsTouch
           modalOpen={modalOpen}
           gameType={gameType}
@@ -226,6 +222,11 @@ Controller.propTypes = {
 
 const Tools = (props) => {
   const { selectedTool, toolClick } = props;
+  const toolEmoji = {
+    CLEAN: '🧹',
+    FLAG: '🚩',
+    TREASURE: '💎',
+  };
   const toolButtons = tools.map((tool) => {
     let buttonClases = 'tool';
     if (selectedTool === tool) {
@@ -233,7 +234,10 @@ const Tools = (props) => {
     }
     return (
       <button key={tool} type="button" className={buttonClases} onClick={() => toolClick(tool)}>
-        {tool}
+        <span className="tool-emoji" aria-hidden>
+          {toolEmoji[tool] || '🔧'}
+        </span>
+        <span className="tool-label">{tool}</span>
       </button>
     );
   });
@@ -262,7 +266,12 @@ const MoveTouch = (props) => {
 
     const moveTouchButtons = gameMoves.map((movement) => (
       <div key={movement} className={movement}>
-        <button type="button" className="" onTouchStart={() => action(movement)}>
+        <button
+          type="button"
+          className=""
+          onTouchStart={() => action(movement)}
+          onClick={() => action(movement)}
+        >
           <i className={moveIcons[movement]} />
         </button>
       </div>
@@ -278,9 +287,7 @@ MoveTouch.propTypes = {
 };
 
 const ButtonsTouch = (props) => {
-  const {
-    gameType, toolClick, playerAction, closeModal, modalOpen,
-  } = props;
+  const { gameType, toolClick, playerAction, closeModal, modalOpen } = props;
   if (gameType === PLAYER) {
     const buttonTool = {
       buttonA: 'button-styles',
@@ -315,6 +322,8 @@ const ButtonsTouch = (props) => {
             className={buttonTool.buttonA}
             onTouchStart={() => action('buttonA')}
             onTouchEnd={() => toolClick(CLEAN)}
+            onMouseDown={() => action('buttonA')}
+            onMouseUp={() => toolClick(CLEAN)}
           >
             A
           </button>
@@ -325,6 +334,8 @@ const ButtonsTouch = (props) => {
             className={buttonTool.buttonB}
             onTouchStart={() => action('buttonB')}
             onTouchEnd={() => toolClick(CLEAN)}
+            onMouseDown={() => action('buttonB')}
+            onMouseUp={() => toolClick(CLEAN)}
           >
             B
           </button>

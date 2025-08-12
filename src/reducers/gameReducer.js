@@ -1,7 +1,5 @@
 import { findTilePosition } from '../functions/generics';
-import {
-  GAME, TILE, MOVE, FOCUS, CLEAN, FLAG, TREASURE, NONE, TOP, TALK,
-} from '../types/types';
+import { GAME, TILE, MOVE, FOCUS, CLEAN, FLAG, TREASURE, NONE, TOP, TALK } from '../types/types';
 
 export default (state = {}, action) => {
   const newState = JSON.parse(JSON.stringify(state));

@@ -1,5 +1,5 @@
-@import "~rodal/lib/rodal.css";
-@import "../../sass/button-styles";
+@use '../../sass/button-styles' as *;
+@import url('rodal/lib/rodal.css');
 
 .rodal-dialog {
   .modal-content {

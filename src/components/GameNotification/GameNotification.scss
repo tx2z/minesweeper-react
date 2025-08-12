@@ -1,0 +1,360 @@
+.notification-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  &.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  &.leaving {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+.particles-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  font-size: 24px;
+  animation: particleFloat 3s ease-out infinite;
+  pointer-events: none;
+  user-select: none;
+}
+
+@keyframes particleFloat {
+  0% {
+    opacity: 1;
+    transform: translateY(100vh) rotate(0deg) scale(0);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(90vh) rotate(36deg) scale(1);
+  }
+  90% {
+    opacity: 1;
+    transform: translateY(-10vh) rotate(324deg) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20vh) rotate(360deg) scale(0);
+  }
+}
+
+.notification-modal {
+  border-radius: 24px;
+  max-width: 500px;
+  width: 90vw;
+  padding: 0;
+  overflow: hidden;
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  position: relative;
+  color: white;
+  animation: modalBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  &.success {
+    box-shadow:
+      0 25px 50px rgba(76, 175, 80, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+      0 0 30px rgba(76, 175, 80, 0.3);
+  }
+
+  &.danger {
+    box-shadow:
+      0 25px 50px rgba(244, 67, 54, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+      0 0 30px rgba(244, 67, 54, 0.3);
+  }
+
+  &.treasure {
+    box-shadow:
+      0 25px 50px rgba(255, 215, 0, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+      0 0 30px rgba(255, 215, 0, 0.3);
+  }
+
+  &.flag {
+    box-shadow:
+      0 25px 50px rgba(255, 107, 107, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+      0 0 30px rgba(255, 107, 107, 0.3);
+  }
+}
+
+@keyframes modalBounce {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-10deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05) rotate(2deg);
+  }
+  70% {
+    transform: scale(0.98) rotate(-1deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg) scale(1.1);
+  }
+}
+
+.notification-content {
+  padding: 40px 30px 30px;
+  text-align: center;
+  position: relative;
+}
+
+.notification-icon {
+  font-size: 72px;
+  margin-bottom: 20px;
+  animation: iconPulse 2s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes iconPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.notification-text {
+  h2 {
+    margin: 0 0 15px 0;
+    font-size: 28px;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    animation: textSlideIn 0.8s ease-out 0.2s both;
+  }
+
+  p {
+    margin: 0;
+    font-size: 16px;
+    opacity: 0.95;
+    line-height: 1.5;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    animation: textSlideIn 0.8s ease-out 0.4s both;
+  }
+}
+
+@keyframes textSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.notification-actions {
+  padding: 20px 30px 30px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.2);
+
+  .btn-primary {
+    background: rgba(255, 255, 255, 0.25);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.35);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Specific animations for different types */
+.notification-modal.success {
+  .notification-icon {
+    animation:
+      successBounce 0.8s ease-out,
+      iconPulse 2s ease-in-out 0.8s infinite;
+  }
+}
+
+.notification-modal.danger {
+  .notification-icon {
+    animation:
+      explosionShake 0.6s ease-out,
+      iconPulse 2s ease-in-out 0.6s infinite;
+  }
+}
+
+.notification-modal.treasure {
+  .notification-icon {
+    animation:
+      treasureSparkle 1s ease-out,
+      iconPulse 2s ease-in-out 1s infinite;
+  }
+}
+
+@keyframes successBounce {
+  0% {
+    transform: scale(0) rotate(-180deg);
+  }
+  50% {
+    transform: scale(1.3) rotate(-90deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes explosionShake {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+  10% {
+    transform: scale(1.1) rotate(-5deg);
+  }
+  20% {
+    transform: scale(1.15) rotate(5deg);
+  }
+  30% {
+    transform: scale(1.1) rotate(-3deg);
+  }
+  40% {
+    transform: scale(1.05) rotate(3deg);
+  }
+  50% {
+    transform: scale(1.08) rotate(-2deg);
+  }
+  60% {
+    transform: scale(1.02) rotate(2deg);
+  }
+  70% {
+    transform: scale(1.01) rotate(-1deg);
+  }
+  80% {
+    transform: scale(1.005) rotate(1deg);
+  }
+  90% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes treasureSparkle {
+  0% {
+    transform: scale(0) rotate(0deg);
+    filter: brightness(1);
+  }
+  25% {
+    transform: scale(0.7) rotate(90deg);
+    filter: brightness(1.5);
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+    filter: brightness(2);
+  }
+  75% {
+    transform: scale(0.9) rotate(270deg);
+    filter: brightness(1.5);
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+    filter: brightness(1);
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .notification-modal {
+    width: 95vw;
+    max-width: none;
+  }
+
+  .notification-content {
+    padding: 30px 20px 20px;
+  }
+
+  .notification-icon {
+    font-size: 56px;
+  }
+
+  .notification-text {
+    h2 {
+      font-size: 24px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+  }
+
+  .notification-actions {
+    padding: 15px 20px 20px;
+  }
+
+  .particle {
+    font-size: 20px;
+  }
+}

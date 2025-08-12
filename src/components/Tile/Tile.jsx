@@ -20,13 +20,40 @@ class Tile extends React.Component {
     this.tileClasses = [];
     this.payload = {};
 
-    this.flagClass = '';
-    this.treasureClass = '';
-
     if (!styles) {
       import('./TileDefaults.scss');
-      this.flagClass = 'gg-flag';
-      this.treasureClass = 'gg-gift';
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { game, index, onMineHit, onTreasureFound, onFlagPlaced, onTileRevealed } = this.props;
+    const wasOpen = prevProps.game.actions.open.includes(index);
+    const isOpen = game.actions.open.includes(index);
+    const isMine = game.tiles.mines.includes(index);
+    const wasFlagged = prevProps.game.actions.flag.includes(index);
+    const isFlagged = game.actions.flag.includes(index);
+    const wasTreasure = prevProps.game.found.treasures.includes(index);
+    const isTreasure = game.found.treasures.includes(index);
+
+    // Mine hit: when a mine transitions to open
+    if (!wasOpen && isOpen && isMine) {
+      onMineHit?.();
+      return;
+    }
+
+    // Treasure newly found
+    if (!wasTreasure && isTreasure) {
+      onTreasureFound?.();
+    }
+
+    // Flag placed
+    if (!wasFlagged && isFlagged) {
+      onFlagPlaced?.();
+    }
+
+    // Tile revealed (non-mine)
+    if (!wasOpen && isOpen && !isMine) {
+      onTileRevealed?.();
     }
   }
 
@@ -39,12 +66,6 @@ class Tile extends React.Component {
       tilesAction: execTileClick,
       focusAction: execFocusAction,
     } = this.props;
-
-    // Check if you hit a mine
-    if (game.actions.open.includes(index) && game.tiles.mines.includes(index)) {
-      // TODO: Stop the game
-      alert('YOU LOSE');
-    }
 
     if (gameType === PLAYER) {
       // Playing in PLAYER mode
@@ -101,8 +122,8 @@ class Tile extends React.Component {
         style={tileStyles}
       >
         <TileNumber game={game} tile={index} />
-        <TileFlag game={game} tile={index} flagClass={this.flagClass} />
-        <TileTreasure game={game} tile={index} treasureClass={this.treasureClass} />
+        <TileFlag game={game} tile={index} />
+        <TileTreasure game={game} tile={index} />
         {this.player}
       </div>
     );
@@ -116,6 +137,17 @@ Tile.propTypes = {
   tool: PropTypes.string.isRequired,
   styles: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
   game: GAME.isRequired,
+  onMineHit: PropTypes.func,
+  onTreasureFound: PropTypes.func,
+  onFlagPlaced: PropTypes.func,
+  onTileRevealed: PropTypes.func,
+};
+
+Tile.defaultProps = {
+  onMineHit: null,
+  onTreasureFound: null,
+  onFlagPlaced: null,
+  onTileRevealed: null,
 };
 
 const TileNumber = (props) => {
@@ -136,31 +168,27 @@ TileNumber.propTypes = {
 };
 
 const TileFlag = (props) => {
-  const { game, tile, flagClass } = props;
-  const flagClasses = `flag ${flagClass}`;
+  const { game, tile } = props;
   if (game.actions.flag.includes(tile)) {
-    return <span className={flagClasses} />;
+    return <span className="flag">🚩</span>;
   }
   return null;
 };
 TileFlag.propTypes = {
   game: GAME.isRequired,
   tile: PropTypes.number.isRequired,
-  flagClass: PropTypes.string.isRequired,
 };
 
 const TileTreasure = (props) => {
-  const { game, tile, treasureClass } = props;
-  const treaClasses = `treasure ${treasureClass}`;
+  const { game, tile } = props;
   if (game.found.treasures.includes(tile)) {
-    return <span className={treaClasses} />;
+    return <span className="treasure">💎</span>;
   }
   return null;
 };
 TileTreasure.propTypes = {
   game: GAME.isRequired,
   tile: PropTypes.number.isRequired,
-  treasureClass: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({

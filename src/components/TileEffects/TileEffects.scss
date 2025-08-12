@@ -1,0 +1,242 @@
+.tile-effects {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.effect-particle {
+  position: absolute;
+  font-size: calc(20px * var(--size, 1));
+  animation: particleExplode var(--life, 1000ms) ease-out forwards;
+  user-select: none;
+  text-shadow: 0 0 10px var(--color, #fff);
+  filter: drop-shadow(0 0 5px var(--color, #fff));
+}
+
+@keyframes particleExplode {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0deg) scale(var(--size, 1));
+  }
+  10% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(calc(var(--angle, 0deg) * 0.1))
+      translateY(calc(var(--velocity, 1) * -10px)) scale(calc(var(--size, 1) * 1.2));
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(var(--angle, 0deg))
+      translateY(calc(var(--velocity, 1) * -100px)) scale(calc(var(--size, 1) * 0.3));
+  }
+}
+
+/* Explosion Effects */
+.tile-effects--explosion {
+  .effect-particle {
+    animation: explosionParticle var(--life, 2000ms) ease-out forwards;
+    filter: drop-shadow(0 0 10px var(--color, #ff6b6b)) drop-shadow(0 0 20px var(--color, #ff6b6b));
+  }
+
+  .shockwave {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #ff6b6b;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: shockwaveExpand 0.6s ease-out forwards;
+  }
+}
+
+@keyframes explosionParticle {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0deg) scale(var(--size, 1));
+  }
+  20% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(calc(var(--angle, 0deg) * 0.3))
+      translateY(calc(var(--velocity, 1) * -20px)) scale(calc(var(--size, 1) * 1.5));
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(calc(var(--angle, 0deg) * 2))
+      translateY(calc(var(--velocity, 1) * -120px)) translateX(calc(var(--velocity, 1) * 50px))
+      scale(0.1);
+  }
+}
+
+@keyframes shockwaveExpand {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0);
+    border-width: 3px;
+  }
+  50% {
+    opacity: 0.8;
+    border-width: 2px;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(4);
+    border-width: 1px;
+  }
+}
+
+/* Treasure Effects */
+.tile-effects--treasure {
+  .effect-particle {
+    animation: treasureSparkle var(--life, 1500ms) ease-out forwards;
+    filter: drop-shadow(0 0 8px var(--color, #ffd700)) drop-shadow(0 0 15px var(--color, #ffd700));
+  }
+
+  .sparkle-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #ffd700;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: sparkleRing 1s ease-out forwards;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      border: 1px solid #ffb347;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      animation: sparkleRing 1s ease-out 0.2s forwards;
+    }
+  }
+}
+
+@keyframes treasureSparkle {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0deg) scale(var(--size, 1));
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(calc(var(--angle, 0deg) * 0.5))
+      translateY(calc(var(--velocity, 1) * -30px)) scale(calc(var(--size, 1) * 1.3));
+    filter: drop-shadow(0 0 15px var(--color, #ffd700)) drop-shadow(0 0 25px var(--color, #ffd700));
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(var(--angle, 0deg))
+      translateY(calc(var(--velocity, 1) * -80px)) scale(calc(var(--size, 1) * 0.5));
+  }
+}
+
+@keyframes sparkleRing {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0) rotate(0deg);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1) rotate(180deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.5) rotate(360deg);
+  }
+}
+
+/* Flag Effects */
+.tile-effects--flag {
+  .effect-particle {
+    animation: flagWave var(--life, 1000ms) ease-out forwards;
+    filter: drop-shadow(0 0 8px var(--color, #ff6b6b));
+  }
+}
+
+@keyframes flagWave {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0deg) scale(var(--size, 1));
+  }
+  30% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(calc(var(--angle, 0deg) * 0.3))
+      translateY(calc(var(--velocity, 1) * -25px)) scale(calc(var(--size, 1) * 1.2));
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(calc(var(--angle, 0deg) * 0.8))
+      translateY(calc(var(--velocity, 1) * -60px)) scale(calc(var(--size, 1) * 0.6));
+  }
+}
+
+/* Reveal Effects */
+.tile-effects--reveal {
+  .effect-particle {
+    animation: gentleFloat var(--life, 800ms) ease-out forwards;
+    filter: drop-shadow(0 0 5px var(--color, #74b9ff));
+  }
+}
+
+@keyframes gentleFloat {
+  0% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) rotate(0deg) scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(calc(var(--angle, 0deg) * 0.2))
+      translateY(calc(var(--velocity, 1) * -15px)) scale(var(--size, 1));
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(calc(var(--angle, 0deg) * 0.5))
+      translateY(calc(var(--velocity, 1) * -40px)) scale(calc(var(--size, 1) * 0.8));
+  }
+}
+
+/* Screen shake effect for explosions */
+@keyframes screenShake {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  10% {
+    transform: translate(-2px, -1px) rotate(-0.5deg);
+  }
+  20% {
+    transform: translate(2px, 1px) rotate(0.5deg);
+  }
+  30% {
+    transform: translate(-1px, 2px) rotate(-0.3deg);
+  }
+  40% {
+    transform: translate(1px, -1px) rotate(0.3deg);
+  }
+  50% {
+    transform: translate(-2px, 1px) rotate(-0.2deg);
+  }
+  60% {
+    transform: translate(2px, -2px) rotate(0.2deg);
+  }
+  70% {
+    transform: translate(-1px, -1px) rotate(-0.1deg);
+  }
+  80% {
+    transform: translate(1px, 2px) rotate(0.1deg);
+  }
+  90% {
+    transform: translate(-1px, -2px) rotate(-0.05deg);
+  }
+}
+
+/* Add screen shake class to body when explosion happens */
+.screen-shake {
+  animation: screenShake 0.5s ease-in-out;
+}

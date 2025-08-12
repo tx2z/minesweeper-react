@@ -1,9 +1,8 @@
-@import "~css.gg/icons/chevron-left.css";
-@import "~css.gg/icons/chevron-up.css";
-@import "~css.gg/icons/chevron-right.css";
-@import "~css.gg/icons/chevron-down.css";
-
-@import "../../sass/button-styles";
+@use '../../sass/button-styles' as *;
+@import url('css.gg/icons/chevron-left.css');
+@import url('css.gg/icons/chevron-up.css');
+@import url('css.gg/icons/chevron-right.css');
+@import url('css.gg/icons/chevron-down.css');
 
 #MoveTouch {
   position: fixed;
@@ -15,9 +14,9 @@
 
   display: grid;
   grid-template-areas:
-    "TOP TOP"
-    "LEFT RIGHT"
-    "BOTTOM BOTTOM";
+    'TOP TOP'
+    'LEFT RIGHT'
+    'BOTTOM BOTTOM';
 
   button {
     @include button-styles(hsl(0, 0%, 84%));
@@ -58,7 +57,7 @@
   z-index: 200;
 
   display: grid;
-  grid-template-areas: "buttonA buttonB";
+  grid-template-areas: 'buttonA buttonB';
 
   button {
     box-sizing: border-box;

@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed';
 import { connect } from 'react-redux';
 import { gameMoves } from '../../configs';
-import {
-  LEFT, TOP, RIGHT, BOTTOM,
-} from '../../types/types';
+import { LEFT, TOP, RIGHT, BOTTOM } from '../../types/types';
 import './Player.scss';
 
 class Player extends React.Component {
@@ -56,9 +54,7 @@ class Player extends React.Component {
 
     const playerClasses = `Player ${this.moveClasses[direction]}`;
 
-    return (
-      <div id="Player" className={playerClasses} />
-    );
+    return <div id="Player" className={playerClasses} />;
   }
 }
 Player.propTypes = {

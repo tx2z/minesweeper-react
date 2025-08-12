@@ -1,5 +1,14 @@
 import {
-  CLASSIC, PLAYER, LEFT, TOP, RIGHT, BOTTOM, CLEAN, FLAG, TREASURE, MODAL,
+  CLASSIC,
+  PLAYER,
+  LEFT,
+  TOP,
+  RIGHT,
+  BOTTOM,
+  CLEAN,
+  FLAG,
+  TREASURE,
+  MODAL,
 } from './types/types';
 
 export const initialState = {

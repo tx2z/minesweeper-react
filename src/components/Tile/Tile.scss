@@ -2,8 +2,146 @@
 .tile {
   position: relative;
   box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.2);
 
-  .focus {
-    border: 1px solid red;
+  &:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.12);
+    transform: scale(1.02);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &.open {
+    background: rgba(0, 0, 0, 0.35);
+    border-color: rgba(255, 255, 255, 0.18);
+
+    &:hover {
+      transform: none;
+      cursor: default;
+    }
+  }
+
+  &.focus {
+    border: 2px solid #ffeb3b;
+    box-shadow: 0 0 10px rgba(255, 235, 59, 0.5);
+    animation: focusPulse 1.5s ease-in-out infinite;
+  }
+
+  /* Numbers styling */
+  .number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+    font-size: 0.8em;
+
+    &.number1 {
+      color: #2196f3;
+    }
+    &.number2 {
+      color: #4caf50;
+    }
+    &.number3 {
+      color: #ff9800;
+    }
+    &.number4 {
+      color: #9c27b0;
+    }
+    &.number5 {
+      color: #f44336;
+    }
+    &.number6 {
+      color: #00bcd4;
+    }
+    &.number7 {
+      color: #795548;
+    }
+    &.number8 {
+      color: #607d8b;
+    }
+  }
+
+  /* Flag styling */
+  .flag {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.7em;
+    animation: flagWave 2s ease-in-out infinite;
+    filter: drop-shadow(0 2px 4px rgba(255, 107, 107, 0.5));
+  }
+
+  /* Treasure styling */
+  .treasure {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.7em;
+    animation: treasureGlow 2s ease-in-out infinite;
+    filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.8));
+  }
+}
+
+@keyframes focusPulse {
+  0%,
+  100% {
+    border-color: #ffeb3b;
+    box-shadow: 0 0 10px rgba(255, 235, 59, 0.5);
+  }
+  50% {
+    border-color: #ffc107;
+    box-shadow: 0 0 20px rgba(255, 235, 59, 0.8);
+  }
+}
+
+@keyframes flagWave {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(-2deg) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(2deg) scale(1.05);
+  }
+}
+
+@keyframes treasureGlow {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.8));
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+    filter: drop-shadow(0 4px 15px rgba(255, 215, 0, 1));
+  }
+}
+
+/* Add tile reveal animation */
+.tile.open {
+  animation: tileReveal 0.3s ease-out;
+}
+
+@keyframes tileReveal {
+  0% {
+    transform: scale(0.8) rotateY(-90deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05) rotateY(-45deg);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1) rotateY(0deg);
+    opacity: 1;
   }
 }
